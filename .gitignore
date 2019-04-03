@@ -38,6 +38,9 @@ build/Release
 node_modules/
 jspm_packages/
 
+backend/package-lock.json
+soccer-league/package-lock.json
+
 # TypeScript v1 declaration files
 typings/
 
