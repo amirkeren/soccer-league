@@ -6,10 +6,14 @@ app.use(express.json());
 
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
-    host     : 'sql7.freemysqlhosting.net',
-    user     : 'sql7278370',
-    password : 'IAQpVk2u2N',
-    database : 'sql7278370'
+    // host     : 'sql7.freemysqlhosting.net',
+    // user     : 'sql7278370',
+    // password : 'IAQpVk2u2N',
+    // database : 'sql7278370'
+    host     : 'localhost',
+    user     : 'user',
+    password : 'password',
+    database : 'db'
 });
 
 router.get('/players', function(req, res) {
