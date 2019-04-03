@@ -6,10 +6,10 @@ RUN mkdir /home/app \
     && cd /home/app \
     && git clone https://github.com/amirkeren/soccer-league.git
 
-WORKDIR /home/app/soccer-league/backend
+WORKDIR /home/app/soccer-league/soccer-league
 
 COPY package*.json ./
 RUN npm install
 
-EXPOSE 8000
-CMD npm test && npm start
+EXPOSE 3000
+CMD npm start
