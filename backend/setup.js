@@ -18,7 +18,7 @@ for (var i = 0; i < contents.length; i++) {
     if (contents[i]) {
         console.log(contents[i]);
         myCon.query(contents[i], function(err) {
-            if(err) console.log(err);
+            if (err) throw err;
         });
     }
 }
