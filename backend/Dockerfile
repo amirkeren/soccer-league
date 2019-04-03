@@ -10,7 +10,7 @@ WORKDIR /home/app/soccer-league/backend
 
 COPY package*.json ./
 RUN npm install
-RUN npm run-script build
+#RUN npm run-script build
 
 EXPOSE 3000
 CMD ["npm", "start"]
