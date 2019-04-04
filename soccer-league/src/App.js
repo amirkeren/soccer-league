@@ -25,16 +25,6 @@ const teams = [
 	'Japan'
 ];
 
-var request = new XMLHttpRequest();
-request.open('GET', 'http://localhost:8000/league', false);
-request.send(null);
-
-let data = [];
-
-if (request.status === 200) {
-    data = JSON.parse(request.responseText);
-}
-
 class App extends Component {
 	render() {
 		return (
@@ -55,7 +45,7 @@ class App extends Component {
 
 						<hr />
 
-						<Route exact path="/" render={() => <GroupStage teamGroups={data} />} />
+						<Route exact path="/" render={() => <GroupStage />} />
 						<Route path="/scores" component={Scores} />
 						{/* <Route path="/topics" component={Knockout} /> */}
 					</div>

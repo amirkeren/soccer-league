@@ -3,8 +3,22 @@ import Group from './Group';
 import { generateKey } from './utils';
 
 class GroupStage extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            groups: [],
+        };
+    }
+
+    componentDidMount() {
+        fetch('http://localhost:8000/league')
+            .then(response => response.json())
+            .then(data => this.setState({ groups: data }));
+    }
+
 	render() {
-		const groups = this.props.teamGroups.map((group, i) => <Group key={generateKey(i)} teams={group} num={i} />);
+        const { groups } = this.state;
 
 		return (
 			<div>
@@ -12,7 +26,9 @@ class GroupStage extends Component {
 					Taboola <br /> World Cup
 				</h1>
 				<h2 className="group-stage">Group Stage</h2>
-				<div className="wrap">{groups}</div>
+				<div className="wrap">
+					{groups.map((group, i) => <Group key={generateKey(i)} teams={group} num={i} />)}
+				</div>
 			</div>
 		);
 	}
