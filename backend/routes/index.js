@@ -27,6 +27,17 @@ router.get('/players', function(req, res) {
     });
 });
 
+router.get('/teams', function(req, res) {
+    connection.query('SELECT * from teams order by name', function (error, results) {
+        if (error) {
+            res.json({ error: "can't load teams" });
+            return;
+        }
+        res.contentType('application/json');
+        res.send(results);
+    });
+});
+
 router.get('/league', function(req, res) {
     connection.query('SELECT l.*, goals_scored - goals_against AS goal_difference, g.name AS group_name, t.name AS team_name FROM league l JOIN groups g ON g.group_id = l.group_id JOIN teams t ON t.team_id = l.team_id ORDER BY group_id, points desc, goals_scored - goals_against desc, goals_scored desc, team_id asc', function (error, results) {
         if (error) {
