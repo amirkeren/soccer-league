@@ -53,20 +53,6 @@ class Score extends Component {
       away_score: this.state.awayTeamScore.value
     };
 
-    const data = new URLSearchParams();
-      for (var key in matchData) {
-          if (matchData.hasOwnProperty(key)) {
-              data.append(key, matchData[key]);
-          }
-      }
-	  fetch('http://localhost:8000/match', {
-		  method: 'post',
-          mode: 'no-cors',
-		  body: data
-	  })
-	  .then(() => console.log('Success'))
-	  .catch(error => console.error('Error:', error));
-
 		const data = new URLSearchParams();
 		for (var key in matchData) {
 			if (matchData.hasOwnProperty(key)) {
