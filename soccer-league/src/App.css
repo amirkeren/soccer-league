@@ -623,7 +623,7 @@ table th {
   margin: 50px;
 }
 
-.game-over-btn {
+.update-score-btn {
 	background-color: #3498db;
 	border-bottom: 5px solid #2980b9;
 	text-shadow: 0px -2px #2980b9;
@@ -641,7 +641,7 @@ table th {
 	cursor: pointer;
 }
 
-.game-over-btn:active {
+.update-score-btn:active {
   transform: translate(0px,5px);
   -webkit-transform: translate(0px,5px);
   border-bottom: 1px solid;
