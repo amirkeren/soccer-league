@@ -10,7 +10,7 @@ fetch('http://node:8000/league')
     .then(function(response) {
         return response.json();
     })
-	then(function(myJson) {
+	.then(function(myJson) {
 		console.log(JSON.stringify(myJson));
 	})
 	.catch(function(error) {
