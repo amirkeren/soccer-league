@@ -46,7 +46,7 @@ class Score extends Component {
               data.append(key, matchData[key]);
           }
       }
-	  fetch('http://node:8000/match', {
+	  fetch('http://localhost:8000/match', {
 		  method: 'post',
           mode: 'no-cors',
 		  body: data
