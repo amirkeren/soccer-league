@@ -11,7 +11,7 @@ services:
   app:
     build: ./soccer-league/
     ports:
-      - '80:80'
+      - '80:3000'
     depends_on:
       - node
     restart: on-failure

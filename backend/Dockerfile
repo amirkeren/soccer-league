@@ -11,5 +11,4 @@ WORKDIR /home/app/soccer-league/backend
 COPY package*.json ./
 RUN npm install
 
-EXPOSE 8000
 CMD npm test && npm start
