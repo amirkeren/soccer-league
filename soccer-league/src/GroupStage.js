@@ -12,7 +12,7 @@ class GroupStage extends Component {
     }
 
     componentDidMount() {
-        fetch('http://localhost:8000/league')
+        fetch('http://node:8000/league')
             .then(response => response.json())
             .then(data => this.setState({ groups: data }));
     }
