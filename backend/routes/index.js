@@ -82,81 +82,91 @@ router.post('/match', function(req, res) {
         res.json({ error: "goals can't be negative" });
         return;
     }
-    connection.beginTransaction(function() {
-        let winner = 'UPDATE league SET games_played = games_played + 1, wins = wins + 1, points = points + 3, goals_scored = goals_scored + ?, goals_against = goals_against + ? WHERE team_id = ?';
-        let loser = 'UPDATE league SET games_played = games_played + 1, loses = loses + 1, goals_scored = goals_scored + ?, goals_against = goals_against + ? WHERE team_id = ?';
-        let draw = 'UPDATE league SET games_played = games_played + 1, draws = draws + 1, points = points + 1, goals_scored = goals_scored + ?, goals_against = goals_against + ? WHERE team_id IN (?, ?)';
-        if (home_score > away_score) {
-            connection.query(winner, [home_score, away_score, home_team], function (error) {
-                if (error) {
-                    res.json({ error: "failed to league result for winner" });
-                    connection.rollback(function() {
-                        return;
-                    });
-                }
-                connection.query(loser, [away_score, home_score, away_team], function (error) {
-                    if (error) {
-                        res.json({ error: "failed to league result for loser" });
-                        connection.rollback(function() {
-                            return;
-                        });
-                    }
-                    connection.commit(function(err) {
-                        if (err) {
-                            connection.rollback(function() {
-                                return;
-                            });
-                        }
-                        console.log('Transaction Complete.');
-                        res.sendStatus(200);
-                    });
-                });
-            });
-        } else if (away_score > home_score) {
-            connection.query(winner, [away_score, home_score, away_team], function (error) {
-                if (error) {
-                    res.json({ error: "failed to league result for winner" });
-                    connection.rollback(function() {
-                        return;
-                    });
-                }
-                connection.query(loser, [home_score, away_score, home_team], function (error) {
-                    if (error) {
-                        res.json({ error: "failed to league result for loser" });
-                        connection.rollback(function() {
-                            return;
-                        });
-                    }
-                    connection.commit(function(err) {
-                        if (err) {
-                            connection.rollback(function() {
-                                return;
-                            });
-                        }
-                        console.log('Transaction Complete.');
-                        res.sendStatus(200);
-                    });
-                });
-            });
-        } else {
-            connection.query(draw, [home_score, away_score, home_team, away_team], function (error) {
-                if (error) {
-                    res.json({ error: "failed to league result for draw" });
-                    connection.rollback(function() {
-                        return;
-                    });
-                }
-                connection.commit(function(err) {
-                    if (err) {
-                        connection.rollback(function() {
-                            return;
-                        });
-                    }
-                    console.log('Transaction Complete.');
-                    res.sendStatus(200);
-                });
-            });
+    connection.query('SELECT COUNT(*) FROM (SELECT group_id FROM teams WHERE team_id IN (?, ?) GROUP BY 1) a', [home_team, away_team], function (error, results) {
+        if (error) {
+            res.json({error: "can't load league standings"});
+            return;
         }
+        if (results[0] != 1) {
+            res.json({error: "teams are not from the same group"});
+            return;
+        }
+        connection.beginTransaction(function() {
+            let winner = 'UPDATE league SET games_played = games_played + 1, wins = wins + 1, points = points + 3, goals_scored = goals_scored + ?, goals_against = goals_against + ? WHERE team_id = ?';
+            let loser = 'UPDATE league SET games_played = games_played + 1, loses = loses + 1, goals_scored = goals_scored + ?, goals_against = goals_against + ? WHERE team_id = ?';
+            let draw = 'UPDATE league SET games_played = games_played + 1, draws = draws + 1, points = points + 1, goals_scored = goals_scored + ?, goals_against = goals_against + ? WHERE team_id IN (?, ?)';
+            if (home_score > away_score) {
+                connection.query(winner, [home_score, away_score, home_team], function (error) {
+                    if (error) {
+                        res.json({ error: "failed to league result for winner" });
+                        connection.rollback(function() {
+                            return;
+                        });
+                    }
+                    connection.query(loser, [away_score, home_score, away_team], function (error) {
+                        if (error) {
+                            res.json({ error: "failed to league result for loser" });
+                            connection.rollback(function() {
+                                return;
+                            });
+                        }
+                        connection.commit(function(err) {
+                            if (err) {
+                                connection.rollback(function() {
+                                    return;
+                                });
+                            }
+                            console.log('Transaction Complete.');
+                            res.sendStatus(200);
+                        });
+                    });
+                });
+            } else if (away_score > home_score) {
+                connection.query(winner, [away_score, home_score, away_team], function (error) {
+                    if (error) {
+                        res.json({ error: "failed to league result for winner" });
+                        connection.rollback(function() {
+                            return;
+                        });
+                    }
+                    connection.query(loser, [home_score, away_score, home_team], function (error) {
+                        if (error) {
+                            res.json({ error: "failed to league result for loser" });
+                            connection.rollback(function() {
+                                return;
+                            });
+                        }
+                        connection.commit(function(err) {
+                            if (err) {
+                                connection.rollback(function() {
+                                    return;
+                                });
+                            }
+                            console.log('Transaction Complete.');
+                            res.sendStatus(200);
+                        });
+                    });
+                });
+            } else {
+                connection.query(draw, [home_score, away_score, home_team, away_team], function (error) {
+                    if (error) {
+                        res.json({ error: "failed to league result for draw" });
+                        connection.rollback(function() {
+                            return;
+                        });
+                    }
+                    connection.commit(function(err) {
+                        if (err) {
+                            connection.rollback(function() {
+                                return;
+                            });
+                        }
+                        console.log('Transaction Complete.');
+                        res.sendStatus(200);
+                    });
+                });
+            }
+        });
     });
 });
 

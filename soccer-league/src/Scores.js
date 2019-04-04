@@ -44,14 +44,28 @@ class Score extends Component {
 				}
 			]
 		});
-	};
-	saveMatchData() {
-		const matchData = {
-			home_team: this.state.homeTeam.value,
-			away_team: this.state.awayTeam.value,
-			home_score: this.state.homeTeamScore.value,
-			away_score: this.state.awayTeamScore.value
-		};
+  };
+  saveMatchData() {
+    const matchData = {
+      home_team: this.state.homeTeam.value,
+      away_team: this.state.awayTeam.value,
+      home_score: this.state.homeTeamScore.value,
+      away_score: this.state.awayTeamScore.value
+    };
+
+    const data = new URLSearchParams();
+      for (var key in matchData) {
+          if (matchData.hasOwnProperty(key)) {
+              data.append(key, matchData[key]);
+          }
+      }
+	  fetch('http://localhost:8000/match', {
+		  method: 'post',
+          mode: 'no-cors',
+		  body: data
+	  })
+	  .then(() => console.log('Success'))
+	  .catch(error => console.error('Error:', error));
 
 		const data = new URLSearchParams();
 		for (var key in matchData) {

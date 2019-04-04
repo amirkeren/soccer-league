@@ -5,20 +5,18 @@ services:
     build: ./backend/
     ports:
       - '8000:8000'
-    expose:
-      - '8000'
     depends_on:
       - db
     restart: on-failure
-  # app:
-  #   build: ./soccer-league/
-  #   ports:
-  #     - '3000:3000'
-  #   depends_on:
-  #     - node
-  #   restart: on-failure
-  #   links:
-  #     - node
+  app:
+    build: ./soccer-league/
+    ports:
+      - '80:80'
+    depends_on:
+      - node
+    restart: on-failure
+    links:
+      - node
   db:
     image: mysql:5.7
     restart: always
