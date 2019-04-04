@@ -11,5 +11,5 @@ WORKDIR /home/app/soccer-league/soccer-league
 COPY package*.json ./
 RUN npm install
 
-EXPOSE 3000
+EXPOSE 80
 CMD npm start
