@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom'
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Select from 'react-select';
@@ -10,9 +11,21 @@ class Score extends Component {
 			homeTeam: { value: null, label: null },
 			awayTeam: { value: null, label: null },
 			homeTeamScore: { value: 0, label: 0 },
-			awayTeamScore: { value: 0, label: 0 }
+      awayTeamScore: { value: 0, label: 0 },
+      teams: []
 		};
 	}
+
+	componentDidMount() {
+    function compare(a,b) {
+      return a.team_id - b.team_id;
+    }
+		fetch('http://localhost:8000/teams')
+      .then(response => response.json())
+      .then(data => data.sort(compare)) //sort the data by team_id
+			.then(data => this.setState({ teams: data.map(team => ({value: team.team_id, label: team.name})) }));
+	}
+
 	handleDdSelection = name => value => {
 		this.setState({ [name]: { value: value.value, label: value.label } });
 	};
@@ -31,30 +44,30 @@ class Score extends Component {
 				}
 			]
 		});
-  };
-  saveMatchData() {
-    const matchData = {
-      home_team: this.state.homeTeam.value,
-      away_team: this.state.awayTeam.value,
-      home_score: this.state.homeTeamScore.value,
-      away_score: this.state.awayTeamScore.value
-    };
+	};
+	saveMatchData() {
+		const matchData = {
+			home_team: this.state.homeTeam.value,
+			away_team: this.state.awayTeam.value,
+			home_score: this.state.homeTeamScore.value,
+			away_score: this.state.awayTeamScore.value
+		};
 
-    const data = new URLSearchParams();
-      for (var key in matchData) {
-          if (matchData.hasOwnProperty(key)) {
-              data.append(key, matchData[key]);
-          }
-      }
-	  fetch('http://node:8000/match', {
-		  method: 'post',
-          mode: 'no-cors',
-		  body: data
-	  })
-	  .then(() => console.log('Success'))
-	  .catch(error => console.error('Error:', error));
-
-  }
+		const data = new URLSearchParams();
+		for (var key in matchData) {
+			if (matchData.hasOwnProperty(key)) {
+				data.append(key, matchData[key]);
+			}
+		}
+		fetch('http://localhost:8000/match', {
+			method: 'post',
+			mode: 'no-cors',
+			body: data
+		})
+      .then(() => console.log('Success'))
+      .then(() => this.props.history.push('/'))
+			.catch(error => console.error('Error:', error));
+	}
 
 	render() {
 		const goalsOptions = [
@@ -70,13 +83,13 @@ class Score extends Component {
 			{ value: 9, label: 9 },
 			{ value: 10, label: 10 }
 		];
-		const teamOptions = [{ value: 'team1', label: 'Team 1' }, { value: 'team2', label: 'Team 2' }, { value: 'team3', label: 'Team 3' }];
+
 		return (
 			<div>
 				<h1 className="page-header">Update Match Score</h1>
 				<div className="teamsContainer">
 					<div className="team home">
-						<Select value={this.state.homeTeam} onChange={this.handleDdSelection('homeTeam')} options={teamOptions} />
+						<Select value={this.state.homeTeam} onChange={this.handleDdSelection('homeTeam')} options={this.state.teams} />
 					</div>
 					<div className="matchScoreContainer">
 						<div className="home-team-score">
@@ -88,7 +101,7 @@ class Score extends Component {
 						</div>
 					</div>
 					<div className="team away">
-						<Select value={this.state.awayTeam} onChange={this.handleDdSelection('awayTeam')} options={teamOptions} placeholder={'select team'} />
+						<Select value={this.state.awayTeam} onChange={this.handleDdSelection('awayTeam')} options={this.state.teams} placeholder={'select team'} />
 					</div>
 				</div>
 

@@ -6,25 +6,6 @@ import Scores from './Scores';
 import logo from './logo.svg';
 import './App.css';
 
-const teams = [
-	'Italy',
-	'Spain',
-	'South Africa',
-	'Australia',
-	'Germany',
-	'Netherlands',
-	'Ghana',
-	'United States',
-	'France',
-	'Brazil',
-	'Russia',
-	'China',
-	'England',
-	'Argentina',
-	'Sweden',
-	'Japan'
-];
-
 class App extends Component {
 	render() {
 		return (
