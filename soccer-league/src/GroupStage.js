@@ -14,12 +14,11 @@ class GroupStage extends Component {
     componentDidMount() {
         fetch('http://localhost:8000/league')
             .then(response => response.json())
-            .then(data => this.setState({ groups: data }));
+            .then(data => {this.setState({ groups: data })});
     }
 
 	render() {
         const { groups } = this.state;
-
 		return (
 			<div>
 				<h1 className="page-header">

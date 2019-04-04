@@ -10,14 +10,14 @@ app.post('/match', cors());
 
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
-    // host     : 'sql7.freemysqlhosting.net',
-    // user     : 'sql7278370',
-    // password : 'IAQpVk2u2N',
-    // database : 'sql7278370'
-    host     : 'db',
-    user     : 'user',
-    password : 'password',
-    database : 'db'
+    host     : 'sql7.freemysqlhosting.net',
+    user     : 'sql7278370',
+    password : 'IAQpVk2u2N',
+    database : 'sql7278370'
+    // host     : 'db',
+    // user     : 'user',
+    // password : 'password',
+    // database : 'db'
 });
 
 router.get('/players', function(req, res) {

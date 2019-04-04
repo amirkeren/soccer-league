@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import GroupStage from './GroupStage';
 import Scores from './Scores';
+import Knockout from './Knockout';
 
 import logo from './logo.svg';
 import './App.css';
@@ -28,7 +29,7 @@ class App extends Component {
 
 						<Route exact path="/" render={() => <GroupStage />} />
 						<Route path="/scores" component={Scores} />
-						{/* <Route path="/topics" component={Knockout} /> */}
+						<Route path="/knockout" component={Knockout} />
 					</div>
 				</div>
 			</Router>
