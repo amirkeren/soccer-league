@@ -6,19 +6,16 @@ import Scores from './Scores';
 import logo from './logo.svg';
 import './App.css';
 
-const http = require('http');
-
-http.get('http://node:8000/league', (resp) => {
-    let data = '';
-    resp.on('data', (chunk) => {
-        data += chunk;
-    });
-    resp.on('end', () => {
-        console.log(JSON.parse(data));
-    });
-}).on("error", (err) => {
-    console.log("Error: " + err.message);
-});
+fetch('http://node:8000/league')
+    .then(function(response) {
+        return response.json();
+    })
+	then(function(myJson) {
+		console.log(JSON.stringify(myJson));
+	})
+	.catch(function(error) {
+        console.log(error);
+	});
 
 const teams = [
 	'Italy',
