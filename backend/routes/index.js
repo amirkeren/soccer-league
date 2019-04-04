@@ -24,7 +24,7 @@ router.get('/players', function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     connection.query('SELECT * from players order by goals_scored desc, goals_assisted desc, name', function (error, results) {
         if (error) {
-            res.json({ error: "can't load players" });
+            res.status(500).send({ error: "can't load players" });
             return;
         }
         res.contentType('application/json');
@@ -36,7 +36,7 @@ router.get('/teams', function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     connection.query('SELECT * from teams order by name', function (error, results) {
         if (error) {
-            res.json({ error: "can't load teams" });
+            res.status(500).send({ error: "can't load teams" });
             return;
         }
         res.contentType('application/json');
@@ -48,7 +48,7 @@ router.get('/league', function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     connection.query('SELECT l.*, goals_scored - goals_against AS goal_difference, g.name AS group_name, t.name AS team_name FROM league l JOIN groups g ON g.group_id = l.group_id JOIN teams t ON t.team_id = l.team_id ORDER BY group_id, points desc, goals_scored - goals_against desc, goals_scored desc, team_id asc', function (error, results) {
         if (error) {
-          res.json({ error: "can't load league standings" });
+          res.status(500).send({ error: "can't load league standings" });
           return;
         }
         let table = [];
@@ -75,20 +75,20 @@ router.post('/match', function(req, res) {
     let home_score = req.body.home_score;
     let away_score = req.body.away_score;
     if (home_team == away_team) {
-      res.json({ error: "team can't play against itself" });
+      res.status(500).send({ error: "team can't play against itself" });
       return;
     }
     if (home_score < 0 || away_score < 0) {
-        res.json({ error: "goals can't be negative" });
+        res.status(500).send({ error: "goals can't be negative" });
         return;
     }
-    connection.query('SELECT COUNT(*) FROM (SELECT group_id FROM teams WHERE team_id IN (?, ?) GROUP BY 1) a', [home_team, away_team], function (error, results) {
+    connection.query('SELECT COUNT(*) as c FROM (SELECT group_id FROM teams WHERE team_id IN (?, ?) GROUP BY 1) a', [home_team, away_team], function (error, results) {
         if (error) {
-            res.json({error: "can't load league standings"});
+            res.status(500).send({ error: "can't verify teams" });
             return;
         }
-        if (results[0] != 1) {
-            res.json({error: "teams are not from the same group"});
+        if (results[0].c != 1) {
+            res.status(500).send({ error: "teams are not from the same group" });
             return;
         }
         connection.beginTransaction(function() {
@@ -98,14 +98,14 @@ router.post('/match', function(req, res) {
             if (home_score > away_score) {
                 connection.query(winner, [home_score, away_score, home_team], function (error) {
                     if (error) {
-                        res.json({ error: "failed to league result for winner" });
+                        res.status(500).send({ error: "failed to league result for winner" });
                         connection.rollback(function() {
                             return;
                         });
                     }
                     connection.query(loser, [away_score, home_score, away_team], function (error) {
                         if (error) {
-                            res.json({ error: "failed to league result for loser" });
+                            res.status(500).send({ error: "failed to league result for loser" });
                             connection.rollback(function() {
                                 return;
                             });
@@ -124,14 +124,14 @@ router.post('/match', function(req, res) {
             } else if (away_score > home_score) {
                 connection.query(winner, [away_score, home_score, away_team], function (error) {
                     if (error) {
-                        res.json({ error: "failed to league result for winner" });
+                        res.status(500).send({ error: "failed to league result for winner" });
                         connection.rollback(function() {
                             return;
                         });
                     }
                     connection.query(loser, [home_score, away_score, home_team], function (error) {
                         if (error) {
-                            res.json({ error: "failed to league result for loser" });
+                            res.status(500).send({ error: "failed to league result for loser" });
                             connection.rollback(function() {
                                 return;
                             });
@@ -150,7 +150,7 @@ router.post('/match', function(req, res) {
             } else {
                 connection.query(draw, [home_score, away_score, home_team, away_team], function (error) {
                     if (error) {
-                        res.json({ error: "failed to league result for draw" });
+                        res.status(500).send({ error: "failed to league result for draw" });
                         connection.rollback(function() {
                             return;
                         });
