@@ -1,8 +1,12 @@
 var express = require('express');
 var router = express.Router();
+var cors = require('cors')
 
 var app = express();
 app.use(express.json());
+app.use(express.urlencoded());
+app.post('/match', cors());
+
 
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
@@ -70,7 +74,6 @@ router.post('/match', function(req, res) {
     let away_team = req.body.away_team;
     let home_score = req.body.home_score;
     let away_score = req.body.away_score;
-    res.header("Access-Control-Allow-Origin", "*");
     if (home_team == away_team) {
       res.json({ error: "team can't play against itself" });
       return;
