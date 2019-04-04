@@ -26,7 +26,7 @@ const teams = [
 ];
 
 var request = new XMLHttpRequest();
-request.open('GET', 'http://node:8000/league', false);
+request.open('GET', 'http://localhost:8000/league', false);
 request.send(null);
 
 let data = [];
