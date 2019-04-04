@@ -1,29 +1,29 @@
 DROP TABLE IF EXISTS league;
 DROP TABLE IF EXISTS players;
-DROP TABLE IF EXISTS groups;
 DROP TABLE IF EXISTS teams;
+DROP TABLE IF EXISTS groups;
 
-CREATE TABLE teams(team_id INT AUTO_INCREMENT, name VARCHAR(50) NOT NULL, PRIMARY KEY (team_id));
-CREATE TABLE groups(group_id INT AUTO_INCREMENT, name VARCHAR(50) NOT NULL, team_id INT, PRIMARY KEY (group_id), FOREIGN KEY (team_id) REFERENCES teams(team_id));
+CREATE TABLE groups(group_id INT AUTO_INCREMENT, name VARCHAR(50) NOT NULL, PRIMARY KEY (group_id));
+CREATE TABLE teams(team_id INT AUTO_INCREMENT, name VARCHAR(50) NOT NULL, group_id INT, PRIMARY KEY (team_id), FOREIGN KEY (group_id) REFERENCES groups(group_id));
 CREATE TABLE players(player_id INT AUTO_INCREMENT, name VARCHAR(100), number VARCHAR(3), goals_scored INT, team_id INT, PRIMARY KEY (player_id), FOREIGN KEY (team_id) REFERENCES teams(team_id));
 CREATE TABLE league(group_id INT, team_id INT, games_played INT, wins INT, loses INT, draws INT, points INT, goals_scored INT, goals_against INT, PRIMARY KEY (group_id, team_id), KEY (group_id), KEY (team_id), CONSTRAINT league_group FOREIGN KEY (group_id) REFERENCES groups (group_id), CONSTRAINT league_team FOREIGN KEY (team_id) REFERENCES teams (team_id));
 
-INSERT INTO teams (name) VALUES ('Team 1');
-INSERT INTO teams (name) VALUES ('Team 2');
-INSERT INTO teams (name) VALUES ('Team 3');
-INSERT INTO teams (name) VALUES ('Team 4');
-INSERT INTO teams (name) VALUES ('Team 5');
-INSERT INTO teams (name) VALUES ('Team 6');
-INSERT INTO teams (name) VALUES ('Team 7');
-INSERT INTO teams (name) VALUES ('Team 8');
-INSERT INTO teams (name) VALUES ('Team 9');
-INSERT INTO teams (name) VALUES ('Team 10');
-INSERT INTO teams (name) VALUES ('Team 11');
-INSERT INTO teams (name) VALUES ('Team 12');
+INSERT INTO groups (name) VALUES ('Group A');
+INSERT INTO groups (name) VALUES ('Group B');
+INSERT INTO groups (name) VALUES ('Group C');
 
-INSERT INTO groups (name, team_id) VALUES ('Group A', 1);
-INSERT INTO groups (name, team_id) VALUES ('Group B', 2);
-INSERT INTO groups (name, team_id) VALUES ('Group C', 3);
+INSERT INTO teams (name, group_id) VALUES ('Team 1', 1);
+INSERT INTO teams (name, group_id) VALUES ('Team 2', 1);
+INSERT INTO teams (name, group_id) VALUES ('Team 3', 1);
+INSERT INTO teams (name, group_id) VALUES ('Team 4', 1);
+INSERT INTO teams (name, group_id) VALUES ('Team 5', 2);
+INSERT INTO teams (name, group_id) VALUES ('Team 6', 2);
+INSERT INTO teams (name, group_id) VALUES ('Team 7', 2);
+INSERT INTO teams (name, group_id) VALUES ('Team 8', 2);
+INSERT INTO teams (name, group_id) VALUES ('Team 9', 3);
+INSERT INTO teams (name, group_id) VALUES ('Team 10', 3);
+INSERT INTO teams (name, group_id) VALUES ('Team 11', 3);
+INSERT INTO teams (name, group_id) VALUES ('Team 12', 3);
 
 INSERT INTO league (group_id, team_id, games_played, wins, loses, draws, points, goals_scored, goals_against) VALUES (1, 1, 0, 0, 0, 0, 0, 0, 0);
 INSERT INTO league (group_id, team_id, games_played, wins, loses, draws, points, goals_scored, goals_against) VALUES (1, 2, 0, 0, 0, 0, 0, 0, 0);
