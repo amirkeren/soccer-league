@@ -61,7 +61,7 @@ class Score extends Component {
 		}
 		fetch('http://localhost:8000/match', {
 			method: 'post',
-			// mode: 'no-cors',
+			mode: 'no-cors',
 			body: data
 		})
       .then(() => console.log('Success'))
