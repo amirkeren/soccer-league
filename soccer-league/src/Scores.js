@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Select from 'react-select';
@@ -11,19 +11,34 @@ class Score extends Component {
 			homeTeam: { value: null, label: null },
 			awayTeam: { value: null, label: null },
 			homeTeamScore: { value: 0, label: 0 },
-      awayTeamScore: { value: 0, label: 0 },
-      teams: []
+			awayTeamScore: { value: 0, label: 0 },
+			teams: [],
+			displaySpecificTeams: false
 		};
 	}
 
 	componentDidMount() {
-    function compare(a,b) {
-      return a.team_id - b.team_id;
+		const shouldDisplayGivenTeams = this.props.location.state && this.props.location.state.displaySpecificTeams;
+		function compare(a, b) {
+			return a.team_id - b.team_id;
     }
-		fetch('http://localhost:8000/teams')
-      .then(response => response.json())
-      .then(data => data.sort(compare)) //sort the data by team_id
-			.then(data => this.setState({ teams: data.map(team => ({value: team.team_id, label: team.name})) }));
+    
+		if (shouldDisplayGivenTeams) {
+			const { home, away, hscore, ascore, displaySpecificTeams } = this.props.location.state;
+
+			this.setState({
+				homeTeam: { value: home, label: home },
+				awayTeam: { value: away, label: away },
+				homeTeamScore: { value: hscore, label: hscore },
+				awayTeamScore: { value: ascore, label: ascore },
+				displaySpecificTeams: displaySpecificTeams
+			});
+		} else {
+			fetch('http://localhost:8000/teams')
+				.then(response => response.json())
+				.then(data => data.sort(compare)) //sort the data by team_id
+				.then(data => this.setState({ teams: data.map(team => ({ value: team.team_id, label: team.name })) }));
+		}
 	}
 
 	handleDdSelection = name => value => {
@@ -44,14 +59,14 @@ class Score extends Component {
 				}
 			]
 		});
-  };
-  saveMatchData() {
-    const matchData = {
-      home_team: this.state.homeTeam.value,
-      away_team: this.state.awayTeam.value,
-      home_score: this.state.homeTeamScore.value,
-      away_score: this.state.awayTeamScore.value
-    };
+	};
+	saveMatchData() {
+		const matchData = {
+			home_team: this.state.homeTeam.value,
+			away_team: this.state.awayTeam.value,
+			home_score: this.state.homeTeamScore.value,
+			away_score: this.state.awayTeamScore.value
+		};
 
 		const data = new URLSearchParams();
 		for (var key in matchData) {
@@ -64,8 +79,8 @@ class Score extends Component {
 			mode: 'no-cors',
 			body: data
 		})
-      .then(() => console.log('Success'))
-      .then(() => this.props.history.push('/'))
+			.then(() => console.log('Success'))
+			.then(() => this.props.history.push('/'))
 			.catch(error => console.error('Error:', error));
 	}
 
@@ -87,27 +102,51 @@ class Score extends Component {
 		return (
 			<div>
 				<h1 className="page-header">Update Match Score</h1>
-				<div className="teamsContainer">
-					<div className="team home">
-						<Select value={this.state.homeTeam} onChange={this.handleDdSelection('homeTeam')} options={this.state.teams} />
-					</div>
-					<div className="matchScoreContainer">
-						<div className="home-team-score">
-							<Select value={this.state.homeTeamScore} onChange={this.handleDdSelection('homeTeamScore')} options={goalsOptions} placeholder={'0'} />
+				<div className="matchHeadContainer">
+					<div className="matchHead">
+						<div className="fixureContainer">
+							<div className="team home">
+								<Select
+									value={this.state.homeTeam}
+									className={'test'}
+									isDisabled={this.state.displaySpecificTeams}
+									onChange={this.handleDdSelection('homeTeam')}
+									options={this.state.teams}
+								/>
+							</div>
+							<div className="matchScoreContainer">
+								<div className="home-team-score">
+									<Select
+										value={this.state.homeTeamScore}
+										onChange={this.handleDdSelection('homeTeamScore')}
+										options={goalsOptions}
+										placeholder={'0'}
+									/>
+								</div>
+								<span>-</span>
+								<div className="away-team-score">
+									<Select
+										value={this.state.awayTeamScore}
+										onChange={this.handleDdSelection('awayTeamScore')}
+										options={goalsOptions}
+										placeholder={'0'}
+									/>
+								</div>
+							</div>
+							<div className="team away">
+								<Select
+									value={this.state.awayTeam}
+									onChange={this.handleDdSelection('awayTeam')}
+									options={this.state.teams}
+									placeholder={'select team'}
+								/>
+							</div>
 						</div>
-						<span>-</span>
-						<div className="away-team-score">
-							<Select value={this.state.awayTeamScore} onChange={this.handleDdSelection('awayTeamScore')} options={goalsOptions} placeholder={'0'} />
+						<div className="update-score-container">
+							<div onClick={this.hadnleScoreUpdateCick} className="update-score-btn">
+								Update Score
+							</div>
 						</div>
-					</div>
-					<div className="team away">
-						<Select value={this.state.awayTeam} onChange={this.handleDdSelection('awayTeam')} options={this.state.teams} placeholder={'select team'} />
-					</div>
-				</div>
-
-				<div className="update-score-container">
-					<div onClick={this.hadnleScoreUpdateCick} className="update-score-btn">
-						Update Score
 					</div>
 				</div>
 			</div>

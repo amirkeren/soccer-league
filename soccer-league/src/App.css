@@ -120,6 +120,10 @@ table th {
 	flex-wrap: wrap;
 	justify-content: space-around;
 }
+.matches a {
+	text-decoration: none;
+	color: inherit;
+}
 .matches .match {
 	display: flex;
 	justify-content: center;
@@ -592,6 +596,37 @@ table th {
 
 /* DROPDOWN END */
 
+/* SCORE */
+.matchHeadContainer {
+  overflow: hidden;
+  position: relative;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+  max-width: 996px;
+  margin: 0 auto;
+}
+.matchHead {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 40px 24px 40px 24px;
+  display: table-cell;
+  direction: ltr;
+  vertical-align: top;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -ms-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+@media (max-width: 600px) {
+  .matchHead{
+    padding: 24px 18px 20px 18px;
+  }
+}
 .teamsContainer {
 	position: relative;
 	display: -ms-flexbox;
@@ -620,7 +655,7 @@ table th {
 }
 
 .update-score-container {
-  margin: 50px;
+	margin: 50px;
 }
 
 .update-score-btn {
@@ -642,7 +677,29 @@ table th {
 }
 
 .update-score-btn:active {
-  transform: translate(0px,5px);
-  -webkit-transform: translate(0px,5px);
-  border-bottom: 1px solid;
+	transform: translate(0px, 5px);
+	-webkit-transform: translate(0px, 5px);
+	border-bottom: 1px solid;
 }
+
+/* END SOCRE */
+
+/* Knockout */
+.score {
+	text-align: center;
+	width: 2em;
+	height: 1.5em;
+	margin: 0.6em 0.1em;
+	font-size: 2em;
+	border: 0.05em solid #193764;
+	border-radius: 0.2em;
+	background: #fff;
+}
+
+.knockout .flag {
+	font-size: 1.5em;
+	width: auto;
+	height: auto;
+}
+
+/* End Knockout */
