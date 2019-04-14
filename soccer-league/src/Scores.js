@@ -34,7 +34,7 @@ class Score extends Component {
 				displaySpecificTeams: displaySpecificTeams
 			});
 		} else {
-			fetch('http://localhost:8000/teams')
+			fetch('http://localhost:8000/league/teams')
 				.then(response => response.json())
 				.then(data => data.sort(compare)) //sort the data by team_id
 				.then(data => this.setState({ teams: data.map(team => ({ value: team.team_id, label: team.name })) }));
@@ -74,7 +74,7 @@ class Score extends Component {
 				data.append(key, matchData[key]);
 			}
 		}
-		fetch('http://localhost:8000/match', {
+		fetch('http://localhost:8000/league/match', {
 			method: 'post',
 			mode: 'no-cors',
 			body: data
