@@ -24,13 +24,13 @@ class Score extends Component {
     }
     
 		if (shouldDisplayGivenTeams) {
-			const { home, away, hscore, ascore, displaySpecificTeams } = this.props.location.state;
+			const { home_team, away_team, home_scored, away_scored, displaySpecificTeams } = this.props.location.state;
 
 			this.setState({
-				homeTeam: { value: home, label: home },
-				awayTeam: { value: away, label: away },
-				homeTeamScore: { value: hscore, label: hscore },
-				awayTeamScore: { value: ascore, label: ascore },
+				homeTeam: { value: home_team, label: home_team },
+				awayTeam: { value: away_team, label: away_team },
+				homeTeamScore: { value: home_scored, label: home_scored },
+				awayTeamScore: { value: away_scored, label: away_scored },
 				displaySpecificTeams: displaySpecificTeams
 			});
 		} else {

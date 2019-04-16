@@ -6,6 +6,7 @@ class KnockoutStages extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			data: null,
 			quarterFinals: null,
 			semiFinals: null,
 			final: null,
@@ -14,20 +15,14 @@ class KnockoutStages extends Component {
 	}
 
 	componentDidMount() {
-		const data = [
-			{ home: 'team1', away: 'team2', hscore: 0, ascore: 0, round: 0 },
-			{ home: 'team3', away: 'team4', hscore: 0, ascore: 0, round: 0 },
-			{ home: 'team5', away: 'team6', hscore: 0, ascore: 0, round: 0 },
-			{ home: 'team7', away: 'team8', hscore: 0, ascore: 0, round: 0 },
-			{ home: 'team1', away: 'team4', hscore: 0, ascore: 0, round: 1 },
-			{ home: 'team5', away: 'team8', hscore: 0, ascore: 0, round: 1 },
-			{ home: 'team4', away: 'team8', hscore: 0, ascore: 0, round: 2 },
-			{ home: 'team8', round: 3 }
-		];
-		this.setState({ quarterFinals: data.filter(game => game.round === 0) });
-		this.setState({ semiFinals: data.filter(game => game.round === 1) });
-		this.setState({ final: data.filter(game => game.round === 2) });
-		this.setState({ winner: data.filter(game => game.round === 3) });
+		fetch('http://localhost:8000/playoffs')
+			.then(response => response.json())
+			.then(data => {
+				this.setState({ quarterFinals: data.filter(game => game.step_id === 1) });
+				this.setState({ semiFinals: data.filter(game => game.step_id === 2) });
+				this.setState({ final: data.filter(game => game.step_id === 3) });
+				this.setState({ winner: data.filter(game => game.step_id === 4) });
+			});
 	}
 
 	render() {

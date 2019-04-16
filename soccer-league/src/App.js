@@ -3,11 +3,29 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import GroupStage from './GroupStage';
 import Scores from './Scores';
 import KnockoutStages from './KnockoutStages';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+	handleEndGroupStage() {
+		confirmAlert({
+			title: 'Confirm ending Group Stage',
+			message: 'Are you sure group stage is over?',
+			buttons: [
+				{
+					label: 'Yes',
+					onClick: () => fetch('http://localhost:8000/playoffs', { method: 'POST', mode: 'no-cors'}).then(console.log('aaaaaa'))
+				},
+				{
+					label: 'No',
+					onClick: () => console.log('💩')
+				}
+			]
+		});
+	}
 	render() {
 		return (
 			<Router>
@@ -22,6 +40,9 @@ class App extends Component {
 							</li>
 							<li>
 								<Link to="/knockout">Knockouts</Link>
+							</li>
+							<li>
+								<a onClick={this.handleEndGroupStage}>End Group Stage</a>
 							</li>
 						</ul>
 
