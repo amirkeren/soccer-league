@@ -302,61 +302,82 @@ router.post('/playoffs/match', function(req, res) {
         res.status(500).send({ error: "goals can't be negative" });
         return;
     }
-    let winner = home_score > away_score ? home_team : away_team;
-    //qf
-    if (step_id == 1) {
-        //first qf
-        if (id == 1) {
-            connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 2 AND id = 1", [winner], function (error) {
-                if (error) {
-                    res.status(500).send({error: "failed to set playoffs result for winner"});
-                }
-            });
-        //second qf
-        } else if (id == 2) {
-            connection.query("UPDATE playoffs SET away_team = ? WHERE step_id = 2 AND id = 1", [winner], function (error) {
-                if (error) {
-                    res.status(500).send({error: "failed to set playoffs result for winner"});
-                }
-            });
-        //third qf
-        } else if (id == 3) {
-            connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 2 AND id = 2", [winner], function (error) {
-                if (error) {
-                    res.status(500).send({error: "failed to set playoffs result for winner"});
-                }
-            });
-        //fourth qf
+    connection.query("UPDATE playoffs SET home_scored = ?, away_scored = ? WHERE step_id = ? AND id = ?",
+        [home_score, away_score, step_id, id], function (error) {
+        if (error) {
+            res.status(500).send({error: "failed to set playoffs result for winner"});
         } else {
-            connection.query("UPDATE playoffs SET away_team = ? WHERE step_id = 2 AND id = 2", [winner], function (error) {
-                if (error) {
-                    res.status(500).send({error: "failed to set playoffs result for winner"});
+            let winner = home_score > away_score ? home_team : away_team;
+            //qf
+            if (step_id == 1) {
+                //first qf
+                if (id == 1) {
+                    connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 2 AND id = 1", [winner], function (error) {
+                        if (error) {
+                            res.status(500).send({error: "failed to set playoffs result for winner"});
+                        } else {
+                            res.sendStatus(200);
+                        }
+                    });
+                    //second qf
+                } else if (id == 2) {
+                    connection.query("UPDATE playoffs SET away_team = ? WHERE step_id = 2 AND id = 1", [winner], function (error) {
+                        if (error) {
+                            res.status(500).send({error: "failed to set playoffs result for winner"});
+                        } else {
+                            res.sendStatus(200);
+                        }
+                    });
+                    //third qf
+                } else if (id == 3) {
+                    connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 2 AND id = 2", [winner], function (error) {
+                        if (error) {
+                            res.status(500).send({error: "failed to set playoffs result for winner"});
+                        } else {
+                            res.sendStatus(200);
+                        }
+                    });
+                    //fourth qf
+                } else {
+                    connection.query("UPDATE playoffs SET away_team = ? WHERE step_id = 2 AND id = 2", [winner], function (error) {
+                        if (error) {
+                            res.status(500).send({error: "failed to set playoffs result for winner"});
+                        } else {
+                            res.sendStatus(200);
+                        }
+                    });
                 }
-            });
-        }
-    //half
-    } else if (step_id == 2) {
-        if (id == 1) {
-            connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 3", [winner], function (error) {
-                if (error) {
-                    res.status(500).send({error: "failed to set playoffs result for winner"});
+                //half
+            } else if (step_id == 2) {
+                if (id == 1) {
+                    connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 3", [winner], function (error) {
+                        if (error) {
+                            res.status(500).send({error: "failed to set playoffs result for winner"});
+                        } else {
+                            res.sendStatus(200);
+                        }
+                    });
+                } else {
+                    connection.query("UPDATE playoffs SET away_team = ? WHERE step_id = 3", [winner], function (error) {
+                        if (error) {
+                            res.status(500).send({error: "failed to set playoffs result for winner"});
+                        } else {
+                            res.sendStatus(200);
+                        }
+                    });
                 }
-            });
-        } else {
-            connection.query("UPDATE playoffs SET away_team = ? WHERE step_id = 3", [winner], function (error) {
-                if (error) {
-                    res.status(500).send({error: "failed to set playoffs result for winner"});
-                }
-            });
-        }
-    //final
-    } else {
-        connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 4", [winner], function (error) {
-            if (error) {
-                res.status(500).send({error: "failed to set playoffs result for winner"});
+                //final
+            } else {
+                connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 4", [winner], function (error) {
+                    if (error) {
+                        res.status(500).send({error: "failed to set playoffs result for winner"});
+                    } else {
+                        res.sendStatus(200);
+                    }
+                });
             }
-        });
-    }
+        }
+    });
 });
 
 module.exports = router;
