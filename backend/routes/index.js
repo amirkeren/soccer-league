@@ -11,7 +11,6 @@ app.post('/match', cors());
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
     host     : 'localhost',
-    // host     : 'db',
     user     : 'user',
     password : 'password',
     database : 'db'
