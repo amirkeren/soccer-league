@@ -37,6 +37,7 @@ router.post('/playoffs', function(req, res) {
         (
             SELECT
                 t.name,
+                l.team_id,
                 RANK() OVER(PARTITION BY l.group_id ORDER BY points DESC, goals_scored - goals_against DESC,
                 goals_scored DESC, l.team_id) AS ranking
             FROM
@@ -52,27 +53,38 @@ router.post('/playoffs', function(req, res) {
            return;
        }
        let teams = [];
+       let team_ids = [];
        for (var i = 0; i < results.length; i++) {
-           teams.push(results[i].team_id);
+           teams.push(results[i].name);
+           team_ids.push(results[i].team_id);
        }
        connection.query(`
-        SELECT
-            team_id
+       SELECT
+            t.name
         FROM
-            league
-        WHERE
-            team_id NOT IN (` + teams.join() + `)
-        ORDER BY
-            points DESC,
-            goals_scored - goals_against DESC,
-            goals_scored DESC,
-            team_id LIMIT 2`, function (error, results) {
+            (
+                SELECT
+                    team_id
+                FROM
+                    league
+                WHERE
+                    team_id NOT IN (` + team_ids.join() + `)
+                ORDER BY
+                    points DESC,
+                    goals_scored - goals_against DESC,
+                    goals_scored DESC,
+                    team_id LIMIT 2) l
+        JOIN
+            teams t
+        ON
+            l.team_id = t.team_id;`, function (error, results) {
            if (error) {
                res.status(500).send({error: "can't load playoffs teams - phase 2"});
                return;
            }
            for (var i = 0; i < results.length; i++) {
-               teams.push(results[i].team_id);
+               teams.push(results[i].name);
+               team_ids.push(results[i].team_id);
            }
            connection.query("UPDATE playoffs SET home_team = ?, away_team = ? WHERE step_id = 1 AND home_team = 'first_a' AND away_team = 'second_b'",
                [teams[0], teams[1]], function (error) {
