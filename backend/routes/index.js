@@ -290,7 +290,6 @@ router.post('/playoffs/match', function(req, res) {
         res.status(500).send({ error: "goals can't be negative" });
         return;
     }
-    //TODO - what do we need to do here?!
     let winner = home_score > away_score ? home_team : away_team;
     //qf
     if (step_id == 1) {
