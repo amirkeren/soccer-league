@@ -1,22 +1,6 @@
 version: '3.7'
 
 services:
-  node:
-    build: ./backend/
-    ports:
-      - '8000:8000'
-    depends_on:
-      - db
-    restart: on-failure
-  app:
-    build: ./soccer-league/
-    ports:
-      - '80:3000'
-    depends_on:
-      - node
-    restart: on-failure
-    links:
-      - node
   db:
     image: mysql:latest
     restart: always

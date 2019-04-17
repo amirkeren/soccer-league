@@ -1,18 +1,17 @@
 var mysql = require('mysql');
 var fs = require('fs');
 
-var myCon = mysql.createConnection({
-    host: 'localhost',
-    port: '3306',
-    database: 'db',
-    user: 'user',
-    password: 'password',
+var connection = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'user',
+    password : 'password',
+    database : 'db',
     multipleStatements: true
 });
 
 var contents = fs.readFileSync('setup.sql', 'utf8');
 console.log(contents);
-myCon.query(contents, function(err) {
+connection.query(contents, function(err) {
     if (err) {
         throw err;
     } else {
