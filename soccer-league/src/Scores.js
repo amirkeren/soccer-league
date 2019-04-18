@@ -34,8 +34,7 @@ class Score extends Component {
 				displaySpecificTeams: displaySpecificTeams
 			});
 		} else {
-            let host = process.env.NODE_HOST || 'localhost';
-            fetch('http://' + host + ':8000/league/teams')
+            fetch('/league/teams')
 				.then(response => response.json())
 				.then(data => data.sort(compare)) //sort the data by team_id
 				.then(data => this.setState({ teams: data.map(team => ({ value: team.team_id, label: team.name })) }));
@@ -75,26 +74,13 @@ class Score extends Component {
 				data.append(key, matchData[key]);
 			}
 		}
-        let host = process.env.NODE_HOST || 'localhost';
-        if (!process.env.CORS_ENABLED) {
-            let host = process.env.NODE_HOST || 'localhost';
-            fetch('http://' + host + ':8000/league/match', {
-                method: 'post',
-                mode: 'no-cors',
-                body: data
-            })
-                .then(() => console.log('Success'))
-                .then(() => this.props.history.push('/'))
-                .catch(error => console.error('Error:', error));
-        } else {
-            fetch('http://' + host + ':8000/league/match', {
-                method: 'post',
-                body: data
-            })
-                .then(() => console.log('Success'))
-                .then(() => this.props.history.push('/'))
-                .catch(error => console.error('Error:', error));
-		}
+		fetch('/league/match', {
+			method: 'post',
+			body: data
+		})
+			.then(() => console.log('Success'))
+			.then(() => this.props.history.push('/'))
+			.catch(error => console.error('Error:', error));
 	}
 
 	render() {

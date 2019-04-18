@@ -18,17 +18,9 @@ class App extends Component {
 				{
 					label: 'Yes',
 					onClick: () => {
-                        let host = process.env.NODE_HOST || 'localhost';
-                        if (!process.env.CORS_ENABLED) {
-                            fetch('http://' + host + ':8000/playoffs', {
-                                method: 'POST',
-                                mode: 'no-cors'
-                            }).then(console.log('aaaaaa'))
-                        } else {
-                            fetch('http://' + host + ':8000/playoffs', {
-                                method: 'POST'
-                            }).then(console.log('aaaaaa'))
-						}
+						fetch('/playoffs', {
+							method: 'POST'
+						}).then(console.log('aaaaaa'))
                     }
 				},
 				{
