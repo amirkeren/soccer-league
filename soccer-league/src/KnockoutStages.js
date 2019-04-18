@@ -15,7 +15,8 @@ class KnockoutStages extends Component {
 	}
 
 	componentDidMount() {
-		fetch('http://localhost:8000/playoffs')
+        let host = process.env.NODE_HOST || 'localhost';
+        fetch('http://' + host + ':8000/playoffs')
 			.then(response => response.json())
 			.then(data => {
 				this.setState({ quarterFinals: data.filter(game => game.step_id === 1) });
