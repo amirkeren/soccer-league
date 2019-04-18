@@ -17,7 +17,18 @@ class App extends Component {
 			buttons: [
 				{
 					label: 'Yes',
-					onClick: () => fetch('http://localhost:8000/playoffs', { method: 'POST', mode: 'no-cors'}).then(console.log('aaaaaa'))
+					onClick: () => {
+                        if (!process.env.CORS_ENABLED) {
+                            fetch('http://localhost:8000/playoffs', {
+                                method: 'POST',
+                                mode: 'no-cors'
+                            }).then(console.log('aaaaaa'))
+                        } else {
+                            fetch('http://localhost:8000/playoffs', {
+                                method: 'POST'
+                            }).then(console.log('aaaaaa'))
+						}
+                    }
 				},
 				{
 					label: 'No',

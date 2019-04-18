@@ -74,14 +74,24 @@ class Score extends Component {
 				data.append(key, matchData[key]);
 			}
 		}
-		fetch('http://localhost:8000/league/match', {
-			method: 'post',
-			mode: 'no-cors',
-			body: data
-		})
-			.then(() => console.log('Success'))
-			.then(() => this.props.history.push('/'))
-			.catch(error => console.error('Error:', error));
+        if (!process.env.CORS_ENABLED) {
+            fetch('http://localhost:8000/league/match', {
+                method: 'post',
+                mode: 'no-cors',
+                body: data
+            })
+                .then(() => console.log('Success'))
+                .then(() => this.props.history.push('/'))
+                .catch(error => console.error('Error:', error));
+        } else {
+            fetch('http://localhost:8000/league/match', {
+                method: 'post',
+                body: data
+            })
+                .then(() => console.log('Success'))
+                .then(() => this.props.history.push('/'))
+                .catch(error => console.error('Error:', error));
+		}
 	}
 
 	render() {

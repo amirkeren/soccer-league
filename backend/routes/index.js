@@ -5,8 +5,9 @@ var cors = require('cors')
 var app = express();
 app.use(express.json());
 app.use(express.urlencoded());
-app.post('/match', cors());
-
+if (!process.env.CORS_ENABLED) {
+    app.post('/match', cors());
+}
 
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
@@ -17,7 +18,9 @@ var connection = mysql.createConnection({
 });
 
 router.get('/playoffs', function(req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
+    if (!process.env.CORS_ENABLED) {
+        res.header("Access-Control-Allow-Origin", "*");
+    }
     connection.query('SELECT * from playoffs order by step_id', function (error, results) {
         if (error) {
             res.status(500).send({ error: "can't load playoffs" });
@@ -136,7 +139,9 @@ router.post('/playoffs', function(req, res) {
 });
 
 router.get('/players', function(req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
+    if (!process.env.CORS_ENABLED) {
+        res.header("Access-Control-Allow-Origin", "*");
+    }
     connection.query('SELECT * from players order by goals_scored desc, name', function (error, results) {
         if (error) {
             res.status(500).send({ error: "can't load players" });
@@ -148,7 +153,9 @@ router.get('/players', function(req, res) {
 });
 
 router.get('/league/teams', function(req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
+    if (!process.env.CORS_ENABLED) {
+        res.header("Access-Control-Allow-Origin", "*");
+    }
     connection.query('SELECT * from teams order by name', function (error, results) {
         if (error) {
             res.status(500).send({ error: "can't load teams" });
@@ -160,7 +167,9 @@ router.get('/league/teams', function(req, res) {
 });
 
 router.get('/league', function(req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
+    if (!process.env.CORS_ENABLED) {
+        res.header("Access-Control-Allow-Origin", "*");
+    }
     connection.query('SELECT l.*, goals_scored - goals_against AS goal_difference, g.name AS group_name, t.name AS team_name FROM league l JOIN sgroups g ON g.group_id = l.group_id JOIN teams t ON t.team_id = l.team_id ORDER BY group_id, points desc, goals_scored - goals_against desc, goals_scored desc, team_id asc', function (error, results) {
         if (error) {
           res.status(500).send({ error: "can't load league standings" });
