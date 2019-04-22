@@ -58,7 +58,7 @@ class Score extends Component {
             });
 		} else {
             confirmAlert({
-                title: 'Confirm match resault',
+                title: 'Confirm match result',
                 message: 'Are you sure this is the final resault?',
                 buttons: [
                     {
