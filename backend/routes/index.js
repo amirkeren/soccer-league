@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var fs = require('fs');
 
 var app = express();
 app.use(express.json());
@@ -10,11 +11,12 @@ var connection = mysql.createConnection({
     host     : process.env.DB_HOST || 'localhost',
     user     : 'user',
     password : 'password',
-    database : 'db'
+    database : 'db',
+    multipleStatements: true
 });
 
 router.get('/playoffs', function(req, res) {
-    connection.query('SELECT * from playoffs order by step_id', function (error, results) {
+    connection.query('SELECT * from playoffs order by step_id', function(error, results) {
         if (error) {
             res.status(500).send({ error: "can't load playoffs" });
             return;
@@ -24,9 +26,20 @@ router.get('/playoffs', function(req, res) {
     });
 });
 
+router.post('/reset', function(req, res) {
+    var contents = fs.readFileSync('setup.sql', 'utf8');
+    connection.query(contents, function(error) {
+        if (error) {
+            res.status(500).send({ error: "can't reset" });
+            return
+        }
+        res.sendStatus(200);
+    });
+});
+
 router.post('/playoffs', function(req, res) {
-   res.contentType('application/json');
-   connection.query(`
+    res.contentType('application/json');
+    connection.query(`
     SELECT
         *
     FROM
@@ -43,7 +56,7 @@ router.post('/playoffs', function(req, res) {
             ON
                 l.team_id = t.team_id) a
     WHERE
-        ranking <= 2`, function (error, results) {
+        ranking <= 2`, function(error, results) {
        if (error) {
            res.status(500).send({error: "can't load playoffs teams - phase 1"});
            return;
@@ -73,7 +86,7 @@ router.post('/playoffs', function(req, res) {
         JOIN
             teams t
         ON
-            l.team_id = t.team_id;`, function (error, results) {
+            l.team_id = t.team_id;`, function(error, results) {
            if (error) {
                res.status(500).send({error: "can't load playoffs teams - phase 2"});
                return;
@@ -83,7 +96,7 @@ router.post('/playoffs', function(req, res) {
                team_ids.push(results[i].team_id);
            }
            connection.query("UPDATE playoffs SET home_team = ?, away_team = ? WHERE step_id = 1 AND home_team = 'first_a' AND away_team = 'second_b'",
-               [teams[0], teams[1]], function (error) {
+               [teams[0], teams[1]], function(error) {
                if (error) {
                    res.status(500).send({ error: "failed to set league result for winner" });
                    connection.rollback(function() {
@@ -91,7 +104,7 @@ router.post('/playoffs', function(req, res) {
                    });
                }
                connection.query("UPDATE playoffs SET home_team = ?, away_team = ? WHERE step_id = 1 AND home_team = 'second_a' AND away_team = 'first_b'",
-                   [teams[2], teams[3]], function (error) {
+                   [teams[2], teams[3]], function(error) {
                    if (error) {
                        res.status(500).send({ error: "failed to set league result for winner" });
                        connection.rollback(function() {
@@ -99,7 +112,7 @@ router.post('/playoffs', function(req, res) {
                        });
                    }
                    connection.query("UPDATE playoffs SET home_team = ?, away_team = ? WHERE step_id = 1 AND home_team = 'first_c' AND away_team = 'weird_a'",
-                       [teams[4], teams[5]], function (error) {
+                       [teams[4], teams[5]], function(error) {
                        if (error) {
                            res.status(500).send({ error: "failed to set league result for winner" });
                            connection.rollback(function() {
@@ -107,7 +120,7 @@ router.post('/playoffs', function(req, res) {
                            });
                        }
                        connection.query("UPDATE playoffs SET home_team = ?, away_team = ? WHERE step_id = 1 AND home_team = 'second_c' AND away_team = 'weird_b'",
-                           [teams[6], teams[7]], function (error) {
+                           [teams[6], teams[7]], function(error) {
                            if (error) {
                                res.status(500).send({ error: "failed to set league result for winner" });
                                connection.rollback(function() {
@@ -132,7 +145,7 @@ router.post('/playoffs', function(req, res) {
 });
 
 router.get('/players', function(req, res) {
-    connection.query('SELECT * from players order by goals_scored desc, name', function (error, results) {
+    connection.query('SELECT * from players order by goals_scored desc, name', function(error, results) {
         if (error) {
             res.status(500).send({ error: "can't load players" });
             return;
@@ -143,7 +156,7 @@ router.get('/players', function(req, res) {
 });
 
 router.get('/league/teams', function(req, res) {
-    connection.query('SELECT * from teams order by name', function (error, results) {
+    connection.query('SELECT * from teams order by name', function(error, results) {
         if (error) {
             res.status(500).send({ error: "can't load teams" });
             return;
@@ -154,7 +167,7 @@ router.get('/league/teams', function(req, res) {
 });
 
 router.get('/league', function(req, res) {
-    connection.query('SELECT l.*, goals_scored - goals_against AS goal_difference, g.name AS group_name, t.name AS team_name FROM league l JOIN sgroups g ON g.group_id = l.group_id JOIN teams t ON t.team_id = l.team_id ORDER BY group_id, points desc, goals_scored - goals_against desc, goals_scored desc, team_id asc', function (error, results) {
+    connection.query('SELECT l.*, goals_scored - goals_against AS goal_difference, g.name AS group_name, t.name AS team_name FROM league l JOIN sgroups g ON g.group_id = l.group_id JOIN teams t ON t.team_id = l.team_id ORDER BY group_id, points desc, goals_scored - goals_against desc, goals_scored desc, team_id asc', function(error, results) {
         if (error) {
           res.status(500).send({ error: "can't load league standings" });
           return;
@@ -191,7 +204,7 @@ router.post('/league/match', function(req, res) {
         res.status(500).send({ error: "goals can't be negative" });
         return;
     }
-    connection.query('SELECT COUNT(*) as c FROM (SELECT group_id FROM teams WHERE team_id IN (?, ?) GROUP BY 1) a', [home_team, away_team], function (error, results) {
+    connection.query('SELECT COUNT(*) as c FROM (SELECT group_id FROM teams WHERE team_id IN (?, ?) GROUP BY 1) a', [home_team, away_team], function(error, results) {
         if (error) {
             res.status(500).send({ error: "can't verify teams" });
             return;
@@ -205,14 +218,14 @@ router.post('/league/match', function(req, res) {
             let loser = 'UPDATE league SET games_played = games_played + 1, loses = loses + 1, goals_scored = goals_scored + ?, goals_against = goals_against + ? WHERE team_id = ?';
             let draw = 'UPDATE league SET games_played = games_played + 1, draws = draws + 1, points = points + 1, goals_scored = goals_scored + ?, goals_against = goals_against + ? WHERE team_id IN (?, ?)';
             if (home_score > away_score) {
-                connection.query(winner, [home_score, away_score, home_team], function (error) {
+                connection.query(winner, [home_score, away_score, home_team], function(error) {
                     if (error) {
                         res.status(500).send({ error: "failed to set league result for winner" });
                         connection.rollback(function() {
                             return;
                         });
                     }
-                    connection.query(loser, [away_score, home_score, away_team], function (error) {
+                    connection.query(loser, [away_score, home_score, away_team], function(error) {
                         if (error) {
                             res.status(500).send({ error: "failed to set league result for loser" });
                             connection.rollback(function() {
@@ -231,14 +244,14 @@ router.post('/league/match', function(req, res) {
                     });
                 });
             } else if (away_score > home_score) {
-                connection.query(winner, [away_score, home_score, away_team], function (error) {
+                connection.query(winner, [away_score, home_score, away_team], function(error) {
                     if (error) {
                         res.status(500).send({ error: "failed to set league result for winner" });
                         connection.rollback(function() {
                             return;
                         });
                     }
-                    connection.query(loser, [home_score, away_score, home_team], function (error) {
+                    connection.query(loser, [home_score, away_score, home_team], function(error) {
                         if (error) {
                             res.status(500).send({ error: "failed to set league result for loser" });
                             connection.rollback(function() {
@@ -257,7 +270,7 @@ router.post('/league/match', function(req, res) {
                     });
                 });
             } else {
-                connection.query(draw, [home_score, away_score, home_team, away_team], function (error) {
+                connection.query(draw, [home_score, away_score, home_team, away_team], function(error) {
                     if (error) {
                         res.status(500).send({ error: "failed to set league result for draw" });
                         connection.rollback(function() {
@@ -296,7 +309,7 @@ router.post('/playoffs/match', function(req, res) {
         return;
     }
     connection.query("UPDATE playoffs SET home_scored = ?, away_scored = ? WHERE step_id = ? AND id = ?",
-        [home_score, away_score, step_id, id], function (error) {
+        [home_score, away_score, step_id, id], function(error) {
         if (error) {
             res.status(500).send({error: "failed to set playoffs result for winner"});
         } else {
@@ -305,7 +318,7 @@ router.post('/playoffs/match', function(req, res) {
             if (step_id == 1) {
                 //first qf
                 if (id == 1) {
-                    connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 2 AND id = 1", [winner], function (error) {
+                    connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 2 AND id = 1", [winner], function(error) {
                         if (error) {
                             res.status(500).send({error: "failed to set playoffs result for winner"});
                         } else {
@@ -314,7 +327,7 @@ router.post('/playoffs/match', function(req, res) {
                     });
                     //second qf
                 } else if (id == 2) {
-                    connection.query("UPDATE playoffs SET away_team = ? WHERE step_id = 2 AND id = 1", [winner], function (error) {
+                    connection.query("UPDATE playoffs SET away_team = ? WHERE step_id = 2 AND id = 1", [winner], function(error) {
                         if (error) {
                             res.status(500).send({error: "failed to set playoffs result for winner"});
                         } else {
@@ -323,7 +336,7 @@ router.post('/playoffs/match', function(req, res) {
                     });
                     //third qf
                 } else if (id == 3) {
-                    connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 2 AND id = 2", [winner], function (error) {
+                    connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 2 AND id = 2", [winner], function(error) {
                         if (error) {
                             res.status(500).send({error: "failed to set playoffs result for winner"});
                         } else {
@@ -332,7 +345,7 @@ router.post('/playoffs/match', function(req, res) {
                     });
                     //fourth qf
                 } else {
-                    connection.query("UPDATE playoffs SET away_team = ? WHERE step_id = 2 AND id = 2", [winner], function (error) {
+                    connection.query("UPDATE playoffs SET away_team = ? WHERE step_id = 2 AND id = 2", [winner], function(error) {
                         if (error) {
                             res.status(500).send({error: "failed to set playoffs result for winner"});
                         } else {
@@ -343,7 +356,7 @@ router.post('/playoffs/match', function(req, res) {
                 //half
             } else if (step_id == 2) {
                 if (id == 1) {
-                    connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 3", [winner], function (error) {
+                    connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 3", [winner], function(error) {
                         if (error) {
                             res.status(500).send({error: "failed to set playoffs result for winner"});
                         } else {
@@ -351,7 +364,7 @@ router.post('/playoffs/match', function(req, res) {
                         }
                     });
                 } else {
-                    connection.query("UPDATE playoffs SET away_team = ? WHERE step_id = 3", [winner], function (error) {
+                    connection.query("UPDATE playoffs SET away_team = ? WHERE step_id = 3", [winner], function(error) {
                         if (error) {
                             res.status(500).send({error: "failed to set playoffs result for winner"});
                         } else {
@@ -361,7 +374,7 @@ router.post('/playoffs/match', function(req, res) {
                 }
                 //final
             } else {
-                connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 4", [winner], function (error) {
+                connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 4", [winner], function(error) {
                     if (error) {
                         res.status(500).send({error: "failed to set playoffs result for winner"});
                     } else {
