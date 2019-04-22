@@ -21,8 +21,8 @@ class Score extends Component {
 		const shouldDisplayGivenTeams = this.props.location.state && this.props.location.state.displaySpecificTeams;
 		function compare(a, b) {
 			return a.team_id - b.team_id;
-    }
-    
+		}
+
 		if (shouldDisplayGivenTeams) {
 			const { home_team, away_team, home_scored, away_scored, displaySpecificTeams } = this.props.location.state;
 
@@ -34,8 +34,8 @@ class Score extends Component {
 				displaySpecificTeams: displaySpecificTeams
 			});
 		} else {
-            let host = process.env.NODE_HOST || 'localhost';
-            fetch('http://' + host + ':8000/league/teams')
+			let host = process.env.NODE_HOST || 'localhost';
+			fetch('http://' + host + ':8000/league/teams')
 				.then(response => response.json())
 				.then(data => data.sort(compare)) //sort the data by team_id
 				.then(data => this.setState({ teams: data.map(team => ({ value: team.team_id, label: team.name })) }));
@@ -75,25 +75,25 @@ class Score extends Component {
 				data.append(key, matchData[key]);
 			}
 		}
-        let host = process.env.NODE_HOST || 'localhost';
-        if (!process.env.CORS_ENABLED) {
-            let host = process.env.NODE_HOST || 'localhost';
-            fetch('http://' + host + ':8000/league/match', {
-                method: 'post',
-                mode: 'no-cors',
-                body: data
-            })
-                .then(() => console.log('Success'))
-                .then(() => this.props.history.push('/'))
-                .catch(error => console.error('Error:', error));
-        } else {
-            fetch('http://' + host + ':8000/league/match', {
-                method: 'post',
-                body: data
-            })
-                .then(() => console.log('Success'))
-                .then(() => this.props.history.push('/'))
-                .catch(error => console.error('Error:', error));
+		let host = process.env.NODE_HOST || 'localhost';
+		if (!process.env.CORS_ENABLED) {
+			let host = process.env.NODE_HOST || 'localhost';
+			fetch('http://' + host + ':8000/league/match', {
+				method: 'post',
+				mode: 'no-cors',
+				body: data
+			})
+				.then(() => console.log('Success'))
+				.then(() => this.props.history.push('/'))
+				.catch(error => console.error('Error:', error));
+		} else {
+			fetch('http://' + host + ':8000/league/match', {
+				method: 'post',
+				body: data
+			})
+				.then(() => console.log('Success'))
+				.then(() => this.props.history.push('/'))
+				.catch(error => console.error('Error:', error));
 		}
 	}
 
@@ -114,7 +114,7 @@ class Score extends Component {
 
 		return (
 			<div>
-				<h1 className="page-header">Update Match Score</h1>
+				<h2 className="sub-header">Update Match Score</h2>
 				<div className="matchHeadContainer">
 					<div className="matchHead">
 						<div className="fixureContainer">

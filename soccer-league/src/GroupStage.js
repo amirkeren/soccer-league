@@ -22,10 +22,7 @@ class GroupStage extends Component {
 		const { groups } = this.state;
 		return (
 			<div>
-				<h1 className="page-header">
-					Taboola <br /> World Cup
-				</h1>
-				<h2 className="group-stage">Group Stage</h2>
+				<h2 className="sub-header">Group Stage</h2>
 				<div className="wrap">
 					{groups.map((group, i) => <Group key={generateKey(i)} teams={group} num={i} />)}
 				</div>

@@ -29,7 +29,7 @@ class KnockoutStages extends Component {
 	render() {
 		return (
 			<div>
-				<h1 className="page-header">Knockout</h1>
+				<h1 className="sub-header">Knockout</h1>
 				<div className="knockout quarters">
 					<h2>Quarter Finals</h2>
 					<Knockout games={this.state.quarterFinals} order={this.props.quarterOrder} updateKnockout={this.updateKnockout} round={'quarter'} />

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import GroupStage from './GroupStage';
 import Scores from './Scores';
 import KnockoutStages from './KnockoutStages';
@@ -18,18 +18,18 @@ class App extends Component {
 				{
 					label: 'Yes',
 					onClick: () => {
-                        let host = process.env.NODE_HOST || 'localhost';
-                        if (!process.env.CORS_ENABLED) {
-                            fetch('http://' + host + ':8000/playoffs', {
-                                method: 'POST',
-                                mode: 'no-cors'
-                            }).then(console.log('aaaaaa'))
-                        } else {
-                            fetch('http://' + host + ':8000/playoffs', {
-                                method: 'POST'
-                            }).then(console.log('aaaaaa'))
+						let host = process.env.NODE_HOST || 'localhost';
+						if (!process.env.CORS_ENABLED) {
+							fetch('http://' + host + ':8000/playoffs', {
+								method: 'POST',
+								mode: 'no-cors'
+							}).then(console.log('aaaaaa'));
+						} else {
+							fetch('http://' + host + ':8000/playoffs', {
+								method: 'POST'
+							}).then(console.log('aaaaaa'));
 						}
-                    }
+					}
 				},
 				{
 					label: 'No',
@@ -42,18 +42,21 @@ class App extends Component {
 		return (
 			<Router>
 				<div className="App">
+					<h1 className="page-header">
+						Taboola <br /> World Cup
+					</h1>
 					<div>
-						<ul>
-							<li>
-								<Link to="/">Group Stage</Link>
+						<ul className="tbl-wc-nav list-reset flex justify-between overflow-x-auto overflow-y-hidden">
+							<NavLink to="/">
+								<li className="flex-grow pb-10">Group Stage</li>
+							</NavLink>
+							<li className="flex-grow pb-10">
+								<NavLink to="/scores/">Update Score</NavLink>
 							</li>
-							<li>
-								<Link to="/scores/">Update Score</Link>
+							<li className="flex-grow pb-10">
+								<NavLink to="/knockout">Knockouts</NavLink>
 							</li>
-							<li>
-								<Link to="/knockout">Knockouts</Link>
-							</li>
-							<li>
+							<li className="flex-grow pb-10">
 								<a onClick={this.handleEndGroupStage}>End Group Stage</a>
 							</li>
 						</ul>
