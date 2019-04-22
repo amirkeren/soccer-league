@@ -186,6 +186,7 @@ class Score extends Component {
 							<div className="team away">
 								<Select
 									value={this.state.awayTeam}
+        							isDisabled={this.state.isKnockoutMatch}
 									onChange={this.handleDdSelection('awayTeam')}
 									options={this.state.teams}
 									placeholder={'select team'}
