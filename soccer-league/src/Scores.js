@@ -45,20 +45,33 @@ class Score extends Component {
 		this.setState({ [name]: { value: value.value, label: value.label } });
 	};
 	hadnleScoreUpdateCick = () => {
-		confirmAlert({
-			title: 'Confirm match resault',
-			message: 'Are you sure this is the final resault?',
-			buttons: [
-				{
-					label: 'Yes',
-					onClick: () => this.saveMatchData()
-				},
-				{
-					label: 'No',
-					onClick: () => console.log('💩')
-				}
-			]
-		});
+		if (!this.state.homeTeam.value || !this.state.awayTeam.value) {
+            confirmAlert({
+                title: 'Error',
+                message: 'Must select both teams',
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => console.log('💩')
+                    }
+                ]
+            });
+		} else {
+            confirmAlert({
+                title: 'Confirm match resault',
+                message: 'Are you sure this is the final resault?',
+                buttons: [
+                    {
+                        label: 'Yes',
+                        onClick: () => this.saveMatchData()
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => console.log('💩')
+                    }
+                ]
+            });
+        }
 	};
 	saveMatchData() {
 		const matchData = {
@@ -78,9 +91,27 @@ class Score extends Component {
 			method: 'post',
 			body: data
 		})
-			.then(() => console.log('Success'))
-			.then(() => this.props.history.push('/'))
-			.catch(error => console.error('Error:', error));
+            .then((res) => {
+            	if (res.status == 200) {
+                    this.props.history.push('/');
+				} else {
+                    return res.json()
+				}
+            })
+            .then((jsonData) => {
+                if (jsonData) {
+                    confirmAlert({
+                        title: 'Error',
+                        message: jsonData.error,
+                        buttons: [
+                            {
+                                label: 'OK',
+                                onClick: () => console.log('💩')
+                            }
+                        ]
+                    });
+                }
+            });
 	}
 
 	render() {

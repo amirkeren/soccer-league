@@ -40,7 +40,7 @@ class App extends Component {
                     onClick: () => {
                         fetch('/reset', {
                             method: 'POST'
-                        }).then(console.log('aaaaaa'))
+                        }).then(window.location.reload())
                     }
                 },
                 {
