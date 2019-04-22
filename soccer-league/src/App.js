@@ -18,18 +18,10 @@ class App extends Component {
 				{
 					label: 'Yes',
 					onClick: () => {
-						let host = process.env.NODE_HOST || 'localhost';
-						if (!process.env.CORS_ENABLED) {
-							fetch('http://' + host + ':8000/playoffs', {
-								method: 'POST',
-								mode: 'no-cors'
-							}).then(console.log('aaaaaa'));
-						} else {
-							fetch('http://' + host + ':8000/playoffs', {
-								method: 'POST'
-							}).then(console.log('aaaaaa'));
-						}
-					}
+						fetch('/playoffs', {
+							method: 'POST'
+						}).then(console.log('aaaaaa'))
+                    }
 				},
 				{
 					label: 'No',
@@ -38,6 +30,26 @@ class App extends Component {
 			]
 		});
 	}
+    handleReset() {
+        confirmAlert({
+            title: 'Confirm Reset',
+            message: 'Are you sure you want to reset the entire system?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        fetch('/reset', {
+                            method: 'POST'
+                        }).then(window.location.reload())
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => console.log('💩')
+                }
+            ]
+        });
+    }
 	render() {
 		return (
 			<Router>
@@ -58,6 +70,9 @@ class App extends Component {
 							</li>
 							<li className="flex-grow pb-10">
 								<a onClick={this.handleEndGroupStage}>End Group Stage</a>
+							</li>
+							<li>
+							<a onClick={this.handleReset}>Reset</a>
 							</li>
 						</ul>
 

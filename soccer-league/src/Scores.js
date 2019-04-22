@@ -34,8 +34,7 @@ class Score extends Component {
 				displaySpecificTeams: displaySpecificTeams
 			});
 		} else {
-			let host = process.env.NODE_HOST || 'localhost';
-			fetch('http://' + host + ':8000/league/teams')
+			fetch('/league/teams')
 				.then(response => response.json())
 				.then(data => data.sort(compare)) //sort the data by team_id
 				.then(data => this.setState({ teams: data.map(team => ({ value: team.team_id, label: team.name })) }));
@@ -46,20 +45,33 @@ class Score extends Component {
 		this.setState({ [name]: { value: value.value, label: value.label } });
 	};
 	hadnleScoreUpdateCick = () => {
-		confirmAlert({
-			title: 'Confirm match resault',
-			message: 'Are you sure this is the final resault?',
-			buttons: [
-				{
-					label: 'Yes',
-					onClick: () => this.saveMatchData()
-				},
-				{
-					label: 'No',
-					onClick: () => console.log('💩')
-				}
-			]
-		});
+		if (!this.state.homeTeam.value || !this.state.awayTeam.value) {
+			confirmAlert({
+				title: 'Error',
+				message: 'Must select both teams',
+				buttons: [
+					{
+						label: 'OK',
+						onClick: () => console.log('💩')
+					}
+				]
+			});
+		} else {
+			confirmAlert({
+				title: 'Confirm match result',
+				message: 'Are you sure this is the final resault?',
+				buttons: [
+					{
+						label: 'Yes',
+						onClick: () => this.saveMatchData()
+					},
+					{
+						label: 'No',
+						onClick: () => console.log('💩')
+					}
+				]
+			});
+		}
 	};
 	saveMatchData() {
 		const matchData = {
@@ -75,26 +87,31 @@ class Score extends Component {
 				data.append(key, matchData[key]);
 			}
 		}
-		let host = process.env.NODE_HOST || 'localhost';
-		if (!process.env.CORS_ENABLED) {
-			let host = process.env.NODE_HOST || 'localhost';
-			fetch('http://' + host + ':8000/league/match', {
-				method: 'post',
-				mode: 'no-cors',
-				body: data
+		fetch('/league/match', {
+			method: 'post',
+			body: data
+		})
+			.then(res => {
+				if (res.status == 200) {
+					this.props.history.push('/');
+				} else {
+					return res.json();
+				}
 			})
-				.then(() => console.log('Success'))
-				.then(() => this.props.history.push('/'))
-				.catch(error => console.error('Error:', error));
-		} else {
-			fetch('http://' + host + ':8000/league/match', {
-				method: 'post',
-				body: data
-			})
-				.then(() => console.log('Success'))
-				.then(() => this.props.history.push('/'))
-				.catch(error => console.error('Error:', error));
-		}
+			.then(jsonData => {
+				if (jsonData) {
+					confirmAlert({
+						title: 'Error',
+						message: jsonData.error,
+						buttons: [
+							{
+								label: 'OK',
+								onClick: () => console.log('💩')
+							}
+						]
+					});
+				}
+			});
 	}
 
 	render() {
