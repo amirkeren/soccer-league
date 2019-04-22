@@ -30,6 +30,26 @@ class App extends Component {
 			]
 		});
 	}
+    handleReset() {
+        confirmAlert({
+            title: 'Confirm Reset',
+            message: 'Are you sure you want to reset the entire system?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        fetch('/reset', {
+                            method: 'POST'
+                        }).then(console.log('aaaaaa'))
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => console.log('💩')
+                }
+            ]
+        });
+    }
 	render() {
 		return (
 			<Router>
@@ -47,6 +67,9 @@ class App extends Component {
 							</li>
 							<li>
 								<a onClick={this.handleEndGroupStage}>End Group Stage</a>
+							</li>
+							<li>
+							<a onClick={this.handleReset}>Reset</a>
 							</li>
 						</ul>
 
