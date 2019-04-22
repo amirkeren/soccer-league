@@ -13,25 +13,29 @@ class Score extends Component {
 			homeTeamScore: { value: 0, label: 0 },
 			awayTeamScore: { value: 0, label: 0 },
 			teams: [],
-			displaySpecificTeams: false
+			isKnockoutMatch: false,
+			step_id: null,
+			gameIndex: null
 		};
 	}
 
 	componentDidMount() {
-		const shouldDisplayGivenTeams = this.props.location.state && this.props.location.state.displaySpecificTeams;
+		const shouldDisplayGivenTeams = this.props.location.state && this.props.location.state.isKnockoutMatch;
 		function compare(a, b) {
 			return a.team_id - b.team_id;
 		}
 
 		if (shouldDisplayGivenTeams) {
-			const { home_team, away_team, home_scored, away_scored, displaySpecificTeams } = this.props.location.state;
+			const { home_team, away_team, home_scored, away_scored, isKnockoutMatch, step_id, gameIndex } = this.props.location.state;
 
 			this.setState({
 				homeTeam: { value: home_team, label: home_team },
 				awayTeam: { value: away_team, label: away_team },
 				homeTeamScore: { value: home_scored, label: home_scored },
 				awayTeamScore: { value: away_scored, label: away_scored },
-				displaySpecificTeams: displaySpecificTeams
+				isKnockoutMatch: isKnockoutMatch,
+				step_id: step_id,
+				gameIndex: gameIndex
 			});
 		} else {
 			fetch('/league/teams')
@@ -78,22 +82,27 @@ class Score extends Component {
 			home_team: this.state.homeTeam.value,
 			away_team: this.state.awayTeam.value,
 			home_score: this.state.homeTeamScore.value,
-			away_score: this.state.awayTeamScore.value
+			away_score: this.state.awayTeamScore.value,
+			isKnockoutMatch: this.state.isKnockoutMatch,
+			step_id: this.state.step_id,
+			gameIndex: this.state.gameIndex
 		};
 
 		const data = new URLSearchParams();
+		const fetchUrl = matchData.isKnockoutMatch ? '/playoffs/match' : '/league/match'
 		for (var key in matchData) {
 			if (matchData.hasOwnProperty(key)) {
 				data.append(key, matchData[key]);
 			}
 		}
-		fetch('/league/match', {
+		fetch(fetchUrl, {
 			method: 'post',
 			body: data
 		})
 			.then(res => {
 				if (res.status == 200) {
-					this.props.history.push('/');
+					const target = this.state.isKnockoutMatch ? '/knockout' : '/';
+					this.props.history.push(target);
 				} else {
 					return res.json();
 				}
@@ -139,7 +148,7 @@ class Score extends Component {
 								<Select
 									value={this.state.homeTeam}
 									className={'test'}
-									isDisabled={this.state.displaySpecificTeams}
+									isDisabled={this.state.isKnockoutMatch}
 									onChange={this.handleDdSelection('homeTeam')}
 									options={this.state.teams}
 								/>

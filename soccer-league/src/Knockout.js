@@ -5,8 +5,8 @@ import { generateKey } from './utils';
 
 const Knockout = function(props) {
 	const matches = props.games
-		? props.games.map(game => {
-				const { home_team, away_team, home_scored, away_scored } = game;
+		? props.games.map((game, index) => {
+				const { home_team, away_team, home_scored, away_scored, step_id } = game;
 				// key={generateKey(Math.floor(Math.random() * Math.floor(100)))}
 				return (
 					<div className="matchContainer">
@@ -18,7 +18,9 @@ const Knockout = function(props) {
 									away_team: away_team,
 									home_scored: home_scored,
 									away_scored: away_scored,
-									displaySpecificTeams: true
+									isKnockoutMatch: true,
+									step_id: step_id,
+									gameIndex: ++index
 								}
 							}}
 						>
