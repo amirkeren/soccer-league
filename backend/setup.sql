@@ -46,7 +46,7 @@ INSERT INTO playoffs (id, step_id, home_team, away_team, home_scored, away_score
 INSERT INTO playoffs (id, step_id, home_team, away_team, home_scored, away_scored) VALUES (4, 1, 'second_c', 'weird_b', 0, 0);
 INSERT INTO playoffs (id, step_id, home_team, away_team, home_scored, away_scored) VALUES (1, 2, 'qf_a', 'qf_b', 0, 0);
 INSERT INTO playoffs (id, step_id, home_team, away_team, home_scored, away_scored) VALUES (2, 2, 'qf_c', 'qf_d', 0, 0);
-INSERT INTO playoffs (id, step_id, home_team, away_team, home_scored, away_scored) VALUES (null, 3, 'half_a', 'half_b', 0, 0);
-INSERT INTO playoffs (id, step_id, home_team, away_team, home_scored, away_scored) VALUES (null, 4, 'winner', null, 0, 0);
+INSERT INTO playoffs (id, step_id, home_team, away_team, home_scored, away_scored) VALUES (1, 3, 'half_a', 'half_b', 0, 0);
+INSERT INTO playoffs (id, step_id, home_team, away_team, home_scored, away_scored) VALUES (1, 4, 'winner', null, 0, 0);
 
 INSERT INTO players (name, number, team_id, goals_scored) VALUES ('Amir Keren', '9', 1, 0);
