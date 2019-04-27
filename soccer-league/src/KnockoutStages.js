@@ -10,12 +10,12 @@ class KnockoutStages extends Component {
 			quarterFinals: null,
 			semiFinals: null,
 			final: null,
-			winner: null
+			winner: null,
 		};
 	}
 
 	componentDidMount() {
-        fetch('/playoffs')
+		fetch('/playoffs')
 			.then(response => response.json())
 			.then(data => {
 				this.setState({ quarterFinals: data.filter(game => game.step_id === 1) });
@@ -31,19 +31,43 @@ class KnockoutStages extends Component {
 				<h1 className="sub-header">Knockout</h1>
 				<div className="knockout quarters">
 					<h2>Quarter Finals</h2>
-					<Knockout games={this.state.quarterFinals} order={this.props.quarterOrder} updateKnockout={this.updateKnockout} round={'quarter'} />
+					<Knockout
+						games={this.state.quarterFinals}
+						order={this.props.quarterOrder}
+						updateKnockout={this.updateKnockout}
+						round={'quarter'}
+						isAdmin={this.props.isAdmin}
+					/>
 				</div>
 				<div className="knockout semi">
 					<h2>Semi Finals</h2>
-					<Knockout games={this.state.semiFinals} order={this.props.semiOrder} updateKnockout={this.updateKnockout} round={'semi'} />
+					<Knockout
+						games={this.state.semiFinals}
+						order={this.props.semiOrder}
+						updateKnockout={this.updateKnockout}
+						round={'semi'}
+						isAdmin={this.props.isAdmin}
+					/>
 				</div>
 				<div className="knockout final">
 					<h2>Final</h2>
-					<Knockout games={this.state.final} order={this.props.finalOrder} updateKnockout={this.updateKnockout} round={'final'} />
+					<Knockout
+						games={this.state.final}
+						order={this.props.finalOrder}
+						updateKnockout={this.updateKnockout}
+						round={'final'}
+						isAdmin={this.props.isAdmin}
+					/>
 				</div>
 				<div className="knockout winner">
 					<h2>Winner</h2>
-					<Winner games={this.state.winner} order={this.props.winnerOrder} updateKnockout={this.updateKnockout} round={'winner'} />
+					<Winner
+						games={this.state.winner}
+						order={this.props.winnerOrder}
+						updateKnockout={this.updateKnockout}
+						round={'winner'}
+						isAdmin={this.props.isAdmin}
+					/>
 				</div>
 			</div>
 		);

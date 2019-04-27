@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Select from 'react-select';
@@ -20,10 +19,11 @@ class Score extends Component {
 	}
 
 	componentDidMount() {
-		const shouldDisplayGivenTeams = this.props.location.state && this.props.location.state.isKnockoutMatch;
-		function compare(a, b) {
-			return a.team_id - b.team_id;
+		if (!this.props.isAdmin && this.props.history) {
+			this.props.history.push('/');
 		}
+
+		const shouldDisplayGivenTeams = this.props.location && this.props.location.state && this.props.location.state.isKnockoutMatch;
 
 		if (shouldDisplayGivenTeams) {
 			const { home_team, away_team, home_scored, away_scored, isKnockoutMatch, step_id, gameIndex } = this.props.location.state;
@@ -42,6 +42,10 @@ class Score extends Component {
 				.then(response => response.json())
 				.then(data => data.sort(compare)) //sort the data by team_id
 				.then(data => this.setState({ teams: data.map(team => ({ value: team.team_id, label: team.name })) }));
+		}
+
+		function compare(a, b) {
+			return a.team_id - b.team_id;
 		}
 	}
 
@@ -89,7 +93,7 @@ class Score extends Component {
 		};
 
 		const data = new URLSearchParams();
-		const fetchUrl = matchData.isKnockoutMatch ? '/playoffs/match' : '/league/match'
+		const fetchUrl = matchData.isKnockoutMatch ? '/playoffs/match' : '/league/match';
 		for (var key in matchData) {
 			if (matchData.hasOwnProperty(key)) {
 				data.append(key, matchData[key]);

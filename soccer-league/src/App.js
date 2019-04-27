@@ -1,56 +1,34 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, Route, NavLink, withRouter } from 'react-router-dom';
+import queryString from 'query-string';
 import GroupStage from './GroupStage';
 import Scores from './Scores';
 import KnockoutStages from './KnockoutStages';
-import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 // import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-	handleEndGroupStage() {
-		confirmAlert({
-			title: 'Confirm ending Group Stage',
-			message: 'Are you sure group stage is over?',
-			buttons: [
-				{
-					label: 'Yes',
-					onClick: () => {
-						fetch('/playoffs', {
-							method: 'POST'
-						}).then(console.log('aaaaaa'))
-                    }
-				},
-				{
-					label: 'No',
-					onClick: () => console.log('💩')
-				}
-			]
-		});
+	constructor(props) {
+		super(props);
+		this.state = {
+			isAdmin: true
+		};
 	}
-    handleReset() {
-        confirmAlert({
-            title: 'Confirm Reset',
-            message: 'Are you sure you want to reset the entire system?',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: () => {
-                        fetch('/reset', {
-                            method: 'POST'
-                        }).then(window.location.reload())
-                    }
-                },
-                {
-                    label: 'No',
-                    onClick: () => console.log('💩')
-                }
-            ]
-        });
-    }
+	componentDidMount() {
+		const params = this.getParams(window.location);
+		params && params.isAdmin && this.setState({ isAdmin: true });
+	}
+	getParams(location) {
+		const searchParams = new URLSearchParams(location.search.toLowerCase());
+		return {
+			isAdmin: searchParams.get('isadmin') || ''
+		};
+	}
+	
 	render() {
+		const { isAdmin } = this.state;
 		return (
 			<Router>
 				<div className="App">
@@ -59,28 +37,24 @@ class App extends Component {
 					</h1>
 					<div>
 						<ul className="tbl-wc-nav list-reset flex justify-between overflow-x-auto overflow-y-hidden">
-							<NavLink to="/">
-								<li className="flex-grow pb-10">Group Stage</li>
+							<NavLink exact to="/" className="flex-grow">
+								<li className="pb-2">Group Stage</li>
 							</NavLink>
-							<li className="flex-grow pb-10">
-								<NavLink to="/scores/">Update Score</NavLink>
-							</li>
-							<li className="flex-grow pb-10">
-								<NavLink to="/knockout">Knockouts</NavLink>
-							</li>
-							<li className="flex-grow pb-10">
-								<a onClick={this.handleEndGroupStage}>End Group Stage</a>
-							</li>
-							<li>
-							<a onClick={this.handleReset}>Reset</a>
-							</li>
+							{isAdmin && (
+								<NavLink exact to="/scores" className="flex-grow">
+									<li className="pb-2">Update Score</li>
+								</NavLink>
+							)}
+							<NavLink exact to="/knockout" className="flex-grow">
+								<li className="pb-2">Knockouts</li>
+							</NavLink>
 						</ul>
 
 						<hr />
 
-						<Route exact path="/" render={() => <GroupStage />} />
-						<Route path="/scores/:home?/:away?/:hscore?/:ascore?" component={Scores} />
-						<Route path="/knockout" component={KnockoutStages} />
+						<Route exact path="/" render={(props) => <GroupStage {...props} isAdmin={isAdmin} />} />
+						<Route path="/scores" render={props => <Scores {...props} isAdmin={isAdmin} />} />
+						<Route path="/knockout" render={() => <KnockoutStages isAdmin={isAdmin} />} />
 					</div>
 				</div>
 			</Router>
