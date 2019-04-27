@@ -54,16 +54,27 @@ class Score extends Component {
 	};
 	hadnleScoreUpdateCick = () => {
 		if (!this.state.homeTeam.value || !this.state.awayTeam.value) {
-			confirmAlert({
-				title: 'Error',
-				message: 'Must select both teams',
-				buttons: [
-					{
-						label: 'OK',
-						onClick: () => console.log('💩')
-					}
-				]
-			});
+            confirmAlert({
+                title: 'Error',
+                message: 'Must select both teams',
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => console.log('💩')
+                    }
+                ]
+            });
+        } else if (this.state.isKnockoutMatch && this.state.homeTeamScore.value === this.state.awayTeamScore.value) {
+            confirmAlert({
+                title: 'Error',
+                message: 'Draw is not a valid score in the knockout stage',
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => console.log('💩')
+                    }
+                ]
+            });
 		} else {
 			confirmAlert({
 				title: 'Confirm match result',
@@ -89,7 +100,7 @@ class Score extends Component {
 			away_score: this.state.awayTeamScore.value,
 			isKnockoutMatch: this.state.isKnockoutMatch,
 			step_id: this.state.step_id,
-			gameIndex: this.state.gameIndex
+			id: this.state.gameIndex
 		};
 
 		const data = new URLSearchParams();
@@ -104,7 +115,7 @@ class Score extends Component {
 			body: data
 		})
 			.then(res => {
-				if (res.status == 200) {
+				if (res.status === 200) {
 					const target = this.state.isKnockoutMatch ? '/knockout' : '/';
 					this.props.history.push(target);
 				} else {
@@ -179,6 +190,7 @@ class Score extends Component {
 							<div className="team away">
 								<Select
 									value={this.state.awayTeam}
+        							isDisabled={this.state.isKnockoutMatch}
 									onChange={this.handleDdSelection('awayTeam')}
 									options={this.state.teams}
 									placeholder={'select team'}
