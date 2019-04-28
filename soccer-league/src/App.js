@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, NavLink, withRouter } from 'react-router-dom';
-import queryString from 'query-string';
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import GroupStage from './GroupStage';
 import Scores from './Scores';
 import KnockoutStages from './KnockoutStages';

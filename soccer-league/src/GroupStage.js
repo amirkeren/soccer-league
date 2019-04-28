@@ -63,7 +63,7 @@ class GroupStage extends Component {
 	}
 
 	render() {
-		const { groups } = this.state;
+        const { groups } = this.state;
 		return (
 			<div>
 				<h2 className="sub-header">Group Stage</h2>

@@ -106,6 +106,10 @@ h1.page-header {
 	width: 100%;
 }
 
+.group-title {
+	color: #244e8c;
+}
+
 table {
 	width: 100%;
 }
@@ -136,13 +140,63 @@ table th {
 	}
 }
 
-.matches {
+.matchContainer {
+	position: relative;
+	background: #eee;
+	padding: 5px 10px;
+	margin: 10px 5px;
+	text-align: center;
+	z-index: 2;
+	border: 1px solid #ddd;
+	-webkit-box-shadow: 0 0 10px 3px #aaa;
+	box-shadow: 0 0 10px 3px #aaa;
+}
+
+.matchTeams {
+	background: #ddd;
+	padding: 4px;
+	margin: 5px 0;
+	font-size: 18px;
+	position: relative;
+}
+
+.matchTeam {
+	background: #ddd;
+	padding: 4px;
+	margin: 5px 0;
+	font-size: 18px;
+	position: relative;
+}
+
+.knockout .flag-icon {
+	position: relative;
+	display: inline-block;
+	width: 1.33333333em;
+	line-height: 1em;
+}
+
+.knockout .team {
+	width: 60%;
+	padding-left: 5px;
+}
+
+.knockout .matchTeam.won {
+	background: rgba(255, 253, 8, 0.5);
+}
+
+.knockout .score {
+	background: #fff;
+	padding: 0.5em 1em;
+	font-size: 1em;
+	text-align: center;
+}
+/* .matches {
 	padding: 1em 0;
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-around;
-}
+} */
 .matches a {
 	text-decoration: none;
 	color: inherit;
@@ -150,7 +204,7 @@ table th {
 .matches .match {
 	display: flex;
 	justify-content: center;
-	text-align: left;
+	/* text-align: left; */
 	padding: 0.2em 0;
 }
 .matches .match input {
@@ -708,7 +762,7 @@ table th {
 /* END SOCRE */
 
 /* Knockout */
-.score {
+/* .score {
 	text-align: center;
 	width: 2em;
 	height: 1.5em;
@@ -717,12 +771,12 @@ table th {
 	border: 0.05em solid #193764;
 	border-radius: 0.2em;
 	background: #fff;
-}
+} */
 
-.knockout .flag {
+/* .knockout .flag {
 	font-size: 1.5em;
 	width: auto;
 	height: auto;
-}
+} */
 
 /* End Knockout */
