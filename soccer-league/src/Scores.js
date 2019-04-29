@@ -166,6 +166,7 @@ class Score extends Component {
 									isDisabled={this.state.isKnockoutMatch}
 									onChange={this.handleDdSelection('homeTeam')}
 									options={this.state.teams}
+        							isSearchable={false}
 								/>
 							</div>
 							<div className="matchScoreContainer">
@@ -175,6 +176,7 @@ class Score extends Component {
 										onChange={this.handleDdSelection('homeTeamScore')}
 										options={goalsOptions}
 										placeholder={'0'}
+        								isSearchable={false}
 									/>
 								</div>
 								<span>-</span>
@@ -184,6 +186,7 @@ class Score extends Component {
 										onChange={this.handleDdSelection('awayTeamScore')}
 										options={goalsOptions}
 										placeholder={'0'}
+        								isSearchable={false}
 									/>
 								</div>
 							</div>
@@ -194,6 +197,7 @@ class Score extends Component {
 									onChange={this.handleDdSelection('awayTeam')}
 									options={this.state.teams}
 									placeholder={'select team'}
+        							isSearchable={false}
 								/>
 							</div>
 						</div>
