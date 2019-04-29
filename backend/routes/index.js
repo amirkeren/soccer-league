@@ -1,13 +1,13 @@
-var express = require('express');
-var router = express.Router();
-var fs = require('fs');
+let express = require('express');
+let router = express.Router();
+let fs = require('fs');
 
-var app = express();
+let app = express();
 app.use(express.json());
 app.use(express.urlencoded());
 
-var mysql      = require('mysql');
-var connection = mysql.createConnection({
+let mysql      = require('mysql');
+let connection = mysql.createConnection({
     host     : process.env.DB_HOST || 'localhost',
     user     : 'user',
     password : 'password',
@@ -27,7 +27,7 @@ router.get('/playoffs', function(req, res) {
 });
 
 router.post('/reset', function(req, res) {
-    var contents = fs.readFileSync('setup.sql', 'utf8');
+    let contents = fs.readFileSync('setup.sql', 'utf8');
     connection.query(contents, function(error) {
         if (error) {
             res.status(500).send({ "error": "can't reset" });
@@ -63,7 +63,7 @@ router.post('/playoffs', function(req, res) {
        }
        let teams = [];
        let team_ids = [];
-       for (var i = 0; i < results.length; i++) {
+       for (let i = 0; i < results.length; i++) {
            teams.push(results[i].name);
            team_ids.push(results[i].team_id);
        }
@@ -91,7 +91,7 @@ router.post('/playoffs', function(req, res) {
                res.status(500).send({"error": "can't load playoffs teams - phase 2"});
                return;
            }
-           for (var i = 0; i < results.length; i++) {
+           for (let i = 0; i < results.length; i++) {
                teams.push(results[i].name);
                team_ids.push(results[i].team_id);
            }
@@ -176,7 +176,7 @@ router.get('/league', function(req, res) {
         let current_group = [];
         current_group.push(results[0]);
         let current_group_id = results[0].group_id;
-        for (var i = 1; i < results.length; i++) {
+        for (let i = 1; i < results.length; i++) {
             if (current_group_id != results[i].group_id) {
               table.push(current_group);
               current_group = [];
