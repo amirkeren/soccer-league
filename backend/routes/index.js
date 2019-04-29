@@ -190,6 +190,30 @@ router.get('/league', function(req, res) {
     });
 });
 
+router.get('/fixtures', function(req, res) {
+    connection.query('SELECT f.*, g.name AS group_name, t.name AS home_team_name, t2.name AS away_team_name FROM fixtures f JOIN sgroups g ON g.group_id = f.group_id JOIN teams t ON t.team_id = f.home_team JOIN teams t2 ON t2.team_id = f.away_team ORDER BY group_id, id', function(error, results) {
+        if (error) {
+            res.status(500).send({ "error": "can't load fixtures" });
+            return;
+        }
+        let table = [];
+        let current_group = [];
+        current_group.push(results[0]);
+        let current_group_id = results[0].group_id;
+        for (let i = 1; i < results.length; i++) {
+            if (current_group_id != results[i].group_id) {
+                table.push(current_group);
+                current_group = [];
+                current_group_id = results[i].group_id;
+            }
+            current_group.push(results[i]);
+        }
+        table.push(current_group);
+        res.contentType('application/json');
+        res.send(table);
+    });
+});
+
 router.post('/league/match', function(req, res) {
     res.contentType('application/json');
     let home_team = req.body.home_team;
@@ -214,20 +238,73 @@ router.post('/league/match', function(req, res) {
             return;
         }
         connection.beginTransaction(function() {
-            let winner = 'UPDATE league SET games_played = games_played + 1, wins = wins + 1, points = points + 3, goals_scored = goals_scored + ?, goals_against = goals_against + ? WHERE team_id = ?';
-            let loser = 'UPDATE league SET games_played = games_played + 1, loses = loses + 1, goals_scored = goals_scored + ?, goals_against = goals_against + ? WHERE team_id = ?';
-            let draw = 'UPDATE league SET games_played = games_played + 1, draws = draws + 1, points = points + 1, goals_scored = goals_scored + ?, goals_against = goals_against + ? WHERE team_id IN (?, ?)';
-            if (home_score > away_score) {
-                connection.query(winner, [home_score, away_score, home_team], function(error) {
-                    if (error) {
-                        res.status(500).send({ "error": "failed to set league result for winner" });
-                        connection.rollback(function() {
-                            return;
-                        });
-                    }
-                    connection.query(loser, [away_score, home_score, away_team], function(error) {
+            connection.query("UPDATE fixtures SET home_scored = ?, away_scored = ? WHERE home_team = ? AND away_team = ?; UPDATE fixtures SET home_scored = ?, away_scored = ? WHERE home_team = ? AND away_team = ?",
+                [home_score, away_score, home_team, away_team, away_score, home_score, away_team, home_team], function(error) {
+                if (error) {
+                    res.status(500).send({"error": "failed to set league result for winner"});
+                    connection.rollback(function () {
+                        return;
+                    });
+                }
+                let winner = 'UPDATE league SET games_played = games_played + 1, wins = wins + 1, points = points + 3, goals_scored = goals_scored + ?, goals_against = goals_against + ? WHERE team_id = ?';
+                let loser = 'UPDATE league SET games_played = games_played + 1, loses = loses + 1, goals_scored = goals_scored + ?, goals_against = goals_against + ? WHERE team_id = ?';
+                let draw = 'UPDATE league SET games_played = games_played + 1, draws = draws + 1, points = points + 1, goals_scored = goals_scored + ?, goals_against = goals_against + ? WHERE team_id IN (?, ?)';
+                if (home_score > away_score) {
+                    connection.query(winner, [home_score, away_score, home_team], function(error) {
                         if (error) {
-                            res.status(500).send({ "error": "failed to set league result for loser" });
+                            res.status(500).send({ "error": "failed to set league result for winner" });
+                            connection.rollback(function() {
+                                return;
+                            });
+                        }
+                        connection.query(loser, [away_score, home_score, away_team], function(error) {
+                            if (error) {
+                                res.status(500).send({ "error": "failed to set league result for loser" });
+                                connection.rollback(function() {
+                                    return;
+                                });
+                            }
+                            connection.commit(function(err) {
+                                if (err) {
+                                    connection.rollback(function() {
+                                        return;
+                                    });
+                                }
+                                console.log('transaction complete');
+                                res.sendStatus(200);
+                            });
+                        });
+                    });
+                } else if (away_score > home_score) {
+                    connection.query(winner, [away_score, home_score, away_team], function(error) {
+                        if (error) {
+                            res.status(500).send({ "error": "failed to set league result for winner" });
+                            connection.rollback(function() {
+                                return;
+                            });
+                        }
+                        connection.query(loser, [home_score, away_score, home_team], function(error) {
+                            if (error) {
+                                res.status(500).send({ "error": "failed to set league result for loser" });
+                                connection.rollback(function() {
+                                    return;
+                                });
+                            }
+                            connection.commit(function(err) {
+                                if (err) {
+                                    connection.rollback(function() {
+                                        return;
+                                    });
+                                }
+                                console.log('transaction complete');
+                                res.sendStatus(200);
+                            });
+                        });
+                    });
+                } else {
+                    connection.query(draw, [home_score, away_score, home_team, away_team], function(error) {
+                        if (error) {
+                            res.status(500).send({ "error": "failed to set league result for draw" });
                             connection.rollback(function() {
                                 return;
                             });
@@ -242,52 +319,8 @@ router.post('/league/match', function(req, res) {
                             res.sendStatus(200);
                         });
                     });
-                });
-            } else if (away_score > home_score) {
-                connection.query(winner, [away_score, home_score, away_team], function(error) {
-                    if (error) {
-                        res.status(500).send({ "error": "failed to set league result for winner" });
-                        connection.rollback(function() {
-                            return;
-                        });
-                    }
-                    connection.query(loser, [home_score, away_score, home_team], function(error) {
-                        if (error) {
-                            res.status(500).send({ "error": "failed to set league result for loser" });
-                            connection.rollback(function() {
-                                return;
-                            });
-                        }
-                        connection.commit(function(err) {
-                            if (err) {
-                                connection.rollback(function() {
-                                    return;
-                                });
-                            }
-                            console.log('transaction complete');
-                            res.sendStatus(200);
-                        });
-                    });
-                });
-            } else {
-                connection.query(draw, [home_score, away_score, home_team, away_team], function(error) {
-                    if (error) {
-                        res.status(500).send({ "error": "failed to set league result for draw" });
-                        connection.rollback(function() {
-                            return;
-                        });
-                    }
-                    connection.commit(function(err) {
-                        if (err) {
-                            connection.rollback(function() {
-                                return;
-                            });
-                        }
-                        console.log('transaction complete');
-                        res.sendStatus(200);
-                    });
-                });
-            }
+                }
+            });
         });
     });
 });
