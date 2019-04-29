@@ -759,6 +759,29 @@ table th {
 	border-bottom: 1px solid;
 }
 
+/* CHAMPIONS */
+
+.champions {
+	background: #eee;
+	padding: 10px;
+	width: 85%;
+	margin-left: 10px;
+	min-height: 200px;
+	-webkit-box-shadow: 0 0 8px 4px #999;
+	box-shadow: 0 0 8px 4px #999;
+}
+
+@media (max-width: 1000px) {
+	.champions-container {
+		position: static;
+		margin: 30px auto 15px;
+		width: 90%;
+		min-height: 150px;
+	}
+}
+
+/* CHAMPIONS END */
+
 /* END SOCRE */
 
 /* Knockout */
