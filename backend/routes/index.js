@@ -191,26 +191,14 @@ router.get('/league', function(req, res) {
 });
 
 router.get('/fixtures', function(req, res) {
-    connection.query('SELECT f.*, g.name AS group_name, t.name AS home_team_name, t2.name AS away_team_name FROM fixtures f JOIN sgroups g ON g.group_id = f.group_id JOIN teams t ON t.team_id = f.home_team JOIN teams t2 ON t2.team_id = f.away_team ORDER BY group_id, id', function(error, results) {
+    let group_id = req.body.group_id;
+    connection.query('SELECT f.*, g.name AS group_name, t.name AS home_team_name, t2.name AS away_team_name FROM fixtures f JOIN sgroups g ON g.group_id = f.group_id JOIN teams t ON t.team_id = f.home_team JOIN teams t2 ON t2.team_id = f.away_team WHERE g.group_id = ? ORDER BY group_id, id', [group_id], function(error, results) {
         if (error) {
             res.status(500).send({ "error": "can't load fixtures" });
             return;
         }
-        let table = [];
-        let current_group = [];
-        current_group.push(results[0]);
-        let current_group_id = results[0].group_id;
-        for (let i = 1; i < results.length; i++) {
-            if (current_group_id != results[i].group_id) {
-                table.push(current_group);
-                current_group = [];
-                current_group_id = results[i].group_id;
-            }
-            current_group.push(results[i]);
-        }
-        table.push(current_group);
         res.contentType('application/json');
-        res.send(table);
+        res.send(results);
     });
 });
 
