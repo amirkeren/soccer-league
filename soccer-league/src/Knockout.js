@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { generateKey } from './utils';
+import Select from 'react-select';
+
 
 class Knockout extends Component {
 	render() {

@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faTrophy } from '@fortawesome/free-solid-svg-icons';
+import logo from './img/logo.png';
+
 import GroupStage from './GroupStage';
 import Scores from './Scores';
 import KnockoutStages from './KnockoutStages';
@@ -7,6 +11,8 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 // import logo from './logo.svg';
 import './App.css';
+
+library.add(faTrophy);
 
 class App extends Component {
 	constructor(props) {
@@ -25,15 +31,31 @@ class App extends Component {
 			isAdmin: searchParams.get('isadmin') || ''
 		};
 	}
-	
+
 	render() {
 		const { isAdmin } = this.state;
 		return (
 			<Router>
 				<div className="App">
-					<h1 className="page-header">
-						Taboola <br /> World Cup
+				{/* First option */}
+					<h1 className="page-header flex justify-center">
+						<div className="logo-container mr-4 flex justify-center">
+							<div className="logo" />
+						</div>
+						<div>
+							Taboola <br /> World Cup
+						</div>
 					</h1>
+				{/* Second option */}
+					{/* <h1 className="page-header flex justify-center">
+						<div>
+							<span className="tab">Tab</span>
+							<span className="tbl-icon" />
+							<span className="la">la</span>
+							<br /> World Cup
+						</div>
+					</h1> */}
+					
 					<div>
 						<ul className="tbl-wc-nav list-reset flex justify-between overflow-x-auto overflow-y-hidden">
 							<NavLink exact to="/" className="flex-grow">
@@ -51,7 +73,7 @@ class App extends Component {
 
 						<hr />
 
-						<Route exact path="/" render={(props) => <GroupStage {...props} isAdmin={isAdmin} />} />
+						<Route exact path="/" render={props => <GroupStage {...props} isAdmin={isAdmin} />} />
 						<Route path="/scores" render={props => <Scores {...props} isAdmin={isAdmin} />} />
 						<Route path="/knockout" render={() => <KnockoutStages isAdmin={isAdmin} />} />
 					</div>
