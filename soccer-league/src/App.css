@@ -87,7 +87,8 @@ body {
 
 h1.page-header {
 	width: 100%;
-	background: #193764;
+	/* background: #193764; */
+	background: #124d91;
 	font-weight: 700;
 	font-size: 3rem;
 	padding: 0.3em 0;
@@ -288,6 +289,7 @@ table th {
 	font-size: 1.3em;
 	display: flex;
 	align-items: center;
+	margin-bottom: 60px;
 }
 @media (max-width: 450px) {
 	.knockout.winner {
@@ -675,7 +677,7 @@ table th {
 
 /* SCORE */
 .matchHeadContainer {
-	overflow: hidden;
+	/* overflow: hidden; */
 	position: relative;
 	display: -ms-flexbox;
 	display: -webkit-flex;
@@ -731,10 +733,6 @@ table th {
 	margin: 10px;
 }
 
-.update-score-container {
-	margin: 50px;
-}
-
 .update-score-btn {
 	background-color: #3498db;
 	border-bottom: 5px solid #2980b9;
@@ -761,26 +759,71 @@ table th {
 
 /* CHAMPIONS */
 
-.champions {
-	background: #eee;
-	padding: 10px;
-	width: 85%;
-	margin-left: 10px;
-	min-height: 200px;
-	-webkit-box-shadow: 0 0 8px 4px #999;
-	box-shadow: 0 0 8px 4px #999;
-}
-
-@media (max-width: 1000px) {
-	.champions-container {
-		position: static;
-		margin: 30px auto 15px;
-		width: 90%;
-		min-height: 150px;
-	}
+.champions .trophy {
+	font-size: 6rem;
 }
 
 /* CHAMPIONS END */
+
+/* LOGO */
+
+.page-header .logo {
+	background-image: url(./img/logo.png);
+	width: 120px;
+	background-size: cover;
+	background-position: center;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.page-header .tab {
+	position: relative;
+	z-index: 2;
+}
+
+.page-header .la {
+	position: relative;
+	z-index: 3;
+	transform: translate(-9px);
+	display: inline-block;
+}
+.page-header .tbl-icon {
+	background-image: url(/static/media/logo.b5ab2f00.png);
+	width: 65px;
+	background-size: contain;
+	background-position: center;
+	display: inline-block;
+	vertical-align: middle;
+	height: 50px;
+	background-size: cover;
+	transform: translate(-6px);
+	z-index: 1;
+}
+
+/* END LOGO */
+
+/* START SCORE */
+.fixureContainer .teamSection {
+	width: 75%;
+	font-size: 1.2rem;
+}
+
+.fixureContainer .teamScore {
+	width: 20%;
+}
+
+.fixureContainer .teamSection .team-selection__control,
+.fixureContainer .teamScoreSelection .score-selection__control {
+	font-size: 1.4rem;
+}
+
+.fixureContainer .vs {
+	font-size: 3rem;
+}
+
+.matchHeadContainer .update-score-container button {
+	background-color: #193764;
+}
 
 /* END SOCRE */
 

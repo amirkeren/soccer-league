@@ -7,8 +7,8 @@ class Score extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			homeTeam: { value: null, label: null },
-			awayTeam: { value: null, label: null },
+			homeTeam: null,
+			awayTeam: null,
 			homeTeamScore: { value: 0, label: 0 },
 			awayTeamScore: { value: 0, label: 0 },
 			teams: [],
@@ -53,28 +53,28 @@ class Score extends Component {
 		this.setState({ [name]: { value: value.value, label: value.label } });
 	};
 	hadnleScoreUpdateCick = () => {
-		if (!this.state.homeTeam.value || !this.state.awayTeam.value) {
-            confirmAlert({
-                title: 'Error',
-                message: 'Must select both teams',
-                buttons: [
-                    {
-                        label: 'OK',
-                        onClick: () => console.log('💩')
-                    }
-                ]
-            });
-        } else if (this.state.isKnockoutMatch && this.state.homeTeamScore.value === this.state.awayTeamScore.value) {
-            confirmAlert({
-                title: 'Error',
-                message: 'Draw is not a valid score in the knockout stage',
-                buttons: [
-                    {
-                        label: 'OK',
-                        onClick: () => console.log('💩')
-                    }
-                ]
-            });
+		if (!this.state.homeTeam || !this.state.awayTeam ||!this.state.homeTeam.value || !this.state.awayTeam.value) {
+			confirmAlert({
+				title: 'Error',
+				message: 'Must select both teams',
+				buttons: [
+					{
+						label: 'OK',
+						onClick: () => console.log('💩')
+					}
+				]
+			});
+		} else if (this.state.isKnockoutMatch && this.state.homeTeamScore.value === this.state.awayTeamScore.value) {
+			confirmAlert({
+				title: 'Error',
+				message: 'Draw is not a valid score in the knockout stage',
+				buttons: [
+					{
+						label: 'OK',
+						onClick: () => console.log('💩')
+					}
+				]
+			});
 		} else {
 			confirmAlert({
 				title: 'Confirm match result',
@@ -152,59 +152,72 @@ class Score extends Component {
 			{ value: 9, label: 9 },
 			{ value: 10, label: 10 }
 		];
-
+		const teamSelectStyle = {};
 		return (
 			<div>
 				<h2 className="sub-header">Update Match Score</h2>
 				<div className="matchHeadContainer">
 					<div className="matchHead">
 						<div className="fixureContainer">
-							<div className="team home">
-								<Select
-									value={this.state.homeTeam}
-									className={'test'}
-									isDisabled={this.state.isKnockoutMatch}
-									onChange={this.handleDdSelection('homeTeam')}
-									options={this.state.teams}
-        							isSearchable={false}
-								/>
-							</div>
-							<div className="matchScoreContainer">
-								<div className="home-team-score">
+							<div className="team home flex justify-between">
+								<div className="teamSection">
+									<Select
+										value={this.state.homeTeam}
+										className={'teamSelection'}
+										classNamePrefix={'team-selection'}
+										isDisabled={this.state.isKnockoutMatch}
+										onChange={this.handleDdSelection('homeTeam')}
+										options={this.state.teams}
+										placeholder={'Home Team'}
+										isSearchable={false}
+									/>
+								</div>
+								<div className="home-team-score teamScore">
 									<Select
 										value={this.state.homeTeamScore}
+										className={'teamScoreSelection'}
+										classNamePrefix={'score-selection'}
 										onChange={this.handleDdSelection('homeTeamScore')}
 										options={goalsOptions}
 										placeholder={'0'}
-        								isSearchable={false}
+										isSearchable={false}
 									/>
 								</div>
-								<span>-</span>
-								<div className="away-team-score">
+							</div>
+
+							<div className="vs flex justify-center mt-6 mb-6 text-white">VS</div>
+
+							<div className="team away flex justify-between">
+								<div className="teamSection">
+									<Select
+										value={this.state.awayTeam}
+										className={'teamSelection'}
+										classNamePrefix={'team-selection'}
+										isDisabled={this.state.isKnockoutMatch}
+										onChange={this.handleDdSelection('awayTeam')}
+										options={this.state.teams}
+										placeholder={'Away Team'}
+										isSearchable={false}
+									/>
+								</div>
+								<div className="home-team-score teamScore">
 									<Select
 										value={this.state.awayTeamScore}
+										className={'teamScoreSelection'}
+										classNamePrefix={'score-selection'}
 										onChange={this.handleDdSelection('awayTeamScore')}
 										options={goalsOptions}
 										placeholder={'0'}
-        								isSearchable={false}
+										isSearchable={false}
 									/>
 								</div>
 							</div>
-							<div className="team away">
-								<Select
-									value={this.state.awayTeam}
-        							isDisabled={this.state.isKnockoutMatch}
-									onChange={this.handleDdSelection('awayTeam')}
-									options={this.state.teams}
-									placeholder={'select team'}
-        							isSearchable={false}
-								/>
-							</div>
 						</div>
-						<div className="update-score-container">
-							<div onClick={this.hadnleScoreUpdateCick} className="update-score-btn">
+
+						<div className="update-score-container flex justify-center mt-6">
+							<button onClick={this.hadnleScoreUpdateCick} className="w-full bg-blue-darkest hover:bg-blue-dark text-white font-bold py-4 px-8 rounded">
 								Update Score
-							</div>
+							</button>
 						</div>
 					</div>
 				</div>
