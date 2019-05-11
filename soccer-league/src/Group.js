@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
 import { generateKey } from './utils';
 
 class Group extends Component {
@@ -6,6 +8,7 @@ class Group extends Component {
 		function TableHead(props) {
 			return (
 				<thead>
+					<th>Pos</th>
 					<th />
 					<th className="name" />
 					<th>P</th>
@@ -21,11 +24,12 @@ class Group extends Component {
 		}
 
 		function Row(props) {
-			const team = props.team;
+			const { team, position } = props;
 			//convert team name into css syntax for className
 			let flagClass = team.team_name.toLowerCase().replace(/\s/g, '-');
 			return (
 				<tr>
+					<td>{position}</td>
 					<td>
 						<div className={'flag ' + flagClass}>
 							<div />
@@ -45,21 +49,31 @@ class Group extends Component {
 		}
 
 		function getGroupLetter(num) {
-			return String.fromCharCode(97 + num).toUpperCase();
+			return String.fromCharCode(97 + num - 1).toUpperCase();
 		}
 
 		return (
 			<div className="container">
 				<div className="table-container">
-					<h2 className="group-title pb-2">Group {getGroupLetter(this.props.num)}</h2>
+					<h2 className="group-title pb-2">Group {getGroupLetter(this.props.groupId)}</h2>
 					<table>
 						<TableHead />
 						<tbody>
-							{this.props.teams.map(team => {
-								return <Row key={generateKey(team.team_id)} team={team} />;
+							{this.props.teams.map((team, i) => {
+								return <Row key={generateKey(team.team_id)} team={team} position={++i} />;
 							})}
 						</tbody>
 					</table>
+				</div>
+
+				<div className="group-games-link">
+					<Link
+						to={{
+							pathname: `/fixtures/${this.props.groupId}`
+						}}
+					>
+						<button class="bg-blue-darker hover:bg-blue-Darkest text-white font-bold py-2 px-4 rounded mt-4">Group Fixtures</button>
+					</Link>
 				</div>
 			</div>
 		);

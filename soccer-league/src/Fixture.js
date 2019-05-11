@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { generateKey } from './utils';
-import Select from 'react-select';
 
-
-class Knockout extends Component {
+class Fixture extends Component {
 	render() {
 		function MatchTeam(props) {
 			return (
@@ -41,7 +39,7 @@ class Knockout extends Component {
 							}
 						}}
 					>
-						<div>Update score</div>
+						<button class="w-full bg-blue-darker hover:bg-blue-Darkest text-white font-bold py-2 px-4 rounded mt-1 mb-1">Update Score</button>
 					</Link>
 				</div>
 			);
@@ -54,8 +52,8 @@ class Knockout extends Component {
 					return (
 						<div key={generateKey(randomKey)} className="matchContainer">
 							<div className="matchTeams">
-								<MatchTeam teamName={home_team} scored={home_scored} won={home_scored > away_scored} />
-								<MatchTeam teamName={away_team} scored={away_scored} won={home_scored < away_scored} />
+								<MatchTeam teamName={home_team} scored={home_scored || 0} won={home_scored > away_scored} />
+								<MatchTeam teamName={away_team} scored={away_scored || 0} won={home_scored < away_scored} />
 							</div>
 							{isAdmin && <UpdateScore {...game} index={index} />}
 						</div>
@@ -66,4 +64,4 @@ class Knockout extends Component {
 	}
 }
 
-export default Knockout;
+export default Fixture;

@@ -320,11 +320,10 @@ table th {
 }
 
 .flag {
-	font-size: 0.2rem;
-	width: 12em;
+	width: 10em;
 	height: 9em;
 	position: relative;
-	margin: 1em;
+	font-size: 0.3em;
 }
 
 .argentina {
@@ -815,6 +814,18 @@ table th {
 .fixureContainer .teamSection .team-selection__control,
 .fixureContainer .teamScoreSelection .score-selection__control {
 	font-size: 1.4rem;
+}
+
+.fixureContainer .teamSection .team-selection--is-disabled .team-selection__indicators {
+	display: none;
+}
+
+.fixureContainer .teamSection .team-selection__single-value {
+	color: #183764;
+}
+
+.fixureContainer .teamScoreSelection .score-selection__single-value {
+	color: #183764;
 }
 
 .fixureContainer .vs {

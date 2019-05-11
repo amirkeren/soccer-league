@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 import Group from './Group';
 import { generateKey } from './utils';
@@ -63,35 +65,37 @@ class GroupStage extends Component {
 	}
 
 	render() {
-        const { groups } = this.state;
+		const { groups } = this.state;
 		return (
 			<div>
 				<h2 className="sub-header">Group Stage</h2>
 				<div className="wrap">
 					{groups.map((group, i) => (
-						<Group key={generateKey(i)} teams={group} num={i} />
+						<Group key={generateKey(i)} teams={group} groupId={group[0].group_id} />
 					))}
 				</div>
 				{this.props.isAdmin && (
 					<div className="flex justify-between mt-5 mb-5">
 						<div className="flex-grow pb-2">
 							<button
-								className="bg-green-dark hover:bg-grey text-grey-lightest font-bold py-2 px-4 rounded inline-flex items-center text-xl"
+								className="bg-green-dark hover:bg-green-darker text-white font-bold py-2 px-4 rounded inline-flex items-center text-xl"
 								onClick={this.handleEndGroupStage}
 							>
-								<span>
-									<span className="btn-icon" role="img" aria-label="reset">🕺</span>End Group Stage
-								</span>
+								<div class="fill-current w-4 mr-3">
+									<FontAwesomeIcon icon="flag-checkered" style={{ color: 'white' }} />
+								</div>
+								<span>End Group Stage</span>
 							</button>
 						</div>
 						<div className="flex-grow pb-2">
 							<button
-								className="bg-red-dark hover:bg-grey text-grey-lightest font-bold py-2 px-4 rounded inline-flex items-center text-xl"
+								className="bg-red-dark hover:bg-red-darker text-white font-bold py-2 px-4 rounded inline-flex items-center text-xl"
 								onClick={this.handleReset}
 							>
-								<span>
-									<span className="btn-icon" role="img" aria-label="reset">🤦‍♂️</span>Reset
-								</span>
+								<div class="fill-current w-4 mr-3">
+									<FontAwesomeIcon icon="trash" style={{ color: 'white' }} />
+								</div>
+								<span>Reset</span>
 							</button>
 						</div>
 					</div>

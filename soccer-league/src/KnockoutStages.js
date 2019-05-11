@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Knockout from './Knockout.js';
+import Fixture from './Fixture.js';
 import Winner from './Winner.js';
 import SizeMe from 'react-sizeme';
 
@@ -31,18 +31,18 @@ class KnockoutStages extends Component {
 		return (
 			<div>
 				<h1 className="sub-header">Knockout</h1>
-				{/* {winnerTeam && <Winner winner={winnerTeam} isAdmin={this.props.isAdmin} />} */}
+				{winnerTeam && <Winner winner={winnerTeam} isAdmin={this.props.isAdmin} />}
 				<div className="knockout quarters">
 					<h2>Quarter Finals</h2>
-					<Knockout games={this.state.quarterFinals} order={this.props.quarterOrder} round={'quarter'} isAdmin={this.props.isAdmin} />
+					<Fixture games={this.state.quarterFinals} order={this.props.quarterOrder} round={'quarter'} isAdmin={this.props.isAdmin} />
 				</div>
 				<div className="knockout semi">
 					<h2>Semi Finals</h2>
-					<Knockout games={this.state.semiFinals} order={this.props.semiOrder} round={'semi'} isAdmin={this.props.isAdmin} />
+					<Fixture games={this.state.semiFinals} order={this.props.semiOrder} round={'semi'} isAdmin={this.props.isAdmin} />
 				</div>
 				<div className="knockout final">
 					<h2>Final</h2>
-					<Knockout games={this.state.final} order={this.props.finalOrder} round={'final'} isAdmin={this.props.isAdmin} />
+					<Fixture games={this.state.final} order={this.props.finalOrder} round={'final'} isAdmin={this.props.isAdmin} />
 				</div>
 				{winnerTeam && <Winner winner={winnerTeam} isAdmin={this.props.isAdmin} />}
 			</div>
