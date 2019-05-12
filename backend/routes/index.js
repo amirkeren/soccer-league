@@ -192,7 +192,7 @@ router.get('/league', function(req, res) {
 
 router.get('/fixtures', function(req, res) {
     let group_id = req.query.group_id;
-    connection.query('SELECT f.*, g.name AS group_name, t.name AS home_team_name, t2.name AS away_team_name FROM fixtures f JOIN sgroups g ON g.group_id = f.group_id JOIN teams t ON t.team_id = f.home_team JOIN teams t2 ON t2.team_id = f.away_team WHERE g.group_id = ? ORDER BY group_id, id', [group_id], function(error, results) {
+    connection.query('SELECT f.*, g.name AS group_name, t.name AS home_team, t2.name AS away_team FROM fixtures f JOIN sgroups g ON g.group_id = f.group_id JOIN teams t ON t.team_id = f.home_team JOIN teams t2 ON t2.team_id = f.away_team WHERE g.group_id = ? ORDER BY group_id, id', [group_id], function(error, results) {
         if (error) {
             res.status(500).send({ "error": "can't load fixtures" });
             return;
