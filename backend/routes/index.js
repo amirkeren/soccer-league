@@ -17,8 +17,8 @@ let connection = mysql.createConnection({
 
 router.get('/players', function(req, res) {
     const team_id = req.query.team_id;
-    if (group_id) {
-        connection.query('SELECT p.name, t.name, p.goals_scored from players p join teams t on t.team_id = p.team_id where p.team_id = ? order by goals_scored desc, p.name', [team_id],function(error, results) {
+    if (team_id) {
+        connection.query('SELECT p.name as player, t.name, p.goals_scored from players p join teams t on t.team_id = p.team_id where p.team_id = ? order by goals_scored desc, p.name', [team_id],function(error, results) {
             if (error) {
                 res.status(500).send({ "error": "can't load players" });
                 return;
@@ -27,7 +27,7 @@ router.get('/players', function(req, res) {
             res.send(results);
         });
     } else {
-        connection.query('SELECT p.name, t.name, p.goals_scored from players p join teams t on t.team_id = p.team_id order by goals_scored desc, p.name', function(error, results) {
+        connection.query('SELECT p.name as player, t.name, p.goals_scored from players p join teams t on t.team_id = p.team_id order by goals_scored desc, p.name', function(error, results) {
             if (error) {
                 res.status(500).send({ "error": "can't load players" });
                 return;
