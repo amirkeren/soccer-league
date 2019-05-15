@@ -215,7 +215,7 @@ class Score extends Component {
 						</div>
 
 						<div className="update-score-container flex justify-center mt-6">
-							<button onClick={this.hadnleScoreUpdateCick} className="w-full bg-blue-darkest hover:bg-blue-dark text-white font-bold py-4 px-8 rounded">
+							<button onClick={this.hadnleScoreUpdateCick} className="w-full bg-blue-900 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded">
 								Update Score
 							</button>
 						</div>

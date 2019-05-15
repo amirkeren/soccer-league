@@ -43,7 +43,7 @@ class Group extends Component {
 					<td>{team.goals_scored}</td>
 					<td>{team.goals_against}</td>
 					<td>{team.goals_scored - team.goals_against}</td>
-					<td>{team.points}</td>
+					<td className="font-bold">{team.points}</td>
 				</tr>
 			);
 		}
@@ -72,7 +72,7 @@ class Group extends Component {
 							pathname: `/fixtures/${this.props.groupId}`
 						}}
 					>
-						<button class="bg-blue-darker hover:bg-blue-Darkest text-white font-bold py-2 px-4 rounded mt-4">Group Fixtures</button>
+						<button className="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded mt-4">Group Fixtures</button>
 					</Link>
 				</div>
 			</div>

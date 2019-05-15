@@ -78,10 +78,10 @@ class GroupStage extends Component {
 					<div className="flex justify-between mt-5 mb-5">
 						<div className="flex-grow pb-2">
 							<button
-								className="bg-green-dark hover:bg-green-darker text-white font-bold py-2 px-4 rounded inline-flex items-center text-xl"
+								className="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded inline-flex items-center text-xl"
 								onClick={this.handleEndGroupStage}
 							>
-								<div class="fill-current w-4 mr-3">
+								<div className="fill-current w-4 mr-3">
 									<FontAwesomeIcon icon="flag-checkered" style={{ color: 'white' }} />
 								</div>
 								<span>End Group Stage</span>
@@ -89,10 +89,10 @@ class GroupStage extends Component {
 						</div>
 						<div className="flex-grow pb-2">
 							<button
-								className="bg-red-dark hover:bg-red-darker text-white font-bold py-2 px-4 rounded inline-flex items-center text-xl"
+								className="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded inline-flex items-center text-xl"
 								onClick={this.handleReset}
 							>
-								<div class="fill-current w-4 mr-3">
+								<div className="fill-current w-4 mr-3">
 									<FontAwesomeIcon icon="trash" style={{ color: 'white' }} />
 								</div>
 								<span>Reset</span>

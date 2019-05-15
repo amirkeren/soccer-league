@@ -4,7 +4,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faTrophy, faTrash, faFlagCheckered, faHeart, faFutbol } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import logo from './img/logo.png';
+// import logo from './img/tbl-soccer-white-logo.png';
 import amirK from './img/players/Amir_Keren.png';
 import galB from './img/players/Gal_Bari.png';
 
@@ -101,11 +101,11 @@ class App extends Component {
 							</div>
 							<div className="flex flex-row justify-center">
 								<div className="mx-1">
-									<img class="w-10 h-10 rounded-full" src={amirK} alt="Amir Keren Avatar" />
+									<img className="w-10 h-10 rounded-full" src={amirK} alt="Amir Keren Avatar" />
 									<div className="text-xs">Amir Keren</div>
 								</div>
 								<div className="mx-1">
-									<img class="w-10 h-10 rounded-full" src={galB} alt="Gal Bari Avatar" />
+									<img className="w-10 h-10 rounded-full" src={galB} alt="Gal Bari Avatar" />
 									<div className="text-xs">Gal Bari</div>
 								</div>
 							</div>

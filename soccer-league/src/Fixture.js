@@ -39,7 +39,7 @@ class Fixture extends Component {
 							}
 						}}
 					>
-						<button class="w-full bg-blue-darker hover:bg-blue-Darkest text-white font-bold py-2 px-4 rounded mt-1 mb-1">Update Score</button>
+						<button className="w-full bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded mt-1 mb-1">Update Score</button>
 					</Link>
 				</div>
 			);
