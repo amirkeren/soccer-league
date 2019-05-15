@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS sgroups;
 
 CREATE TABLE sgroups(group_id INT AUTO_INCREMENT, name VARCHAR(50) NOT NULL, PRIMARY KEY (group_id));
 CREATE TABLE teams(team_id INT AUTO_INCREMENT, name VARCHAR(50) NOT NULL, group_id INT, PRIMARY KEY (team_id), FOREIGN KEY (group_id) REFERENCES sgroups(group_id));
-CREATE TABLE players(player_id INT AUTO_INCREMENT, name VARCHAR(100), number VARCHAR(3), goals_scored INT, team_id INT, PRIMARY KEY (player_id), FOREIGN KEY (team_id) REFERENCES teams(team_id));
+CREATE TABLE players(player_id INT AUTO_INCREMENT, name VARCHAR(100), goals_scored INT, team_id INT, PRIMARY KEY (player_id), FOREIGN KEY (team_id) REFERENCES teams(team_id));
 CREATE TABLE league(group_id INT, team_id INT, games_played INT, wins INT, loses INT, draws INT, points INT, goals_scored INT, goals_against INT, PRIMARY KEY (group_id, team_id), KEY (group_id), KEY (team_id), CONSTRAINT league_group FOREIGN KEY (group_id) REFERENCES sgroups (group_id), CONSTRAINT league_team FOREIGN KEY (team_id) REFERENCES teams (team_id));
 CREATE TABLE playoffs(id INT, step_id iNT, home_team VARCHAR(50), away_team VARCHAR(50), home_scored INT, away_scored INT);
 CREATE TABLE fixtures(id INT AUTO_INCREMENT, group_id INT, home_team INT, away_team INT, home_scored INT, away_scored INT, PRIMARY KEY (id), FOREIGN KEY (group_id) REFERENCES sgroups(group_id), FOREIGN KEY (home_team) REFERENCES teams(team_id), FOREIGN KEY (away_team) REFERENCES teams(team_id));
@@ -50,5 +50,3 @@ INSERT INTO playoffs (id, step_id, home_team, away_team, home_scored, away_score
 INSERT INTO playoffs (id, step_id, home_team, away_team, home_scored, away_scored) VALUES (2, 2, 'qf_c', 'qf_d', 0, 0);
 INSERT INTO playoffs (id, step_id, home_team, away_team, home_scored, away_scored) VALUES (1, 3, 'half_a', 'half_b', 0, 0);
 INSERT INTO playoffs (id, step_id, home_team, away_team, home_scored, away_scored) VALUES (1, 4, null, null, 0, 0);
-
-INSERT INTO players (name, number, team_id, goals_scored) VALUES ('Amir Keren', '9', 1, 0);

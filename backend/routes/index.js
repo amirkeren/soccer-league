@@ -16,10 +16,26 @@ let connection = mysql.createConnection({
 });
 
 router.get('/players', function(req, res) {
-    let contents = fs.readFileSync('players/players.txt', 'utf8');
-    console.log(contents);
-    res.contentType('application/json');
-    res.send(contents);
+    const team_id = req.query.team_id;
+    if (group_id) {
+        connection.query('SELECT * from players where team_id = ? order by name', [team_id],function(error, results) {
+            if (error) {
+                res.status(500).send({ "error": "can't load players" });
+                return;
+            }
+            res.contentType('application/json');
+            res.send(results);
+        });
+    } else {
+        connection.query('SELECT * from players order by name', function(error, results) {
+            if (error) {
+                res.status(500).send({ "error": "can't load players" });
+                return;
+            }
+            res.contentType('application/json');
+            res.send(results);
+        });
+    }
 });
 
 router.get('/playoffs', function(req, res) {

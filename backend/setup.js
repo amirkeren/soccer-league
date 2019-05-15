@@ -9,7 +9,16 @@ let connection = mysql.createConnection({
     multipleStatements: true
 });
 
-let contents = fs.readFileSync('setup.sql', 'utf8');
+fs.readFileSync('players/players.txt', 'utf8').toString().split('\n').forEach((line) => {
+    console.log(line);
+    connection.query('INSERT INTO players (name, team_id, goals_scored) VALUES (?, ?, 0)', [line.split(',')[0], line.split(',')[1]], function(err) {
+        if (err) {
+            throw err
+        }
+    });
+});
+
+const contents = fs.readFileSync('setup.sql', 'utf8');
 console.log(contents);
 connection.query(contents, function(err) {
     if (err) {
