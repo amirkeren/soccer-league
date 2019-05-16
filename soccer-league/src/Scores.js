@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
+import Scorers from './Scorers';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Select from 'react-select';
-
 class Score extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			homeTeam: null,
 			awayTeam: null,
+			homeTeamPlayers: [{ value: 'amir keren', label: 'amir keren' }, { value: 'gal bari', label: 'gal bari' }],
+			awayTeamPlayers: null,
+			homeTeamScorers: [],
+			awayTeamScorers: [],
 			homeTeamScore: { value: 0, label: 0 },
 			awayTeamScore: { value: 0, label: 0 },
 			teams: [],
@@ -52,8 +56,14 @@ class Score extends Component {
 	handleDdSelection = name => value => {
 		this.setState({ [name]: { value: value.value, label: value.label } });
 	};
+
+	handleScorerDdSelection = name => value => {
+		const scorer = { value: value.value, label: value.label };
+		this.setState({ [name]: [...this.state[name], scorer] });
+	};
+
 	hadnleScoreUpdateCick = () => {
-		if (!this.state.homeTeam || !this.state.awayTeam ||!this.state.homeTeam.value || !this.state.awayTeam.value) {
+		if (!this.state.homeTeam || !this.state.awayTeam || !this.state.homeTeam.value || !this.state.awayTeam.value) {
 			confirmAlert({
 				title: 'Error',
 				message: 'Must select both teams',
@@ -78,7 +88,7 @@ class Score extends Component {
 		} else {
 			confirmAlert({
 				title: 'Confirm match result',
-				message: 'Are you sure this is the final resault?',
+				message: 'Are you sure this is the final result?',
 				buttons: [
 					{
 						label: 'Yes',
@@ -152,64 +162,77 @@ class Score extends Component {
 			{ value: 9, label: 9 },
 			{ value: 10, label: 10 }
 		];
-		const teamSelectStyle = {};
 		return (
 			<div>
 				<h2 className="sub-header">Update Match Score</h2>
 				<div className="matchHeadContainer">
 					<div className="matchHead">
 						<div className="fixureContainer">
-							<div className="team home flex justify-between">
-								<div className="teamSection">
-									<Select
-										value={this.state.homeTeam}
-										className={'teamSelection'}
-										classNamePrefix={'team-selection'}
-										isDisabled={this.state.isKnockoutMatch}
-										onChange={this.handleDdSelection('homeTeam')}
-										options={this.state.teams}
-										placeholder={'Home Team'}
-										isSearchable={false}
-									/>
+							<div className="teamSectionContainer">
+								<div className="team home flex justify-between">
+									<div className="teamSection">
+										<Select
+											value={this.state.homeTeam}
+											className={'teamSelection'}
+											classNamePrefix={'team-selection'}
+											isDisabled={this.state.isKnockoutMatch}
+											onChange={this.handleDdSelection('homeTeam')}
+											options={this.state.teams}
+											placeholder={'Home Team'}
+											isSearchable={false}
+										/>
+									</div>
+									<div className="home-team-score teamScore">
+										<Select
+											value={this.state.homeTeamScore}
+											className={'teamScoreSelection'}
+											classNamePrefix={'score-selection'}
+											onChange={this.handleDdSelection('homeTeamScore')}
+											options={goalsOptions}
+											placeholder={'0'}
+											isSearchable={false}
+										/>
+									</div>
 								</div>
-								<div className="home-team-score teamScore">
-									<Select
-										value={this.state.homeTeamScore}
-										className={'teamScoreSelection'}
-										classNamePrefix={'score-selection'}
-										onChange={this.handleDdSelection('homeTeamScore')}
-										options={goalsOptions}
-										placeholder={'0'}
-										isSearchable={false}
-									/>
+								<div className="scorersContainer flex justify-between">
+									{this.state.homeTeamScore.value > 0 && (
+										<Scorers
+											team={'homeTeamScorers'}
+											scorersList={this.state.homeTeamScorers}
+											numOfSelect={this.state.homeTeamScore.value}
+											playersList={this.state.homeTeamPlayers}
+											onScorerSelection={this.handleScorerDdSelection}
+										/>
+									)}
 								</div>
 							</div>
 
 							<div className="vs flex justify-center mt-6 mb-6 text-white">VS</div>
-
-							<div className="team away flex justify-between">
-								<div className="teamSection">
-									<Select
-										value={this.state.awayTeam}
-										className={'teamSelection'}
-										classNamePrefix={'team-selection'}
-										isDisabled={this.state.isKnockoutMatch}
-										onChange={this.handleDdSelection('awayTeam')}
-										options={this.state.teams}
-										placeholder={'Away Team'}
-										isSearchable={false}
-									/>
-								</div>
-								<div className="home-team-score teamScore">
-									<Select
-										value={this.state.awayTeamScore}
-										className={'teamScoreSelection'}
-										classNamePrefix={'score-selection'}
-										onChange={this.handleDdSelection('awayTeamScore')}
-										options={goalsOptions}
-										placeholder={'0'}
-										isSearchable={false}
-									/>
+							<div className="teamSectionContainer">
+								<div className="team away flex justify-between">
+									<div className="teamSection">
+										<Select
+											value={this.state.awayTeam}
+											className={'teamSelection'}
+											classNamePrefix={'team-selection'}
+											isDisabled={this.state.isKnockoutMatch}
+											onChange={this.handleDdSelection('awayTeam')}
+											options={this.state.teams}
+											placeholder={'Away Team'}
+											isSearchable={false}
+										/>
+									</div>
+									<div className="home-team-score teamScore">
+										<Select
+											value={this.state.awayTeamScore}
+											className={'teamScoreSelection'}
+											classNamePrefix={'score-selection'}
+											onChange={this.handleDdSelection('awayTeamScore')}
+											options={goalsOptions}
+											placeholder={'0'}
+											isSearchable={false}
+										/>
+									</div>
 								</div>
 							</div>
 						</div>
