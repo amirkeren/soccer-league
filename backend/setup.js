@@ -9,12 +9,20 @@ let connection = mysql.createConnection({
     multipleStatements: true
 });
 
-let contents = fs.readFileSync('setup.sql', 'utf8');
+const contents = fs.readFileSync('setup.sql', 'utf8');
 console.log(contents);
 connection.query(contents, function(err) {
     if (err) {
         throw err;
     } else {
+        fs.readFileSync('players/players.txt', 'utf8').toString().split('\n').forEach((line) => {
+            console.log(line);
+            connection.query('INSERT INTO players (name, team_id, goals_scored) VALUES (?, ?, 0)', [line.split(',')[0], line.split(',')[1]], function(err) {
+                if (err) {
+                    throw err
+                }
+            });
+        });
         connection.query('SELECT l.*, g.name AS group_name, t.name AS team_name FROM league l JOIN sgroups g ON g.group_id = l.group_id JOIN teams t ON t.team_id = l.team_id ORDER BY group_id, team_id', function(err, results) {
             if (err) {
                 throw err;

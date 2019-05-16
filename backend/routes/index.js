@@ -15,6 +15,29 @@ let connection = mysql.createConnection({
     multipleStatements: true
 });
 
+router.get('/players', function(req, res) {
+    const team_id = req.query.team_id;
+    if (team_id) {
+        connection.query('SELECT p.name as player, t.name, p.goals_scored from players p join teams t on t.team_id = p.team_id where p.team_id = ? order by goals_scored desc, p.name', [team_id],function(error, results) {
+            if (error) {
+                res.status(500).send({ "error": "can't load players" });
+                return;
+            }
+            res.contentType('application/json');
+            res.send(results);
+        });
+    } else {
+        connection.query('SELECT p.name as player, t.name, p.goals_scored from players p join teams t on t.team_id = p.team_id order by goals_scored desc, p.name', function(error, results) {
+            if (error) {
+                res.status(500).send({ "error": "can't load players" });
+                return;
+            }
+            res.contentType('application/json');
+            res.send(results);
+        });
+    }
+});
+
 router.get('/playoffs', function(req, res) {
     connection.query('SELECT * from playoffs order by step_id', function(error, results) {
         if (error) {
@@ -208,7 +231,7 @@ router.post('/league/match', function(req, res) {
     let away_team = req.body.away_team;
     let home_score = req.body.home_score;
     let away_score = req.body.away_score;
-    if (home_team == away_team) {
+    if (home_team === away_team) {
       res.status(500).send({ "error": "team can't play against itself" });
       return;
     }
@@ -221,7 +244,7 @@ router.post('/league/match', function(req, res) {
             res.status(500).send({ "error": "can't verify teams" });
             return;
         }
-        if (results[0].c != 1) {
+        if (results[0].c !== 1) {
             res.status(500).send({ "error": "teams are not from the same group" });
             return;
         }
@@ -321,7 +344,7 @@ router.post('/playoffs/match', function(req, res) {
     let away_score = req.body.away_score;
     let step_id = req.body.step_id;
     let id = req.body.id;
-    if (home_team == away_team) {
+    if (home_team === away_team) {
         res.status(500).send({ "error": "team can't play against itself" });
         return;
     }
@@ -336,9 +359,9 @@ router.post('/playoffs/match', function(req, res) {
         } else {
             let winner = home_score > away_score ? home_team : away_team;
             //qf
-            if (step_id == 1) {
+            if (step_id === 1) {
                 //first qf
-                if (id == 1) {
+                if (id === 1) {
                     connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 2 AND id = 1", [winner], function(error) {
                         if (error) {
                             res.status(500).send({"error": "failed to set playoffs result for winner"});
@@ -347,7 +370,7 @@ router.post('/playoffs/match', function(req, res) {
                         }
                     });
                     //second qf
-                } else if (id == 2) {
+                } else if (id === 2) {
                     connection.query("UPDATE playoffs SET away_team = ? WHERE step_id = 2 AND id = 1", [winner], function(error) {
                         if (error) {
                             res.status(500).send({"error": "failed to set playoffs result for winner"});
@@ -356,7 +379,7 @@ router.post('/playoffs/match', function(req, res) {
                         }
                     });
                     //third qf
-                } else if (id == 3) {
+                } else if (id === 3) {
                     connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 2 AND id = 2", [winner], function(error) {
                         if (error) {
                             res.status(500).send({"error": "failed to set playoffs result for winner"});
@@ -375,8 +398,8 @@ router.post('/playoffs/match', function(req, res) {
                     });
                 }
                 //half
-            } else if (step_id == 2) {
-                if (id == 1) {
+            } else if (step_id === 2) {
+                if (id === 1) {
                     connection.query("UPDATE playoffs SET home_team = ? WHERE step_id = 3", [winner], function(error) {
                         if (error) {
                             res.status(500).send({"error": "failed to set playoffs result for winner"});
