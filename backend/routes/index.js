@@ -179,7 +179,7 @@ router.get('/players', function(req, res) {
 });
 
 router.get('/league/teams', function(req, res) {
-    connection.query('SELECT t.*, p.* from teams t join players p on t.team_id = p.team_id order by t.name, p.name', function(error, results) {
+    connection.query('SELECT t.*, p.name as player_name from teams t join players p on t.team_id = p.team_id order by t.name, p.name', function(error, results) {
         if (error) {
             res.status(500).send({ "error": "can't load teams" });
             return;
