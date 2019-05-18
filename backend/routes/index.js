@@ -179,13 +179,21 @@ router.get('/players', function(req, res) {
 });
 
 router.get('/league/teams', function(req, res) {
-    connection.query('SELECT t.*, p.* from teams t join players p on t.team_id = p.team_id order by t.name, p.name', function(error, results) {
+    connection.query('SELECT t.*, p.name as player_name from teams t join players p on t.team_id = p.team_id order by t.name, p.name', function(error, results) {
         if (error) {
             res.status(500).send({ "error": "can't load teams" });
             return;
         }
+        let teams = {};
+        for (let i = 0; i < results.length; i++) {
+            if (results[i].team_id in teams) {
+                teams[results[i].team_id].players.push(results[i].player_name);
+            } else {
+                teams[results[i].team_id] = { 'name': results[i].name, 'group_id': results[i].group_id, 'players': [ results[i].player_name ] };
+            }
+        }
         res.contentType('application/json');
-        res.send(results);
+        res.send(teams);
     });
 });
 
