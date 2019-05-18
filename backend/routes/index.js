@@ -184,12 +184,18 @@ router.get('/league/teams', function(req, res) {
             res.status(500).send({ "error": "can't load teams" });
             return;
         }
-        let teams = {};
+        let teams = [];
         for (let i = 0; i < results.length; i++) {
-            if (results[i].team_id in teams) {
-                teams[results[i].team_id].players.push(results[i].player_name);
+            let team;
+            for (let j = 0; j < teams.length; j++) {
+                if (teams[j].team_id === results[i].team_id) {
+                    team = teams[j];
+                }
+            }
+            if (!team) {
+                teams.push({ 'team_id': results[i].team_id, 'name': results[i].name, 'group_id': results[i].group_id, 'players': [ results[i].player_name ] });
             } else {
-                teams[results[i].team_id] = { 'name': results[i].name, 'group_id': results[i].group_id, 'players': [ results[i].player_name ] };
+                team.players.push(results[i].player_name);
             }
         }
         res.contentType('application/json');
