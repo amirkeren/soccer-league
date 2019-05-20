@@ -12,22 +12,22 @@ CREATE TABLE league(group_id INT, team_id INT, games_played INT, wins INT, loses
 CREATE TABLE playoffs(id INT, step_id iNT, home_team VARCHAR(50), away_team VARCHAR(50), home_scored INT, away_scored INT);
 CREATE TABLE fixtures(id INT AUTO_INCREMENT, group_id INT, home_team INT, away_team INT, home_scored INT, away_scored INT, PRIMARY KEY (id), FOREIGN KEY (group_id) REFERENCES sgroups(group_id), FOREIGN KEY (home_team) REFERENCES teams(team_id), FOREIGN KEY (away_team) REFERENCES teams(team_id));
 
-INSERT INTO sgroups (name) VALUES ('Group A');
-INSERT INTO sgroups (name) VALUES ('Group B');
-INSERT INTO sgroups (name) VALUES ('Group C');
+INSERT INTO sgroups (name) VALUES ('Group 1');
+INSERT INTO sgroups (name) VALUES ('Group 2');
+INSERT INTO sgroups (name) VALUES ('Group 3');
 
-INSERT INTO teams (name, group_id) VALUES ('Team 1', 1);
-INSERT INTO teams (name, group_id) VALUES ('Team 2', 1);
-INSERT INTO teams (name, group_id) VALUES ('Team 3', 1);
-INSERT INTO teams (name, group_id) VALUES ('Team 4', 1);
-INSERT INTO teams (name, group_id) VALUES ('Team 5', 2);
-INSERT INTO teams (name, group_id) VALUES ('Team 6', 2);
-INSERT INTO teams (name, group_id) VALUES ('Team 7', 2);
-INSERT INTO teams (name, group_id) VALUES ('Team 8', 2);
-INSERT INTO teams (name, group_id) VALUES ('Team 9', 3);
-INSERT INTO teams (name, group_id) VALUES ('Team 10', 3);
-INSERT INTO teams (name, group_id) VALUES ('Team 11', 3);
-INSERT INTO teams (name, group_id) VALUES ('Team 12', 3);
+INSERT INTO teams (name, group_id) VALUES ('AC Mido', 1);
+INSERT INTO teams (name, group_id) VALUES ('BechorShoshi United', 1);
+INSERT INTO teams (name, group_id) VALUES ('AL Jamila', 1);
+INSERT INTO teams (name, group_id) VALUES ('FC Gute', 1);
+INSERT INTO teams (name, group_id) VALUES ('Flieshman FC', 2);
+INSERT INTO teams (name, group_id) VALUES ('Inter Marcelos', 2);
+INSERT INTO teams (name, group_id) VALUES ('Hapoel Japo', 2);
+INSERT INTO teams (name, group_id) VALUES ('KingGeorge City', 2);
+INSERT INTO teams (name, group_id) VALUES ('Maccabi Liv', 3);
+INSERT INTO teams (name, group_id) VALUES ('Mexicana United', 3);
+INSERT INTO teams (name, group_id) VALUES ('Noon Hampton', 3);
+INSERT INTO teams (name, group_id) VALUES ('Olympique Menza', 3);
 
 INSERT INTO league (group_id, team_id, games_played, wins, loses, draws, points, goals_scored, goals_against) VALUES (1, 1, 0, 0, 0, 0, 0, 0, 0);
 INSERT INTO league (group_id, team_id, games_played, wins, loses, draws, points, goals_scored, goals_against) VALUES (1, 2, 0, 0, 0, 0, 0, 0, 0);
