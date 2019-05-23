@@ -13,6 +13,7 @@ import Scores from './Scores';
 import TopScorers from './TopScorers';
 import FixturesPage from './FixturesPage';
 import KnockoutStages from './KnockoutStages';
+import TeamInfo from './TeamInfo';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 // import logo from './logo.svg';
@@ -76,6 +77,7 @@ class App extends Component {
 							<Route exact path="/" render={props => <GroupStage {...props} isAdmin={isAdmin} />} />
 							<Route path="/scores" render={props => <Scores {...props} isAdmin={isAdmin} />} />
 							<Route path="/topscorers" render={props => <TopScorers {...props} isAdmin={isAdmin} />} />
+							<Route path="/teamInfo/:teamId" render={props => <TeamInfo {...props} />} />
 							<Route path="/fixtures/:groupId" render={props => <FixturesPage {...props} isAdmin={isAdmin} />} />
 							<Route path="/knockout" render={() => <KnockoutStages isAdmin={isAdmin} />} />
 						</div>

@@ -36,17 +36,14 @@ class Group extends Component {
 						</div>
 					</td>
 					<td className="name">
-						{team.team_name}
-						{/* <Link
+						{/* {team.team_name} */}
+						<Link
 							to={{
-								pathname: `/teamInfo/${this.props.groupId}`,
-								state: {
-									groupHeader: `Group ${getGroupLetter(this.props.groupId)}`
-								}
+								pathname: `/teamInfo/${team.team_id}`
 							}}
 						>
 							{team.team_name}
-						</Link> */}
+						</Link>
 					</td>
 					<td>{team.games_played}</td>
 					<td>{team.wins}</td>

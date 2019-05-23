@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PlayersList from './playersList';
 
-class TopScorers extends Component {
+class TeamInfo extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -10,7 +10,7 @@ class TopScorers extends Component {
 	}
 
 	componentDidMount() {
-		const url = '/players';
+		const url = `/players?team_id=${this.props.match.params.teamId}`;
 		fetch(url)
 			.then(response => response.json())
 			.then(data => {
@@ -22,8 +22,7 @@ class TopScorers extends Component {
 
 	render() {
 		return <PlayersList header={'Top Scorers'} players={this.state.players}/>;
-		
 	}
 }
 
-export default TopScorers;
+export default TeamInfo;
