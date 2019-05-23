@@ -14,7 +14,6 @@ class FixturesPage extends Component {
 			.then(response => response.json())
 			.then(data => {
 				this.setState({ fixtures: data });
-				console.log(data);
 			});
 	}
 	render() {
