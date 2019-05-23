@@ -48,3 +48,4 @@ INSERT INTO playoffs (id, step_id, home_team, away_team, home_scored, away_score
 INSERT INTO playoffs (id, step_id, home_team, away_team, home_scored, away_scored) VALUES (1, 4, null, null, 0, 0);
 
 UPDATE fixtures SET home_scored = null, away_scored = null;
+UPDATE players SET goals_scored = 0;
