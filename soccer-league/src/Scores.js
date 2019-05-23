@@ -104,8 +104,6 @@ class Score extends Component {
 				]
 			});
 		} else if (this.state.homeTeamScorers.length !== this.state.homeTeamScore.value || this.state.awayTeamScorers.length !== this.state.awayTeamScore.value) {
-			console.log(this.state.homeTeamScorers.length, this.state.homeTeamScore.value);
-			console.log(this.state.awayTeamScorers.length, this.state.awayTeamScore.value);
 			confirmAlert({
 				title: 'Error',
 				message: 'Score does not match scorers',

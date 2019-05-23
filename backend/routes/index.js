@@ -263,8 +263,7 @@ function revertGame(res, home_team, away_team, home_score, away_score) {
                                 connection.rollback(function () {
                                 });
                             }
-                            console.log('transaction complete');
-                            res.sendStatus(200);
+                            console.log('revert complete');
                         });
                     });
                 } else {
@@ -287,7 +286,7 @@ function revertGame(res, home_team, away_team, home_score, away_score) {
                                 connection.rollback(function () {
                                 });
                             }
-                            console.log('transaction complete');
+                            console.log('revert complete');
                         });
                     });
                 }
