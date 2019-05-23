@@ -13,7 +13,7 @@ INSERT INTO sgroups (name) VALUES ('Group 2');
 INSERT INTO sgroups (name) VALUES ('Group 3');
 
 INSERT INTO teams (name, group_id) VALUES ('AC Mido', 1);
-INSERT INTO teams (name, group_id) VALUES ('BechorShoshi United', 1);
+INSERT INTO teams (name, group_id) VALUES ('Bechor Shoshi United', 1);
 INSERT INTO teams (name, group_id) VALUES ('AL Jamila', 1);
 INSERT INTO teams (name, group_id) VALUES ('FC Gute', 1);
 INSERT INTO teams (name, group_id) VALUES ('Flieshman FC', 2);
