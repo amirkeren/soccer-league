@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Fixture from './Fixture.js';
 
-
 class FixturesPage extends Component {
 	constructor() {
 		super();
@@ -19,7 +18,13 @@ class FixturesPage extends Component {
 			});
 	}
 	render() {
-		return <div className="fixures-container">{this.state.fixtures && <Fixture games={this.state.fixtures} isAdmin={this.state.isAdmin} />}</div>;
+		const groupHeader = this.props.location.state.groupHeader;
+		return (
+			<div className="fixures-container">
+				<div className="fixures-header text-white text-2xl py-3 font-bold">{groupHeader} Fixures</div>
+				{this.state.fixtures && <Fixture games={this.state.fixtures} isAdmin={this.state.isAdmin} />}
+			</div>
+		);
 	}
 }
 

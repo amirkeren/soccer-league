@@ -9,8 +9,8 @@ class Score extends Component {
 		this.state = {
 			homeTeam: null,
 			awayTeam: null,
-			homeTeamPlayers: [{ value: 'amir keren', label: 'amir keren' }, { value: 'gal bari', label: 'gal bari' }],
-			awayTeamPlayers: null,
+			homeTeamPlayersList: [],
+			awayTeamPlayersList: [],
 			homeTeamScorers: [],
 			awayTeamScorers: [],
 			homeTeamScore: { value: 0, label: 0 },
@@ -45,7 +45,15 @@ class Score extends Component {
 			fetch('/league/teams')
 				.then(response => response.json())
 				.then(data => data.sort(compare)) //sort the data by team_id
-				.then(data => this.setState({ teams: data.map(team => ({ value: team.team_id, label: team.name })) }));
+				.then(data =>
+					this.setState({
+						teams: data.map(team => ({
+							value: team.team_id,
+							label: team.name,
+							players: team.players.map(player => ({ value: player, label: player }))
+						}))
+					})
+				);
 		}
 
 		function compare(a, b) {
@@ -53,13 +61,23 @@ class Score extends Component {
 		}
 	}
 
-	handleDdSelection = name => value => {
+	handleDdSelection = name => team => {
+		const playersProperty = `${name}PlayersList`;
+		this.setState({ [name]: { value: team.value, label: team.label } });
+		this.setState({ [playersProperty]: team.players });
+	};
+
+	handleScoreDdSelection = name => value => {
 		this.setState({ [name]: { value: value.value, label: value.label } });
 	};
 
 	handleScorerDdSelection = name => value => {
 		const scorer = { value: value.value, label: value.label };
 		this.setState({ [name]: [...this.state[name], scorer] });
+	};
+
+	shouldDisplayScorersSection(teamScoresType) {
+		return this.state[`${teamScoresType}Score`].value > 0 && this.state[teamScoresType];
 	};
 
 	hadnleScoreUpdateCick = () => {
@@ -102,6 +120,7 @@ class Score extends Component {
 			});
 		}
 	};
+
 	saveMatchData() {
 		const matchData = {
 			home_team: this.state.homeTeam.value,
@@ -187,7 +206,7 @@ class Score extends Component {
 											value={this.state.homeTeamScore}
 											className={'teamScoreSelection'}
 											classNamePrefix={'score-selection'}
-											onChange={this.handleDdSelection('homeTeamScore')}
+											onChange={this.handleScoreDdSelection('homeTeamScore')}
 											options={goalsOptions}
 											placeholder={'0'}
 											isSearchable={false}
@@ -195,12 +214,12 @@ class Score extends Component {
 									</div>
 								</div>
 								<div className="scorersContainer flex justify-between">
-									{this.state.homeTeamScore.value > 0 && (
+									{this.shouldDisplayScorersSection('homeTeam') && (
 										<Scorers
 											team={'homeTeamScorers'}
 											scorersList={this.state.homeTeamScorers}
 											numOfSelect={this.state.homeTeamScore.value}
-											playersList={this.state.homeTeamPlayers}
+											playersList={this.state.homeTeamPlayersList}
 											onScorerSelection={this.handleScorerDdSelection}
 										/>
 									)}
@@ -227,12 +246,23 @@ class Score extends Component {
 											value={this.state.awayTeamScore}
 											className={'teamScoreSelection'}
 											classNamePrefix={'score-selection'}
-											onChange={this.handleDdSelection('awayTeamScore')}
+											onChange={this.handleScoreDdSelection('awayTeamScore')}
 											options={goalsOptions}
 											placeholder={'0'}
 											isSearchable={false}
 										/>
 									</div>
+								</div>
+								<div className="scorersContainer flex justify-between">
+								{this.shouldDisplayScorersSection('awayTeam') && (
+										<Scorers
+											team={'awayTeamScorers'}
+											scorersList={this.state.awayTeamScorers}
+											numOfSelect={this.state.awayTeamScore.value}
+											playersList={this.state.awayTeamPlayersList}
+											onScorerSelection={this.handleScorerDdSelection}
+										/>
+									)}
 								</div>
 							</div>
 						</div>

@@ -35,7 +35,18 @@ class Group extends Component {
 							<div />
 						</div>
 					</td>
-					<td className="name">{team.team_name}</td>
+					<td className="name">
+						{/* <Link
+							to={{
+								pathname: `/teamInfo/${this.props.groupId}`,
+								state: {
+									groupHeader: `Group ${getGroupLetter(this.props.groupId)}`
+								}
+							}}
+						>
+							{team.team_name}
+						</Link> */}
+					</td>
 					<td>{team.games_played}</td>
 					<td>{team.wins}</td>
 					<td>{team.draws}</td>
@@ -69,7 +80,10 @@ class Group extends Component {
 				<div className="group-games-link">
 					<Link
 						to={{
-							pathname: `/fixtures/${this.props.groupId}`
+							pathname: `/fixtures/${this.props.groupId}`,
+							state: {
+								groupHeader: `Group ${getGroupLetter(this.props.groupId)}`
+							}
 						}}
 					>
 						<button className="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded mt-4">Group Fixtures</button>
