@@ -72,9 +72,6 @@ class Score extends Component {
 	};
 
 	handleScorerDdSelection = name => value => {
-		console.log(this.state);
-		
-		debugger;
 		const scorer = { value: value.value, label: value.label };
 		this.setState({ [name]: [...this.state[name], scorer] });
 	};
@@ -83,7 +80,7 @@ class Score extends Component {
 		return this.state[`${teamScoresType}Score`].value > 0 && this.state[teamScoresType];
 	};
 
-	hadnleScoreUpdateCick = () => {
+	handleScoreUpdateCick = () => {
 		if (!this.state.homeTeam || !this.state.awayTeam || !this.state.homeTeam.value || !this.state.awayTeam.value) {
 			confirmAlert({
 				title: 'Error',
@@ -99,6 +96,19 @@ class Score extends Component {
 			confirmAlert({
 				title: 'Error',
 				message: 'Draw is not a valid score in the knockout stage',
+				buttons: [
+					{
+						label: 'OK',
+						onClick: () => console.log('💩')
+					}
+				]
+			});
+		} else if (this.state.homeTeamScorers.length !== this.state.homeTeamScore.value || this.state.awayTeamScorers.length !== this.state.awayTeamScore.value) {
+			console.log(this.state.homeTeamScorers.length, this.state.homeTeamScore.value);
+			console.log(this.state.awayTeamScorers.length, this.state.awayTeamScore.value);
+			confirmAlert({
+				title: 'Error',
+				message: 'Score does not match scorers',
 				buttons: [
 					{
 						label: 'OK',
@@ -273,7 +283,7 @@ class Score extends Component {
 						</div>
 
 						<div className="update-score-container flex justify-center mt-6">
-							<button onClick={this.hadnleScoreUpdateCick} className="w-full bg-blue-900 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded">
+							<button onClick={this.handleScoreUpdateCick} className="w-full bg-blue-900 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded">
 								Update Score
 							</button>
 						</div>
