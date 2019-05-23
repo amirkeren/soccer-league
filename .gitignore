@@ -13,7 +13,7 @@ pids
 
 
 .DS_Store
-soccer-league/src/img/players/
+soccer-league/public/player_pictures/
 
 **/.idea/
 

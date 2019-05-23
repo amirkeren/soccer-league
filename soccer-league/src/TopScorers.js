@@ -26,19 +26,20 @@ class TopScorers extends Component {
 	render() {
 		return (
 			<div className="flex flex-col topScorers-container">
-				<div className="flex bg-gray-200 py-3">
-					<div className="w-5/6 text-left pl-3 font-bold">Top Scorer</div>
-					<div className="w-1/6 font-bold">Goals</div>
-				</div>
-				{this.state.players.map((player, i) => (
-					<div className={`flex w-full row bg-gray-${i % 2 === 0 ? '300' : '200'}`}>
-						<div className={`w-1/6 mx-3 flag ${this.getFlagClass(player.name)}`} />
-						<div className="w-5/6 text-left p-5">{player.player}</div>
-						<div className="w-1/6 p-5">{player.goals_scored}</div>
-					</div>
-				))}
+			<div className="flex bg-gray-200 py-3">
+			<div className="w-5/6 text-left pl-3 font-bold">Top Scorer</div>
+		<div className="w-1/6 font-bold">Goals</div>
 			</div>
-		);
+		{this.state.players.map((player, i) => (
+			<div className={`flex w-full row bg-gray-${i % 2 === 0 ? '300' : '200'}`}>
+		<div className={`w-1/6 mx-3 flag ${this.getFlagClass(player.name)}`} />
+		<div key={player}><img src={process.env.PUBLIC_URL + '/player_pictures/' + player.player.split(' ')[0] + '_' + player.player.split(' ')[1] + '.png'}/></div>
+		<div className="w-5/6 text-left p-5">{player.player}</div>
+			<div className="w-1/6 p-5">{player.goals_scored}</div>
+			</div>
+		))}
+	</div>
+	);
 	}
 }
 
