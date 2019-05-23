@@ -319,6 +319,11 @@ table th {
 	background-image: url(//www.barbadosfa.com/images/team-placeholder-logo.e50b9536.png)
 }
 
+.topScorers-container .flag {
+	width: 20em;
+	height: auto;
+}
+
 .argentina {
 	box-shadow: 0 3em #74acdf inset, 0 6em #fff inset, 0 9em #74acdf inset;
 }
@@ -762,10 +767,11 @@ table th {
 .page-header .logo {
 	background-image: url(./img/tbl-soccer-white-logo.png);
 	width: 120px;
-	background-size: cover;
+	background-size: contain;
 	background-position: center;
+	background-repeat: no-repeat;
+	margin-left: -25px; 
 	display: inline-block;
-	vertical-align: middle;
 }
 
 .page-header .tab {
@@ -852,7 +858,7 @@ table th {
 }
 
 .inter-marcelos {
-	background-image: url()
+	/* background-image: url() */
 }
 
 .hapoel-japo {
@@ -868,7 +874,7 @@ table th {
 }
 
 .mexicana-united {
-	background-image: url()
+	/* background-image: url() */
 }
 
 .noon-hampton {

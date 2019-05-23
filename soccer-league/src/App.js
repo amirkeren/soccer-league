@@ -25,7 +25,7 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isAdmin: true
+			isAdmin: false
 		};
 	}
 	componentDidMount() {
@@ -65,24 +65,22 @@ class App extends Component {
 					</h1> */}
 
 						<div>
-							<ul className="tbl-wc-nav list-reset flex justify-between overflow-x-auto overflow-y-hidden">
-								<NavLink exact to="/" className="flex-grow">
-									<li className="pb-2">Group Stage</li>
+							<ul className="tbl-wc-nav list-reset flex justify-between overflow-x-auto overflow-y-hidden flex-no-wrap whitespace-no-wrap">
+								<NavLink exact to="/" className="">
+									<li className="pt-0 px-3 pb-2">Group Stage</li>
 								</NavLink>
-								<NavLink exact to="/topscorers" className="flex-grow">
-									<li className="pb-2">Top Scorers</li>
+								<NavLink exact to="/topscorers" className="">
+									<li className="pt-0 px-3 pb-2">Top Scorers</li>
 								</NavLink>
 								{isAdmin && (
-									<NavLink exact to="/scores" className="flex-grow">
-										<li className="pb-2">Update Score</li>
+									<NavLink exact to="/scores" className="">
+										<li className="pt-0 px-3 pb-2">Update Score</li>
 									</NavLink>
 								)}
-								<NavLink exact to="/knockout" className="flex-grow">
-									<li className="pb-2">Knockouts</li>
+								<NavLink exact to="/knockout" className="">
+									<li className="pt-0 px-3 pb-2">Knockouts</li>
 								</NavLink>
 							</ul>
-
-							<hr />
 
 							<Route exact path="/" render={props => <GroupStage {...props} isAdmin={isAdmin} />} />
 							<Route path="/scores" render={props => <Scores {...props} isAdmin={isAdmin} />} />
