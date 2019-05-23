@@ -72,6 +72,9 @@ class Score extends Component {
 	};
 
 	handleScorerDdSelection = name => value => {
+		console.log(this.state);
+		
+		debugger;
 		const scorer = { value: value.value, label: value.label };
 		this.setState({ [name]: [...this.state[name], scorer] });
 	};
@@ -127,6 +130,8 @@ class Score extends Component {
 			away_team: this.state.awayTeam.value,
 			home_score: this.state.homeTeamScore.value,
 			away_score: this.state.awayTeamScore.value,
+			home_team_scorers: this.state.homeTeamScorers || [],
+			away_team_scorers: this.state.awayTeamScorers || [],
 			isKnockoutMatch: this.state.isKnockoutMatch,
 			step_id: this.state.step_id,
 			id: this.state.gameIndex
@@ -220,7 +225,7 @@ class Score extends Component {
 											scorersList={this.state.homeTeamScorers}
 											numOfSelect={this.state.homeTeamScore.value}
 											playersList={this.state.homeTeamPlayersList}
-											onScorerSelection={this.handleScorerDdSelection}
+											onScorerSelection={this.handleScorerDdSelection.bind(this)}
 										/>
 									)}
 								</div>

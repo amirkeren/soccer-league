@@ -2,7 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 
 const Scorers = function(props) {
-	const { numOfSelect, scorersList, team } = props;
+	const { numOfSelect, scorersList, team, onScorerSelection } = props;
 	let { playersList } = props
 	const ownGoalObj = {value: 'og', label: '💩 Own Goal 💩'};
 	playersList.push(ownGoalObj);
@@ -19,7 +19,7 @@ const Scorers = function(props) {
 					options={playersList}
 					placeholder={'select scorer'}
 					isSearchable={false}
-					onChange={props.onScorerSelection(team)}
+					onChange={onScorerSelection(team).bind(this)}
 				/>
 			</div>
 		);

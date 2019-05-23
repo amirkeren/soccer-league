@@ -169,13 +169,6 @@ table th {
 	position: relative;
 }
 
-.knockout .flag-icon {
-	position: relative;
-	display: inline-block;
-	width: 1.33333333em;
-	line-height: 1em;
-}
-
 .knockout .team {
 	width: 60%;
 	padding-left: 10px;
@@ -323,6 +316,7 @@ table th {
 	position: relative;
 	font-size: 0.3em;
 	background-size: cover;
+	background-image: url(//www.barbadosfa.com/images/team-placeholder-logo.e50b9536.png)
 }
 
 .argentina {
