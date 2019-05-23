@@ -27,7 +27,7 @@ router.get('/players', function(req, res) {
             res.send(results);
         });
     } else {
-        connection.query('SELECT p.name as player, t.name, p.goals_scored from players p join teams t on t.team_id = p.team_id order by goals_scored desc, p.name', function(error, results) {
+        connection.query('SELECT p.name as player, t.name, p.goals_scored from players p join teams t on t.team_id = p.team_id order by goals_scored desc, p.name limit 10', function(error, results) {
             if (error) {
                 res.status(500).send({ "error": "can't load players" });
                 return;

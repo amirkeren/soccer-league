@@ -10,6 +10,7 @@ import galB from './img/players/Gal_Bari.png';
 
 import GroupStage from './GroupStage';
 import Scores from './Scores';
+import TopScorers from './TopScorers';
 import FixturesPage from './FixturesPage';
 import KnockoutStages from './KnockoutStages';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
@@ -68,6 +69,9 @@ class App extends Component {
 								<NavLink exact to="/" className="flex-grow">
 									<li className="pb-2">Group Stage</li>
 								</NavLink>
+								<NavLink exact to="/topscorers" className="flex-grow">
+									<li className="pb-2">Top Scorers</li>
+								</NavLink>
 								{isAdmin && (
 									<NavLink exact to="/scores" className="flex-grow">
 										<li className="pb-2">Update Score</li>
@@ -82,6 +86,7 @@ class App extends Component {
 
 							<Route exact path="/" render={props => <GroupStage {...props} isAdmin={isAdmin} />} />
 							<Route path="/scores" render={props => <Scores {...props} isAdmin={isAdmin} />} />
+							<Route path="/topscorers" render={props => <TopScorers {...props} isAdmin={isAdmin} />} />
 							<Route path="/fixtures/:groupId" render={props => <FixturesPage {...props} isAdmin={isAdmin} />} />
 							<Route path="/knockout" render={() => <KnockoutStages isAdmin={isAdmin} />} />
 						</div>
