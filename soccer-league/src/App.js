@@ -25,7 +25,7 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isAdmin: false
+			isAdmin: true
 		};
 	}
 	componentDidMount() {
@@ -54,15 +54,6 @@ class App extends Component {
 								Taboola <br /> World Cup
 							</div>
 						</h1>
-						{/* Second option */}
-						{/* <h1 className="page-header flex justify-center">
-						<div>
-							<span className="tab">Tab</span>
-							<span className="tbl-icon" />
-							<span className="la">la</span>
-							<br /> World Cup
-						</div>
-					</h1> */}
 
 						<div>
 							<ul className="tbl-wc-nav list-reset flex justify-between overflow-x-auto overflow-y-hidden flex-no-wrap whitespace-no-wrap">
