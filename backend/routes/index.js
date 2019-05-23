@@ -278,8 +278,8 @@ router.post('/league/match', function(req, res) {
                         return;
                     });
                 }
-                home_scorers_map = {};
-                away_scorers_map = {};
+                let home_scorers_map = {};
+                let away_scorers_map = {};
                 for (let i = 0; i < home_scorers.length; i++) {
                     if (home_scorers[i] === "og") {
                         continue;
@@ -302,7 +302,6 @@ router.post('/league/match', function(req, res) {
                 }
                 for (let player in home_scorers_map) {
                     if (home_scorers_map.hasOwnProperty(player)) {
-                        console.log(home_scorers_map[player], player);
                         connection.query("UPDATE players SET goals_scored = goals_scored + ? WHERE name = ?", [home_scorers_map[player], player], function(error) {
                             if (error) {
                                 res.status(500).send({"error": "failed to update goal scorers for home team"});
@@ -412,6 +411,8 @@ router.post('/playoffs/match', function(req, res) {
     let away_score = req.body.away_score;
     let step_id = req.body.step_id;
     let id = req.body.id;
+    let home_scorers = req.body.home_team_scorers;
+    let away_scorers = req.body.away_team_scorers;
     if (home_team === away_team) {
         res.status(500).send({ "error": "team can't play against itself" });
         return;
@@ -420,11 +421,62 @@ router.post('/playoffs/match', function(req, res) {
         res.status(500).send({ "error": "goals can't be negative" });
         return;
     }
+    if ((home_score > 0 && home_scorers.length === 0) || (home_score === 0 && home_scorers.length > 0) ||
+        (away_score > 0 && away_scorers.length === 0) || (away_score === 0 && away_scorers.length > 0)) {
+        res.status(500).send({ "error": "scores and scorers don't match" });
+        return;
+    }
     connection.query("UPDATE playoffs SET home_scored = ?, away_scored = ? WHERE step_id = ? AND id = ?",
         [home_score, away_score, step_id, id], function(error) {
         if (error) {
             res.status(500).send({"error": "failed to set playoffs result for winner"});
         } else {
+            let home_scorers_map = {};
+            let away_scorers_map = {};
+            for (let i = 0; i < home_scorers.length; i++) {
+                if (home_scorers[i] === "og") {
+                    continue;
+                }
+                if (home_scorers[i] in home_scorers_map) {
+                    home_scorers_map[home_scorers[i]] = home_scorers_map[home_scorers[i]] + 1;
+                } else {
+                    home_scorers_map[home_scorers[i]] = 1;
+                }
+            }
+            for (let i = 0; i < away_scorers.length; i++) {
+                if (away_scorers[i] === "og") {
+                    continue;
+                }
+                if (away_scorers_map[i] in away_scorers_map) {
+                    away_scorers_map[away_scorers[i]] = away_scorers_map[away_scorers[i]] + 1;
+                } else {
+                    away_scorers_map[away_scorers[i]] = 1;
+                }
+            }
+            for (let player in home_scorers_map) {
+                if (home_scorers_map.hasOwnProperty(player)) {
+                    connection.query("UPDATE players SET goals_scored = goals_scored + ? WHERE name = ?", [home_scorers_map[player], player], function(error) {
+                        if (error) {
+                            res.status(500).send({"error": "failed to update goal scorers for home team"});
+                            connection.rollback(function () {
+                                return;
+                            });
+                        }
+                    });
+                }
+            }
+            for (let player in away_scorers_map) {
+                if (away_scorers_map.hasOwnProperty(player)) {
+                    connection.query("UPDATE players SET goals_scored = goals_scored + ? WHERE name = ?", [away_scorers_map[player], player], function(error) {
+                        if (error) {
+                            res.status(500).send({"error": "failed to update goal scorers for away team"});
+                            connection.rollback(function () {
+                                return;
+                            });
+                        }
+                    });
+                }
+            }
             let winner = home_score > away_score ? home_team : away_team;
             //qf
             if (step_id === 1) {
