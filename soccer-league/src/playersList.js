@@ -1,12 +1,12 @@
 import React from 'react';
 
 const PlayersList = function(props) {
-  const { players, header } = props;
-  
-  function getFlagClass(teamName) {
+	const { players, header } = props;
+
+	function getFlagClass(teamName) {
 		return teamName.toLowerCase().replace(/\s/g, '-');
-  }
-  
+	}
+
 	return (
 		<div className="flex flex-col topScorers-container">
 			<div className="flex bg-gray-200 py-3">
@@ -16,6 +16,10 @@ const PlayersList = function(props) {
 			{players.map((player, i) => (
 				<div className={`flex w-full row bg-gray-${i % 2 === 0 ? '300' : '200'}`}>
 					<div className={`w-1/6 mx-3 flag ${getFlagClass(player.name)}`} />
+					<div key={player}>
+						<img src={process.env.PUBLIC_URL + '/player_pictures/' + player.player.split(' ')[0] + '_' + player.player.split(' ')[1] + '.png'} alt='player'/>
+					</div>
+
 					<div className="w-5/6 text-left p-5">{player.player}</div>
 					<div className="w-1/6 p-5">{player.goals_scored}</div>
 				</div>

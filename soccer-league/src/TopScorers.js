@@ -21,8 +21,7 @@ class TopScorers extends Component {
 	}
 
 	render() {
-		return <PlayersList header={'Top Scorers'} players={this.state.players}/>;
-		
+		return <PlayersList header={'Top Scorers'} players={this.state.players}/>;		
 	}
 }
 
