@@ -50,11 +50,13 @@ class Fixture extends Component {
 			? this.props.games.map((game, index) => {
 					const { home_team, away_team, home_scored, away_scored } = game;
 					const randomKey = Math.floor(Math.random() * Math.floor(10000));
+					let home_score = home_scored === undefined ? '' : home_scored;
+					let away_score = away_scored === undefined ? '' : away_scored;
 					return (
 						<div key={generateKey(randomKey)} className="matchContainer">
 							<div className="matchTeams">
-								<MatchTeam teamName={home_team} scored={home_scored || 0} won={home_scored > away_scored} />
-								<MatchTeam teamName={away_team} scored={away_scored || 0} won={home_scored < away_scored} />
+								<MatchTeam teamName={home_team} scored={home_score} won={home_scored > away_scored} />
+								<MatchTeam teamName={away_team} scored={away_score} won={home_scored < away_scored} />
 							</div>
 							{isAdmin && <UpdateScore {...game} index={index} />}
 						</div>

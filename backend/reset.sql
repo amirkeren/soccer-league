@@ -13,7 +13,7 @@ INSERT INTO sgroups (name) VALUES ('Group 2');
 INSERT INTO sgroups (name) VALUES ('Group 3');
 
 INSERT INTO teams (name, group_id) VALUES ('AC Mido', 1);
-INSERT INTO teams (name, group_id) VALUES ('BechorShoshi United', 1);
+INSERT INTO teams (name, group_id) VALUES ('Bechor Shoshi United', 1);
 INSERT INTO teams (name, group_id) VALUES ('AL Jamila', 1);
 INSERT INTO teams (name, group_id) VALUES ('FC Gute', 1);
 INSERT INTO teams (name, group_id) VALUES ('Flieshman FC', 2);
@@ -48,3 +48,4 @@ INSERT INTO playoffs (id, step_id, home_team, away_team, home_scored, away_score
 INSERT INTO playoffs (id, step_id, home_team, away_team, home_scored, away_scored) VALUES (1, 4, null, null, 0, 0);
 
 UPDATE fixtures SET home_scored = null, away_scored = null;
+UPDATE players SET goals_scored = 0;
