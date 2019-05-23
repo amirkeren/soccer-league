@@ -124,14 +124,25 @@ class Score extends Component {
 		}
 	};
 
+	getFlatTeamScorers(scorersArray) {
+		let flatScorers = [];
+		if (scorersArray.length) {
+			flatScorers = scorersArray.map(scorer => scorer.value)
+		}
+
+		return flatScorers;
+	}
+
 	saveMatchData() {
+		const homeTeamScorers = this.getFlatTeamScorers(this.state.homeTeamScorers);
+		const awayTeamScorers = this.getFlatTeamScorers(this.state.awayTeamScorers);
 		const matchData = {
 			home_team: this.state.homeTeam.value,
 			away_team: this.state.awayTeam.value,
 			home_score: this.state.homeTeamScore.value,
 			away_score: this.state.awayTeamScore.value,
-			home_team_scorers: this.state.homeTeamScorers || [],
-			away_team_scorers: this.state.awayTeamScorers || [],
+			home_team_scorers: homeTeamScorers,
+			away_team_scorers: awayTeamScorers,
 			isKnockoutMatch: this.state.isKnockoutMatch,
 			step_id: this.state.step_id,
 			id: this.state.gameIndex
