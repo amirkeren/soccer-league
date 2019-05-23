@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Fixture from './Fixture.js';
 import Winner from './Winner.js';
-import SizeMe from 'react-sizeme';
 
 class KnockoutStages extends Component {
 	constructor(props) {
