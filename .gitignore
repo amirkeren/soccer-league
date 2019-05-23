@@ -11,6 +11,10 @@ pids
 *.seed
 *.pid.lock
 
+
+.DS_Store
+soccer-league/src/img/players/
+
 **/.idea/
 
 soccer=league/yarn.lock
