@@ -36,6 +36,7 @@ class Group extends Component {
 						</div>
 					</td>
 					<td className="name">
+						{team.team_name}
 						{/* <Link
 							to={{
 								pathname: `/teamInfo/${this.props.groupId}`,

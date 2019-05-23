@@ -178,7 +178,7 @@ table th {
 
 .knockout .team {
 	width: 60%;
-	padding-left: 5px;
+	padding-left: 10px;
 }
 
 .knockout .matchTeam.won {
@@ -241,9 +241,7 @@ table th {
 	color: #244e8c;
 	border-bottom: 0.1em solid #244e8c;
 }
-.knockout .flag {
-	font-size: 0.5em;
-}
+
 .knockout.semi {
 	font-size: 1.3em;
 }
@@ -324,6 +322,7 @@ table th {
 	height: 9em;
 	position: relative;
 	font-size: 0.3em;
+	background-size: cover;
 }
 
 .argentina {
@@ -836,24 +835,54 @@ table th {
 	background-color: #193764;
 }
 
-/* END SOCRE */
+/* FLAGS */
 
-/* Knockout */
-/* .score {
-	text-align: center;
-	width: 2em;
-	height: 1.5em;
-	margin: 0.6em 0.1em;
-	font-size: 2em;
-	border: 0.05em solid #193764;
-	border-radius: 0.2em;
-	background: #fff;
-} */
+.ac-mido {
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/19657.png)
+}
 
-/* .knockout .flag {
-	font-size: 1.5em;
-	width: auto;
-	height: auto;
-} */
+.bechorshoshi-united {
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/1308.jepg)
+}
 
-/* End Knockout */
+.al-jamila {
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/3799.gif)
+}
+
+.fc-gute {
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/13048.gif)
+}
+
+.flieshman-fc {
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/21656.jepg)
+}
+
+.inter-marcelos {
+	background-image: url()
+}
+
+.hapoel-japo {
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/24132.png)
+}
+
+.kinggeorge-city {
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/9767.jepg)
+}
+
+.maccabi-liv {
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/5272.gif)
+}
+
+.mexicana-united {
+	background-image: url()
+}
+
+.noon-hampton {
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/16190.png)
+}
+
+.olympique-menza {
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/5282.jpg)
+}
+
+/* END FLAGS */

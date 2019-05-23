@@ -5,10 +5,11 @@ import { generateKey } from './utils';
 class Fixture extends Component {
 	render() {
 		function MatchTeam(props) {
+			let flagClass = props.teamName.toLowerCase().replace(/\s/g, '-');
 			return (
 				<div className={`matchTeam ${props.won && 'won'}`}>
 					<div className="flex">
-						<span className="flag-icon" />
+						<span className={`flag ${flagClass}`} />
 						<div className="flex-grow team homeTeam flex items-center">
 							<div>{props.teamName}</div>
 						</div>
