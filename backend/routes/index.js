@@ -50,7 +50,7 @@ router.get('/playoffs', function(req, res) {
 });
 
 router.post('/reset', function(req, res) {
-    let contents = fs.readFileSync('setup.sql', 'utf8');
+    let contents = fs.readFileSync('reset.sql', 'utf8');
     connection.query(contents, function(error) {
         if (error) {
             res.status(500).send({ "error": "can't reset" });
