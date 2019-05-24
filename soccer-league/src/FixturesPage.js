@@ -20,8 +20,13 @@ class FixturesPage extends Component {
 		const groupHeader = this.props.location.state.groupHeader;
 		return (
 			<div className="fixures-container">
-				<div className="fixures-header text-white text-2xl py-3 font-bold">{groupHeader} Fixures</div>
-				{this.state.fixtures && <Fixture games={this.state.fixtures} isAdmin={this.state.isAdmin} />}
+				<h1 className=" sub-header fixures-header text-white text-2xl py-3 font-bold">Group Fixures</h1>
+				{this.state.fixtures && (
+					<div className="knockout quarters">
+						<h2>{groupHeader}</h2>
+						<Fixture games={this.state.fixtures} isAdmin={this.state.isAdmin} />
+					</div>
+				)}
 			</div>
 		);
 	}

@@ -64,7 +64,7 @@ class Group extends Component {
 		return (
 			<div className="container">
 				<div className="table-container">
-					<h2 className="group-title pb-2">Group {getGroupLetter(this.props.groupId)}</h2>
+					<h2 className="group-title pb-2 font-bold">Group {getGroupLetter(this.props.groupId)}</h2>
 					<table>
 						<TableHead />
 						<tbody>

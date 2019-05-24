@@ -19,7 +19,7 @@ const Scorers = function(props) {
 					options={playersList}
 					placeholder={'select scorer'}
 					isSearchable={false}
-					onChange={onScorerSelection(team).bind(this)}
+					onChange={onScorerSelection(team)}
 				/>
 			</div>
 		);

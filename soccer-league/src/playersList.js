@@ -1,11 +1,12 @@
 import React from 'react';
+import playerPlacholderImg from './img/players/player-placeholder.png';
 
 const PlayersList = function(props) {
 	const { players, header } = props;
 
 	function getFlagClass(teamName) {
 		return teamName.toLowerCase().replace(/\s/g, '-');
-	}
+  }
 
 	return (
 		<div className="flex flex-col topScorers-container">
@@ -18,8 +19,11 @@ const PlayersList = function(props) {
 					<div className="relative py-2">
 						<img
 							className="w-3/4 mx-3  rounded-full"
-              src={process.env.PUBLIC_URL + '/player_pictures/' + player.player.split(' ')[0] + '_' + player.player.split(' ')[1] + '.png'}
-              // onError={(e)=>{e.target.onerror = null; e.target.src='//upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'}} 
+							src={process.env.PUBLIC_URL + '/player_pictures/' + player.player.split(' ')[0] + '_' + player.player.split(' ')[1] + '.png'}
+							onError={e => {
+								e.target.onerror = null;
+								e.target.src =`${playerPlacholderImg}`
+							}}
 							alt={player.player}
 						/>
 						<div className={`absolute flag ${getFlagClass(player.name)}`} />

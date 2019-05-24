@@ -21,7 +21,8 @@ class TeamInfo extends Component {
 	}
 
 	render() {
-		return <PlayersList header={'Top Scorers'} players={this.state.players}/>;
+    const teamName = this.state.players.length ? this.state.players[0].name : '';
+		return <PlayersList header={teamName} players={this.state.players}/>;
 	}
 }
 

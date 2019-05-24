@@ -76,9 +76,14 @@ class Score extends Component {
 		this.setState({ [name]: [...this.state[name], scorer] });
 	};
 
+	// handleScorerDdSelection(name, value) {
+	// 	const scorer = { value: value.value, label: value.label };
+	// 	this.setState({ [name]: [...this.state[name], scorer] });
+	// };
+
 	shouldDisplayScorersSection(teamScoresType) {
 		return this.state[`${teamScoresType}Score`].value > 0 && this.state[teamScoresType];
-	};
+	}
 
 	handleScoreUpdateCick = () => {
 		if (!this.state.homeTeam || !this.state.awayTeam || !this.state.homeTeam.value || !this.state.awayTeam.value) {
@@ -103,7 +108,10 @@ class Score extends Component {
 					}
 				]
 			});
-		} else if (this.state.homeTeamScorers.length !== this.state.homeTeamScore.value || this.state.awayTeamScorers.length !== this.state.awayTeamScore.value) {
+		} else if (
+			this.state.homeTeamScorers.length !== this.state.homeTeamScore.value ||
+			this.state.awayTeamScorers.length !== this.state.awayTeamScore.value
+		) {
 			confirmAlert({
 				title: 'Error',
 				message: 'Score does not match scorers',
@@ -117,7 +125,8 @@ class Score extends Component {
 		} else {
 			confirmAlert({
 				title: 'Confirm match result',
-				message: 'Are you sure this is the final result?',
+				message: `Are you sure this is the final result? 
+				${this.state.homeTeam.label} ${this.state.homeTeamScore.value} - ${this.state.awayTeam.label} ${this.state.awayTeamScore.value}`,
 				buttons: [
 					{
 						label: 'Yes',
@@ -135,7 +144,7 @@ class Score extends Component {
 	getFlatTeamScorers(scorersArray) {
 		let flatScorers = [];
 		if (scorersArray.length) {
-			flatScorers = scorersArray.map(scorer => scorer.value)
+			flatScorers = scorersArray.map(scorer => scorer.value);
 		}
 
 		return flatScorers;
@@ -278,7 +287,7 @@ class Score extends Component {
 									</div>
 								</div>
 								<div className="scorersContainer flex justify-between">
-								{this.shouldDisplayScorersSection('awayTeam') && (
+									{this.shouldDisplayScorersSection('awayTeam') && (
 										<Scorers
 											team={'awayTeamScorers'}
 											scorersList={this.state.awayTeamScorers}
