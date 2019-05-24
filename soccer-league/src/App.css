@@ -26,7 +26,7 @@ select {
 
 body {
 	background: #2e64b5;
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .btn-icon {
@@ -316,12 +316,16 @@ table th {
 	position: relative;
 	font-size: 0.3em;
 	background-size: cover;
-	background-image: url(//www.barbadosfa.com/images/team-placeholder-logo.e50b9536.png)
+	background-image: url(//www.barbadosfa.com/images/team-placeholder-logo.e50b9536.png);
 }
 
 .topScorers-container .flag {
-	width: 20em;
-	height: auto;
+	position: absolute;
+	width: 6em;
+	height: 6em;
+	z-index: 1;
+	right: -5px;
+	bottom: 5px;
 }
 
 .argentina {
@@ -770,7 +774,7 @@ table th {
 	background-size: contain;
 	background-position: center;
 	background-repeat: no-repeat;
-	margin-left: -25px; 
+	margin-left: -25px;
 	display: inline-block;
 }
 
@@ -838,51 +842,51 @@ table th {
 /* FLAGS */
 
 .ac-mido {
-	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/19657.png)
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/19657.png);
 }
 
 .bechor-shoshi-united {
-	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/1308.jepg)
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/1308.jepg);
 }
 
 .al-jamila {
-	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/3799.gif)
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/3799.gif);
 }
 
 .fc-gute {
-	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/13048.gif)
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/13048.gif);
 }
 
 .flieshman-fc {
-	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/21656.jepg)
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/21656.jepg);
 }
 
 .inter-marcelos {
-	 background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/1287.gif)
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/1287.gif);
 }
 
 .hapoel-japo {
-	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/24132.png)
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/24132.png);
 }
 
 .kinggeorge-city {
-	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/9767.jepg)
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/9767.jepg);
 }
 
 .maccabi-liv {
-	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/5272.gif)
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/5272.gif);
 }
 
 .mexicana-united {
-	 background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/22693.jpeg)
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/22693.jpeg);
 }
 
 .noon-hampton {
-	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/16190.png)
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/16190.png);
 }
 
 .olympique-menza {
-	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/5282.jpg)
+	background-image: url(//d25t2285lxl5rf.cloudfront.net/images/shops/5282.jpg);
 }
 
 /* END FLAGS */

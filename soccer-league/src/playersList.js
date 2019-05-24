@@ -14,10 +14,14 @@ const PlayersList = function(props) {
 				<div className="w-1/6 font-bold">Goals</div>
 			</div>
 			{players.map((player, i) => (
-				<div className={`flex w-full row bg-gray-${i % 2 === 0 ? '300' : '200'}`}>
-					<div className={`w-1/6 mx-3 flag ${getFlagClass(player.name)}`} />
-					<div key={player}>
-						<img src={process.env.PUBLIC_URL + '/player_pictures/' + player.player.split(' ')[0] + '_' + player.player.split(' ')[1] + '.png'} alt='player'/>
+				<div key={player.player} className={`flex w-full row bg-gray-${i % 2 === 0 ? '300' : '200'}`}>
+					<div className="relative px-7">
+						<img
+							className="w-3/4 mx-3  rounded-full"
+							src={process.env.PUBLIC_URL + '/player_pictures/' + player.player.split(' ')[0] + '_' + player.player.split(' ')[1] + '.png'}
+							alt={player.player}
+						/>
+						<div className={`absolute flag ${getFlagClass(player.name)}`} />
 					</div>
 
 					<div className="w-5/6 text-left p-5">{player.player}</div>
