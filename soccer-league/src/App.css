@@ -324,7 +324,7 @@ table th {
 	width: 6em;
 	height: 6em;
 	z-index: 1;
-	right: -5px;
+	right: 0;
 	bottom: 5px;
 }
 

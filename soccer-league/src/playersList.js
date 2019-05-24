@@ -15,17 +15,18 @@ const PlayersList = function(props) {
 			</div>
 			{players.map((player, i) => (
 				<div key={player.player} className={`flex w-full row bg-gray-${i % 2 === 0 ? '300' : '200'}`}>
-					<div className="relative px-7">
+					<div className="relative py-2">
 						<img
 							className="w-3/4 mx-3  rounded-full"
-							src={process.env.PUBLIC_URL + '/player_pictures/' + player.player.split(' ')[0] + '_' + player.player.split(' ')[1] + '.png'}
+              src={process.env.PUBLIC_URL + '/player_pictures/' + player.player.split(' ')[0] + '_' + player.player.split(' ')[1] + '.png'}
+              // onError={(e)=>{e.target.onerror = null; e.target.src='//upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'}} 
 							alt={player.player}
 						/>
 						<div className={`absolute flag ${getFlagClass(player.name)}`} />
 					</div>
 
-					<div className="w-5/6 text-left p-5">{player.player}</div>
-					<div className="w-1/6 p-5">{player.goals_scored}</div>
+					<div className="w-5/6 text-left px-3 pt-10 text-xl">{player.player}</div>
+					<div className="w-1/6 py-10">{player.goals_scored}</div>
 				</div>
 			))}
 		</div>
