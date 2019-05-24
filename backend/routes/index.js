@@ -404,11 +404,11 @@ router.post('/league/match', function(req, res) {
         res.status(500).send({ "error": "goals can't be negative" });
         return;
     }
-    /*if ((home_score > 0 && home_scorers.length !== home_score) || (home_score === 0 && home_scorers.length > 0) ||
+    if ((home_score > 0 && home_scorers.length !== home_score) || (home_score === 0 && home_scorers.length > 0) ||
         (away_score > 0 && away_scorers.length !== away_score) || (away_score === 0 && away_scorers.length > 0)) {
         res.status(500).send({ "error": "scores and scorers don't match" });
         return;
-    }*/
+    }
     updateScorers(res, home_scorers, away_scorers);
     connection.query('SELECT COUNT(*) as c FROM (SELECT group_id FROM teams WHERE team_id IN (?, ?) GROUP BY 1) a', [home_team, away_team], function(error, results) {
         if (error) {
@@ -460,11 +460,11 @@ router.post('/playoffs/match', function(req, res) {
         res.status(500).send({ "error": "goals can't be negative" });
         return;
     }
-    /*if ((home_score > 0 && home_scorers.length !== home_score) || (home_score === 0 && home_scorers.length > 0) ||
+    if ((home_score > 0 && home_scorers.length !== home_score) || (home_score === 0 && home_scorers.length > 0) ||
         (away_score > 0 && away_scorers.length !== away_score) || (away_score === 0 && away_scorers.length > 0)) {
         res.status(500).send({ "error": "scores and scorers don't match" });
         return;
-    }*/
+    }
     connection.query("UPDATE playoffs SET home_scored = ?, away_scored = ? WHERE step_id = ? AND id = ?",
         [home_score, away_score, step_id, id], function(error) {
         if (error) {
