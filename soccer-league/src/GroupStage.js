@@ -33,7 +33,9 @@ class GroupStage extends Component {
 					onClick: () => {
 						fetch('/playoffs', {
 							method: 'POST'
-						}).then(console.log('aaaaaa'));
+						}).then(() => {
+							window.location.reload();
+						});
 					}
 				},
 				{

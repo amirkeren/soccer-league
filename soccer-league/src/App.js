@@ -26,14 +26,22 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isAdmin: true
+			isAdmin: true,
+			isKnockoutStage: false
 		};
 	}
 	componentDidMount() {
-		const params = this.getParams(window.location);
+		const params = App.getParams(window.location);
 		params && params.isAdmin && this.setState({ isAdmin: true });
+		fetch('/playoffs', {
+			method: 'get'
+		}).then(response => response.json())
+			.then(data => {
+				this.setState({isKnockoutStage: data[0].home_team !== 'first_a'});
+			});
 	}
-	getParams(location) {
+
+	static getParams(location) {
 		const searchParams = new URLSearchParams(location.search.toLowerCase());
 		return {
 			isAdmin: searchParams.get('isadmin') || ''
@@ -42,6 +50,7 @@ class App extends Component {
 
 	render() {
 		const { isAdmin } = this.state;
+		const { isKnockoutStage } = this.state;
 		return (
 			<Router>
 				<div className="App">
@@ -64,14 +73,16 @@ class App extends Component {
 								<NavLink exact to="/topscorers" className="">
 									<li className="pt-0 px-3 pb-2">Top Scorers</li>
 								</NavLink>
-								{isAdmin && (
+								{isAdmin && !isKnockoutStage && (
 									<NavLink exact to="/scores" className="">
 										<li className="pt-0 px-3 pb-2">Update Score</li>
 									</NavLink>
 								)}
+								{isKnockoutStage && (
 								<NavLink exact to="/knockout" className="">
 									<li className="pt-0 px-3 pb-2">Knockouts</li>
 								</NavLink>
+								)}
 							</ul>
 
 							<Route exact path="/" render={props => <GroupStage {...props} isAdmin={isAdmin} />} />
