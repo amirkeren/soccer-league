@@ -6,6 +6,7 @@ import Select from 'react-select';
 class Score extends Component {
 	constructor(props) {
 		super(props);
+		this.team = [];
 		this.state = {
 			homeTeam: null,
 			awayTeam: null,
@@ -32,6 +33,16 @@ class Score extends Component {
 		if (shouldDisplayGivenTeams) {
 			const { home_team, away_team, home_scored, away_scored, isKnockoutMatch, step_id, gameIndex } = this.props.location.state;
 
+			fetch('/league/teams')
+				.then(response => response.json())
+				.then(data => data.sort(compare)) //sort the data by team_id
+				.then(data => {
+					this.setState({
+						homeTeamPlayersList: data.filter(team => (team.name === home_team))[0].players.map(player => ({value: player, label: player})),
+						awayTeamPlayersList: data.filter(team => (team.name === away_team))[0].players.map(player => ({value: player, label: player}))
+					})
+				});
+
 			this.setState({
 				homeTeam: { value: home_team, label: home_team },
 				awayTeam: { value: away_team, label: away_team },
@@ -45,7 +56,7 @@ class Score extends Component {
 			fetch('/league/teams')
 				.then(response => response.json())
 				.then(data => data.sort(compare)) //sort the data by team_id
-				.then(data =>
+				.then(data => {
 					this.setState({
 						teams: data.map(team => ({
 							value: team.team_id,
@@ -53,7 +64,7 @@ class Score extends Component {
 							players: team.players.map(player => ({ value: player, label: player }))
 						}))
 					})
-				);
+				});
 		}
 
 		function compare(a, b) {
