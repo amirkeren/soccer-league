@@ -139,6 +139,13 @@ table th {
 	.name {
 		display: none;
 	}
+	.winner {
+		display: none;
+	}
+}
+
+.winner {
+	font-weight: bold;
 }
 
 .matchContainer {

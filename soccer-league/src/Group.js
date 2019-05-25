@@ -4,6 +4,30 @@ import { Link } from 'react-router-dom';
 import { generateKey } from './utils';
 
 class Group extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			winners: []
+		};
+	}
+
+	componentDidMount() {
+		fetch('/playoffs', {
+			method: 'get'
+		}).then(response => response.json())
+			.then(data => {
+				let winners = [];
+				for (let i = 0; i < data.length; i++) {
+					if (data[i].step_id === 1) {
+						winners.push(data[i].home_team);
+						winners.push(data[i].away_team);
+					}
+				}
+				this.setState({winners: winners});
+			});
+	}
+
 	render() {
 		function TableHead(props) {
 			return (
@@ -24,18 +48,25 @@ class Group extends Component {
 		}
 
 		function Row(props) {
-			const { team, position } = props;
+			const { team, position, isWinner } = props;
+			const nameClass = isWinner ? 'winner' : 'name';
 			//convert team name into css syntax for className
 			let flagClass = team.team_name.toLowerCase().replace(/\s/g, '-');
 			return (
 				<tr>
 					<td>{position}</td>
 					<td>
-						<div className={'flag ' + flagClass}>
-							<div />
-						</div>
+						<Link
+							to={{
+								pathname: `/teamInfo/${team.team_id}`
+							}}
+						>
+							<div className={'flag ' + flagClass}>
+								<div />
+							</div>
+						</Link>
 					</td>
-					<td className="name">
+					<td className={nameClass}>
 						{/* {team.team_name} */}
 						<Link
 							to={{
@@ -69,7 +100,7 @@ class Group extends Component {
 						<TableHead />
 						<tbody>
 							{this.props.teams.map((team, i) => {
-								return <Row key={generateKey(team.team_id)} team={team} position={++i} />;
+								return <Row key={generateKey(team.team_id)} team={team} isWinner={this.state.winners.includes(team.team_name)} position={++i} />;
 							})}
 						</tbody>
 					</table>

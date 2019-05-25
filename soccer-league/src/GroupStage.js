@@ -55,7 +55,9 @@ class GroupStage extends Component {
 					onClick: () => {
 						fetch('/reset', {
 							method: 'POST'
-						}).then(window.location.reload());
+						}).then(() =>
+							window.location.reload()
+						);
 					}
 				},
 				{
