@@ -394,8 +394,8 @@ router.post('/league/match', function(req, res) {
     let away_team = req.body.away_team;
     let home_score = req.body.home_score;
     let away_score = req.body.away_score;
-    let home_scorers = req.body.home_team_scorers;
-    let away_scorers = req.body.away_team_scorers;
+    let home_scorers = req.body.home_team_scorers ? req.body.home_team_scorers.split(',') : [];
+    let away_scorers = req.body.away_team_scorers ? req.body.away_team_scorers.split(',') : [];
     if (home_team === away_team) {
       res.status(500).send({ "error": "team can't play against itself" });
       return;
@@ -404,8 +404,8 @@ router.post('/league/match', function(req, res) {
         res.status(500).send({ "error": "goals can't be negative" });
         return;
     }
-    if ((home_score > 0 && home_scorers.length !== home_score) || (home_score === 0 && home_scorers.length > 0) ||
-        (away_score > 0 && away_scorers.length !== away_score) || (away_score === 0 && away_scorers.length > 0)) {
+    if ((home_score > 0 && home_scorers.length != home_score) || (home_score == 0 && home_scorers.length > 0) ||
+        (away_score > 0 && away_scorers.length != away_score) || (away_score == 0 && away_scorers.length > 0)) {
         res.status(500).send({ "error": "scores and scorers don't match" });
         return;
     }
@@ -450,8 +450,8 @@ router.post('/playoffs/match', function(req, res) {
     let away_score = req.body.away_score;
     let step_id = req.body.step_id;
     let id = req.body.id;
-    let home_scorers = req.body.home_team_scorers;
-    let away_scorers = req.body.away_team_scorers;
+    let home_scorers = req.body.home_team_scorers ? req.body.home_team_scorers.split(',') : [];
+    let away_scorers = req.body.away_team_scorers ? req.body.away_team_scorers.split(',') : [];
     if (home_team === away_team) {
         res.status(500).send({ "error": "team can't play against itself" });
         return;
@@ -460,8 +460,8 @@ router.post('/playoffs/match', function(req, res) {
         res.status(500).send({ "error": "goals can't be negative" });
         return;
     }
-    if ((home_score > 0 && home_scorers.length !== home_score) || (home_score === 0 && home_scorers.length > 0) ||
-        (away_score > 0 && away_scorers.length !== away_score) || (away_score === 0 && away_scorers.length > 0)) {
+    if ((home_score > 0 && home_scorers.length != home_score) || (home_score == 0 && home_scorers.length > 0) ||
+        (away_score > 0 && away_scorers.length != away_score) || (away_score == 0 && away_scorers.length > 0)) {
         res.status(500).send({ "error": "scores and scorers don't match" });
         return;
     }
