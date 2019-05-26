@@ -119,7 +119,7 @@ router.post('/playoffs', function(req, res) {
                team_ids.push(results[i].team_id);
            }
            connection.query("UPDATE playoffs SET home_team = ?, away_team = ? WHERE step_id = 1 AND home_team = 'first_a' AND away_team = 'second_b'",
-               [teams[0], teams[1]], function(error) {
+               [teams[0], teams[6]], function(error) {
                if (error) {
                    res.status(500).send({ "error": "failed to set league result for winner" });
                    connection.rollback(function() {
@@ -127,7 +127,7 @@ router.post('/playoffs', function(req, res) {
                    });
                }
                connection.query("UPDATE playoffs SET home_team = ?, away_team = ? WHERE step_id = 1 AND home_team = 'second_a' AND away_team = 'first_b'",
-                   [teams[2], teams[3]], function(error) {
+                   [teams[2], teams[7]], function(error) {
                    if (error) {
                        res.status(500).send({ "error": "failed to set league result for winner" });
                        connection.rollback(function() {
@@ -135,7 +135,7 @@ router.post('/playoffs', function(req, res) {
                        });
                    }
                    connection.query("UPDATE playoffs SET home_team = ?, away_team = ? WHERE step_id = 1 AND home_team = 'first_c' AND away_team = 'weird_a'",
-                       [teams[4], teams[5]], function(error) {
+                       [teams[4], teams[1]], function(error) {
                        if (error) {
                            res.status(500).send({ "error": "failed to set league result for winner" });
                            connection.rollback(function() {
@@ -143,7 +143,7 @@ router.post('/playoffs', function(req, res) {
                            });
                        }
                        connection.query("UPDATE playoffs SET home_team = ?, away_team = ? WHERE step_id = 1 AND home_team = 'second_c' AND away_team = 'weird_b'",
-                           [teams[6], teams[7]], function(error) {
+                           [teams[3], teams[5]], function(error) {
                            if (error) {
                                res.status(500).send({ "error": "failed to set league result for winner" });
                                connection.rollback(function() {
