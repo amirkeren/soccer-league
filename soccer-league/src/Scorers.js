@@ -3,8 +3,8 @@ import Select from 'react-select';
 
 const Scorers = function(props) {
 	const { numOfSelect, scorersList, team, onScorerSelection } = props;
-	let { playersList } = props
-	const ownGoalObj = {value: 'og', label: '💩 Own Goal 💩'};
+	let { playersList } = props;
+	const ownGoalObj = { value: 'og', label: '💩 Own Goal 💩' };
 	playersList.push(ownGoalObj);
 
 	let selects = [];
@@ -19,7 +19,9 @@ const Scorers = function(props) {
 					options={playersList}
 					placeholder={'select scorer'}
 					isSearchable={false}
-					onChange={onScorerSelection(team)}
+					onChange={value => {
+						onScorerSelection(team, value ,--i);
+					}}
 				/>
 			</div>
 		);
@@ -27,10 +29,8 @@ const Scorers = function(props) {
 	console.log('selects:', selects);
 	return (
 		<div className="w-full">
-      <div className="text-xl text-left text-white">Who Scored:</div>
-			<div>
-      {selects}
-      </div>
+			<div className="text-xl text-left text-white">Who Scored:</div>
+			<div>{selects}</div>
 		</div>
 	);
 };

@@ -82,15 +82,13 @@ class Score extends Component {
 		this.setState({ [name]: { value: value.value, label: value.label } });
 	};
 
-	handleScorerDdSelection = name => value => {
+	handleScorerDdSelection = (name, value, index) => {
 		const scorer = { value: value.value, label: value.label };
-		this.setState({ [name]: [...this.state[name], scorer] });
-	};
+		let scorersArray = this.state[name].slice();
+		scorersArray[index] = scorer;
 
-	// handleScorerDdSelection(name, value) {
-	// 	const scorer = { value: value.value, label: value.label };
-	// 	this.setState({ [name]: [...this.state[name], scorer] });
-	// };
+		this.setState({ [name]: scorersArray });
+	};
 
 	shouldDisplayScorersSection(teamScoresType) {
 		return this.state[`${teamScoresType}Score`].value > 0 && this.state[teamScoresType];
@@ -264,7 +262,7 @@ class Score extends Component {
 											scorersList={this.state.homeTeamScorers}
 											numOfSelect={this.state.homeTeamScore.value}
 											playersList={this.state.homeTeamPlayersList}
-											onScorerSelection={this.handleScorerDdSelection.bind(this)}
+											onScorerSelection={this.handleScorerDdSelection}
 										/>
 									)}
 								</div>
