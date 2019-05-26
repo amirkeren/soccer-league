@@ -38,9 +38,9 @@ class Score extends Component {
 				.then(data => data.sort(compare)) //sort the data by team_id
 				.then(data => {
 					this.setState({
-						homeTeamPlayersList: data.filter(team => (team.name === home_team))[0].players.map(player => ({value: player, label: player})),
-						awayTeamPlayersList: data.filter(team => (team.name === away_team))[0].players.map(player => ({value: player, label: player}))
-					})
+						homeTeamPlayersList: data.filter(team => team.name === home_team)[0].players.map(player => ({ value: player, label: player })),
+						awayTeamPlayersList: data.filter(team => team.name === away_team)[0].players.map(player => ({ value: player, label: player }))
+					});
 				});
 
 			this.setState({
@@ -63,7 +63,7 @@ class Score extends Component {
 							label: team.name,
 							players: team.players.map(player => ({ value: player, label: player }))
 						}))
-					})
+					});
 				});
 		}
 
@@ -79,7 +79,9 @@ class Score extends Component {
 	};
 
 	handleScoreDdSelection = name => value => {
+		const scorersStateNmae = `${name}rs`;
 		this.setState({ [name]: { value: value.value, label: value.label } });
+		this.setState({ [scorersStateNmae]: [] });
 	};
 
 	handleScorerDdSelection = (name, value, index) => {
