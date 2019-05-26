@@ -10,7 +10,7 @@ class Fixture extends Component {
 				<div className={`matchTeam ${props.won && 'won'}`}>
 					<div className="flex">
 						<span className={`flag ${flagClass}`} />
-						<div className="flex-grow team homeTeam flex items-center">
+						<div className="flex-grow team flex items-center text-left">
 							<div>{props.teamName}</div>
 						</div>
 						<div className="flex-shrink score flex items-center justify-end">{props.scored}</div>
