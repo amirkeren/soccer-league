@@ -419,7 +419,7 @@ router.post('/league/match', function(req, res) {
             res.status(500).send({"error": "teams are not from the same group"});
             return;
         }
-        connection.query('SELECT * FROM fixtures WHERE ((home_team = ? AND away_team = ?) OR (home_team = ? OR away_team = ?)) AND home_scored IS NOT NULL AND away_scored IS NOT NULL', [home_team, away_team, away_team, home_team], function(error, results) {
+        connection.query('SELECT * FROM fixtures WHERE ((home_team = ? AND away_team = ?) OR (home_team = ? AND away_team = ?)) AND home_scored IS NOT NULL AND away_scored IS NOT NULL', [home_team, away_team, away_team, home_team], function(error, results) {
             if (error) {
                 res.status(500).send({ "error": "can't verify teams" });
                 return;
