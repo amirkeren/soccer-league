@@ -1,1 +1,56 @@
-{}
+{
+  "name": "first",
+  "children": [
+    {
+      "name": "second_1",
+      "children": [
+        {
+          "name": "third_11",
+          "size": 20
+        },
+        {
+          "name": "third_12",
+          "size": 1
+        },
+        {
+          "name": "HHHHHHHH",
+          "size": 1
+        }
+      ]
+    },
+    {
+      "name": "second_2",
+      "children": [
+        {
+          "name": "third_21",
+          "size": 2
+        },
+        {
+          "name": "third_22",
+          "size": 2
+        }
+      ]
+    },
+    {
+      "name": "second_3",
+      "children": [
+        {
+          "name": "third_31",
+          "size": 1
+        },
+        {
+          "name": "third_32",
+          "size": 1
+        },
+        {
+          "name": "third_33",
+          "size": 1
+        },
+        {
+          "name": "third_34",
+          "size": 1
+        }
+      ]
+    }
+  ]
+}
